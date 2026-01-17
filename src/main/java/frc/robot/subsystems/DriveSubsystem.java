@@ -94,6 +94,22 @@ public class DriveSubsystem extends SubsystemBase {
         pose);
   }
 
+  ChassisSpeeds create_chassis_speeds(double xSpeed, double ySpeed, double rotation, boolean field_relative) {
+    if (field_relative) {
+      return ChassisSpeeds.fromFieldRelativeSpeeds(
+        xSpeed,
+        ySpeed,
+        rotation,
+        m_gyro.getRotation2d()
+      );
+    }
+    return new ChassisSpeeds(
+      xSpeed,
+      ySpeed,
+      rotation
+    );
+  }
+
   /**
    * Method to drive the robot using joystick info.
    *
@@ -103,20 +119,17 @@ public class DriveSubsystem extends SubsystemBase {
    * @param fieldRelative Whether the provided x and y speeds are relative to the field.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    var swerveModuleStates =
-        DriveConstants.kDriveKinematics.toSwerveModuleStates(
-            ChassisSpeeds.discretize(
-                fieldRelative
-                    ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                        xSpeed, ySpeed, rot, m_gyro.getRotation2d())
-                    : new ChassisSpeeds(xSpeed, ySpeed, rot),
-                DriveConstants.kDrivePeriod));
-    SwerveDriveKinematics.desaturateWheelSpeeds(
-        swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
-    m_frontLeft.setDesiredState(swerveModuleStates[0]);
-    m_frontRight.setDesiredState(swerveModuleStates[1]);
-    m_rearLeft.setDesiredState(swerveModuleStates[2]);
-    m_rearRight.setDesiredState(swerveModuleStates[3]);
+    final ChassisSpeeds speeds = create_chassis_speeds(xSpeed, ySpeed, rot, fieldRelative);
+
+    var swerveModuleStates = DriveConstants
+      .kDriveKinematics
+      .toSwerveModuleStates(
+        ChassisSpeeds.discretize(
+          speeds,
+          DriveConstants.kDrivePeriod
+        )
+      );
+    setModuleStates(swerveModuleStates);
   }
 
   /**
