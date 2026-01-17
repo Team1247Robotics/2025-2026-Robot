@@ -98,7 +98,7 @@ public class SwerveModule {
                               );
 
 
-    m_driveCLController.setSetpoint(driveOutput, ControlType.kVelocity); // Using spark internal motor controller
+    m_driveCLController.setSetpoint(driveOutput, ControlType.kVelocity); // Using spark internal pid controller
     m_turningMotor.set(-turnOutput);
   }
 
