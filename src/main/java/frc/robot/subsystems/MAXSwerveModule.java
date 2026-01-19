@@ -19,7 +19,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.Constants.ModuleConstants;
 
-public class SwerveModule {
+public class MAXSwerveModule {
   private final SparkFlex m_driveMotor;
   private final SparkMax m_turningMotor;
 
@@ -42,9 +42,11 @@ public class SwerveModule {
    * @param driveMotorChannel The channel of the drive motor.
    * @param turningMotorChannel The channel of the turning motor.
    */
-  public SwerveModule(
+  public MAXSwerveModule(
       int driveMotorChannel,
-      int turningMotorChannel) {
+      int turningMotorChannel,
+      double chassisAngularOffset
+    ) {
     m_driveMotor = new SparkFlex(driveMotorChannel, MotorType.kBrushless);
     m_turningMotor = new SparkMax(turningMotorChannel, MotorType.kBrushless);
 

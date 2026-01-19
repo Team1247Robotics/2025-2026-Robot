@@ -19,24 +19,28 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
   // Robot swerve modules
-  private final SwerveModule m_frontLeft = new SwerveModule(
+  private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
       DriveConstants.kFrontLeftDriveMotorPort,
-      DriveConstants.kFrontLeftTurningMotorPort
+      DriveConstants.kFrontLeftTurningMotorPort,
+      DriveConstants.kFrontLeftChassisAngularOffset
     );
 
-  private final SwerveModule m_rearLeft = new SwerveModule(
+  private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
       DriveConstants.kRearLeftDriveMotorPort,
-      DriveConstants.kRearLeftTurningMotorPort
+      DriveConstants.kRearLeftTurningMotorPort,
+      DriveConstants.kBackLeftChassisAngularOffset
     );
 
-  private final SwerveModule m_frontRight = new SwerveModule(
+  private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
       DriveConstants.kFrontRightDriveMotorPort,
-      DriveConstants.kFrontRightTurningMotorPort
+      DriveConstants.kFrontRightTurningMotorPort,
+      DriveConstants.kFrontRightChassisAngularOffset
     );
 
-  private final SwerveModule m_rearRight = new SwerveModule(
+  private final MAXSwerveModule m_rearRight = new MAXSwerveModule(
       DriveConstants.kRearRightDriveMotorPort,
-      DriveConstants.kRearRightTurningMotorPort
+      DriveConstants.kRearRightTurningMotorPort,
+      DriveConstants.kBackRightChassisAngularOffset
     );
 
   private final AHRS m_gyro = new AHRS(NavXComType.kUSB1);
