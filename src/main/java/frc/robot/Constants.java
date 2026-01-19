@@ -62,11 +62,19 @@ public final class Constants {
   }
 
   public static final class ModuleConstants {
+    public static final double kDrivingMotorFreeSpeedRps = NeoMotorContants.kVortexFreeSpeedRpm / 60;
+    public static final double kWheelDiameterMeters = 0.0762;
+    public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
+
+    public static final int kDrivingMotorPinionTeeth = 14;
+    public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15);
+    public static final double kDriveWheelFeeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters) / kDrivingMotorReduction;
+
     public static final double kMaxModuleAngularSpeedRadiansPerSecond = 2 * Math.PI;
     public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 2 * Math.PI;
 
     public static final int kEncoderCPR = 1024;
-    public static final double kWheelDiameterMeters = 0.15;
+    // public static final double kWheelDiameterMeters = 0.15;
     public static final double kDriveEncoderDistancePerPulse =
         // Assumes the encoders are directly mounted on the wheel shafts
         (kWheelDiameterMeters * Math.PI) / kEncoderCPR;
@@ -101,5 +109,10 @@ public final class Constants {
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
         new TrapezoidProfile.Constraints(
             kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+  }
+
+  public static final class NeoMotorContants {
+    public static final double kFreeSpeedRpm = 5676;
+    public static final double kVortexFreeSpeedRpm = 6784;
   }
 }
