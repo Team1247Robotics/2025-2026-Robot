@@ -21,18 +21,23 @@ public final class Constants {
   public static final class DriveConstants {
     public static final int kFrontLeftDriveMotorPort = 1;
     public static final int kFrontRightDriveMotorPort = 3;
-    public static final int kRearLeftDriveMotorPort = 5;
-    public static final int kRearRightDriveMotorPort = 7;
+    public static final int kBackLeftDriveMotorPort = 5;
+    public static final int kBackRightDriveMotorPort = 7;
 
     public static final int kFrontLeftTurningMotorPort = 2;
     public static final int kFrontRightTurningMotorPort = 4;
-    public static final int kRearLeftTurningMotorPort = 6;
-    public static final int kRearRightTurningMotorPort = 8;
+    public static final int kBackLeftTurningMotorPort = 6;
+    public static final int kBackRightTurningMotorPort = 8;
 
-    public static final double kFrontLeftChassisAngularOffset = -Math.PI / 2;
-    public static final double kFrontRightChassisAngularOffset = 0;
-    public static final double kBackLeftChassisAngularOffset = Math.PI;
-    public static final double kBackRightChassisAngularOffset = Math.PI / 2;
+    public static final double kFrontLeftChassisAngularOffset = 0.7049425;
+    public static final double kFrontRightChassisAngularOffset = 0.9719487;
+    public static final double kBackLeftChassisAngularOffset = 0.5177839;
+    public static final double kBackRightChassisAngularOffset = 0.1900714;
+
+    public static final boolean kFrontLeftDriveInverted = true;
+    public static final boolean kFrontRightDriveInverted = false;
+    public static final boolean kBackLeftDriveInverted = false;
+    public static final boolean kBackRightDriveInverted = true;
 
     // If you call DriveSubsystem.drive() with a different period make sure to update this.
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
@@ -92,7 +97,7 @@ public final class Constants {
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
-    public static final double kDriveDeadband = 0.05;
+    public static final double kDriveDeadband = 0.01;
   }
 
   public static final class AutoConstants {

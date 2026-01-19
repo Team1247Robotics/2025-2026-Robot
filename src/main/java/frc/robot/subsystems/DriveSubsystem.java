@@ -22,25 +22,29 @@ public class DriveSubsystem extends SubsystemBase {
   private final SDSSwerveModule m_frontLeft = new SDSSwerveModule(
       DriveConstants.kFrontLeftDriveMotorPort,
       DriveConstants.kFrontLeftTurningMotorPort,
-      DriveConstants.kFrontLeftChassisAngularOffset
+      DriveConstants.kFrontLeftChassisAngularOffset,
+      DriveConstants.kFrontLeftDriveInverted
     );
 
   private final SDSSwerveModule m_rearLeft = new SDSSwerveModule(
-      DriveConstants.kRearLeftDriveMotorPort,
-      DriveConstants.kRearLeftTurningMotorPort,
-      DriveConstants.kBackLeftChassisAngularOffset
+      DriveConstants.kBackLeftDriveMotorPort,
+      DriveConstants.kBackLeftTurningMotorPort,
+      DriveConstants.kBackLeftChassisAngularOffset,
+      DriveConstants.kBackLeftDriveInverted
     );
 
   private final SDSSwerveModule m_frontRight = new SDSSwerveModule(
       DriveConstants.kFrontRightDriveMotorPort,
       DriveConstants.kFrontRightTurningMotorPort,
-      DriveConstants.kFrontRightChassisAngularOffset
+      DriveConstants.kFrontRightChassisAngularOffset,
+      DriveConstants.kFrontRightDriveInverted
     );
 
   private final SDSSwerveModule m_rearRight = new SDSSwerveModule(
-      DriveConstants.kRearRightDriveMotorPort,
-      DriveConstants.kRearRightTurningMotorPort,
-      DriveConstants.kBackRightChassisAngularOffset
+      DriveConstants.kBackRightDriveMotorPort,
+      DriveConstants.kBackRightTurningMotorPort,
+      DriveConstants.kBackRightChassisAngularOffset,
+      DriveConstants.kBackRightDriveInverted
     );
 
   private final AHRS m_gyro = new AHRS(NavXComType.kUSB1);
@@ -155,10 +159,10 @@ public class DriveSubsystem extends SubsystemBase {
   public void setModuleStates(SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.desaturateWheelSpeeds(
         desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
-    m_frontLeft.setDesiredState(desiredStates[0]);
-    m_frontRight.setDesiredState(desiredStates[1]);
-    m_rearLeft.setDesiredState(desiredStates[2]);
-    m_rearRight.setDesiredState(desiredStates[3]);
+    m_frontLeft.setDesiredState(desiredStates[2]);
+    m_frontRight.setDesiredState(desiredStates[3]);
+    m_rearLeft.setDesiredState(desiredStates[0]);
+    m_rearRight.setDesiredState(desiredStates[1]);
   }
 
   /** Resets the drive encoders to currently read a position of 0. */

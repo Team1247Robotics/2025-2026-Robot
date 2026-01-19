@@ -13,6 +13,7 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -41,7 +42,8 @@ public class SDSSwerveModule {
   public SDSSwerveModule(
       int driveMotorChannel,
       int turningMotorChannel,
-      double chassisAngularOffset
+      double chassisAngularOffset,
+      boolean invertDrive
     ) {
     m_driveMotor = new SparkFlex(driveMotorChannel, MotorType.kBrushless);
     m_turningMotor = new SparkMax(turningMotorChannel, MotorType.kBrushless);
@@ -52,10 +54,13 @@ public class SDSSwerveModule {
     m_driveClosedLoopController = m_driveMotor.getClosedLoopController();
     m_turningClosedLoopController = m_turningMotor.getClosedLoopController();
 
+    SparkFlexConfig driveConfig = Configs.SDSSwerveModule.drivingConfig;
+    driveConfig.inverted(invertDrive);
+
     SparkMaxConfig turningConfig = Configs.SDSSwerveModule.turningConfig;
     turningConfig.absoluteEncoder.zeroOffset(chassisAngularOffset);
 
-    m_driveMotor.configure(Configs.SDSSwerveModule.drivingConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    m_driveMotor.configure(driveConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     m_turningMotor.configure(turningConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
@@ -92,7 +97,10 @@ public class SDSSwerveModule {
    */
   public void setDesiredState(SwerveModuleState desiredState) {
     SwerveModuleState correctedDesiredState = desiredState;
-    correctedDesiredState.optimize(new Rotation2d(m_turningEncoder.getPosition()));
+    Rotation2d currentRoation = new Rotation2d(m_turningEncoder.getPosition());
+
+    correctedDesiredState.optimize(currentRoation);
+    correctedDesiredState.cosineScale(currentRoation);
 
     m_driveClosedLoopController.setSetpoint(correctedDesiredState.speedMetersPerSecond, ControlType.kVelocity);
     m_turningClosedLoopController.setSetpoint(correctedDesiredState.angle.getRadians(), ControlType.kPosition);
