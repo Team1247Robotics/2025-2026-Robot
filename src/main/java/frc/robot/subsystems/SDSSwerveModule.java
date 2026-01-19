@@ -4,45 +4,41 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import frc.robot.Constants.ModuleConstants;
+import frc.robot.Configs;
 
-public class MAXSwerveModule {
+public class SDSSwerveModule {
   private final SparkFlex m_driveMotor;
   private final SparkMax m_turningMotor;
 
   private final RelativeEncoder m_driveEncoder;
-  private final SparkClosedLoopController m_driveCLController;
   private final SparkAbsoluteEncoder m_turningEncoder;
 
-  // Using a TrapezoidProfile PIDController to allow for smooth turning
-  private final ProfiledPIDController m_turningPIDController =
-      new ProfiledPIDController(
-          ModuleConstants.kPModuleTurningController,
-          ModuleConstants.kIModuleTurningController,
-          ModuleConstants.kDriveEncoderDistancePerPulse,
-          new TrapezoidProfile.Constraints(
-              ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
-              ModuleConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
+  private final SparkClosedLoopController m_driveClosedLoopController;
+  private final SparkClosedLoopController m_turningClosedLoopController;
+
+  private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
+  
   /**
    * Constructs a SwerveModule.
    *
    * @param driveMotorChannel The channel of the drive motor.
    * @param turningMotorChannel The channel of the turning motor.
    */
-  public MAXSwerveModule(
+  public SDSSwerveModule(
       int driveMotorChannel,
       int turningMotorChannel,
       double chassisAngularOffset
@@ -51,10 +47,18 @@ public class MAXSwerveModule {
     m_turningMotor = new SparkMax(turningMotorChannel, MotorType.kBrushless);
 
     m_driveEncoder = m_driveMotor.getEncoder();
-    m_driveCLController = m_driveMotor.getClosedLoopController();
     m_turningEncoder = m_turningMotor.getAbsoluteEncoder();
 
-    m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+    m_driveClosedLoopController = m_driveMotor.getClosedLoopController();
+    m_turningClosedLoopController = m_turningMotor.getClosedLoopController();
+
+    SparkMaxConfig turningConfig = Configs.SDSSwerveModule.turningConfig;
+    turningConfig.absoluteEncoder.zeroOffset(chassisAngularOffset);
+
+    m_driveMotor.configure(Configs.SDSSwerveModule.drivingConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    m_turningMotor.configure(turningConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
   }
 
   /**
@@ -64,7 +68,9 @@ public class MAXSwerveModule {
    */
   public SwerveModuleState getState() {
     return new SwerveModuleState(
-        m_driveEncoder.getVelocity(), new Rotation2d(m_turningEncoder.getPosition()));
+        m_driveEncoder.getVelocity(),
+        new Rotation2d(m_turningEncoder.getPosition())
+      );
   }
 
   /**
@@ -74,7 +80,9 @@ public class MAXSwerveModule {
    */
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
-        m_driveEncoder.getPosition(), new Rotation2d(m_turningEncoder.getPosition()));
+        m_driveEncoder.getPosition(),
+        new Rotation2d(m_turningEncoder.getPosition())
+      );
   }
 
   /**
@@ -83,25 +91,13 @@ public class MAXSwerveModule {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState) {
-    var encoderRotation = new Rotation2d(m_turningEncoder.getPosition());
+    SwerveModuleState correctedDesiredState = desiredState;
+    correctedDesiredState.optimize(new Rotation2d(m_turningEncoder.getPosition()));
 
-    desiredState.optimize(encoderRotation);
-    desiredState.cosineScale(encoderRotation);
+    m_driveClosedLoopController.setSetpoint(correctedDesiredState.speedMetersPerSecond, ControlType.kVelocity);
+    m_turningClosedLoopController.setSetpoint(correctedDesiredState.angle.getRadians(), ControlType.kPosition);
 
-    final double driveOutput = desiredState.speedMetersPerSecond;
-
-    final double turnOutput = m_turningPIDController
-                              .calculate(
-                                m_turningEncoder
-                                .getPosition(),
-                                desiredState
-                                .angle
-                                .getRadians()
-                              );
-
-
-    m_driveCLController.setSetpoint(driveOutput, ControlType.kVelocity); // Using spark internal pid controller
-    m_turningMotor.set(-turnOutput);
+    m_desiredState = desiredState;
   }
 
   /** Zeroes drive encoder. */

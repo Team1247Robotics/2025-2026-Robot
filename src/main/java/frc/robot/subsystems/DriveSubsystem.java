@@ -19,25 +19,25 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
   // Robot swerve modules
-  private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
+  private final SDSSwerveModule m_frontLeft = new SDSSwerveModule(
       DriveConstants.kFrontLeftDriveMotorPort,
       DriveConstants.kFrontLeftTurningMotorPort,
       DriveConstants.kFrontLeftChassisAngularOffset
     );
 
-  private final MAXSwerveModule m_rearLeft = new MAXSwerveModule(
+  private final SDSSwerveModule m_rearLeft = new SDSSwerveModule(
       DriveConstants.kRearLeftDriveMotorPort,
       DriveConstants.kRearLeftTurningMotorPort,
       DriveConstants.kBackLeftChassisAngularOffset
     );
 
-  private final MAXSwerveModule m_frontRight = new MAXSwerveModule(
+  private final SDSSwerveModule m_frontRight = new SDSSwerveModule(
       DriveConstants.kFrontRightDriveMotorPort,
       DriveConstants.kFrontRightTurningMotorPort,
       DriveConstants.kFrontRightChassisAngularOffset
     );
 
-  private final MAXSwerveModule m_rearRight = new MAXSwerveModule(
+  private final SDSSwerveModule m_rearRight = new SDSSwerveModule(
       DriveConstants.kRearRightDriveMotorPort,
       DriveConstants.kRearRightTurningMotorPort,
       DriveConstants.kBackRightChassisAngularOffset
