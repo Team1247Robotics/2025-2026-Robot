@@ -16,7 +16,7 @@ public final class Configs {
     
             double turningFactor = 2 * Math.PI;
             double nominalVoltage = 12;
-            double drivingVelocityFeedForward = nominalVoltage / ModuleConstants.kDriveWheelFeeSpeedRps;
+            double drivingVelocityFeedForward = nominalVoltage / ModuleConstants.kDriveWheelFreeSpeedRps;
     
             drivingConfig
                 .idleMode(IdleMode.kBrake)

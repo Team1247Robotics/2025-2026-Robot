@@ -39,31 +39,23 @@ public final class Constants {
     public static final boolean kBackLeftDriveInverted = false;
     public static final boolean kBackRightDriveInverted = true;
 
-    // If you call DriveSubsystem.drive() with a different period make sure to update this.
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
 
-    public static final double kTrackWidth = 0.5;
-    // Distance between centers of right and left wheels on robot
-    public static final double kWheelBase = 0.7;
-    // Distance between front and back wheels on robot
-    public static final SwerveDriveKinematics kDriveKinematics =
-        new SwerveDriveKinematics(
-            new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-            new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
+    //#region TODO: get real measurements for this
+    public static final double kTrackWidth = 0.5; // Distance between centers of right and left wheels on robot
+    public static final double kWheelBase = 0.7; // Distance between front and back wheels on robot
+    //#endregion
+
+    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+        new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+        new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)
+      );
 
     public static final boolean kGyroReversed = false;
 
-    // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
-    // These characterization values MUST be determined either experimentally or theoretically
-    // for *your* robot's drive.
-    // The SysId tool provides a convenient method for obtaining these values for your robot.
-    public static final double ksVolts = 1;
-    public static final double kvVoltSecondsPerMeter = 0.8;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.15;
-
-    public static final double kMaxSpeedMetersPerSecond = 3;
+    public static final double kMaxSpeedMetersPerSecond = 4;
   }
 
   public static final class ModuleConstants {
@@ -72,32 +64,13 @@ public final class Constants {
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
 
     public static final int kDrivingMotorPinionTeeth = 14;
-    public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15);
-    public static final double kDriveWheelFeeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters) / kDrivingMotorReduction;
-
-    public static final double kMaxModuleAngularSpeedRadiansPerSecond = 2 * Math.PI;
-    public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 2 * Math.PI;
-
-    public static final int kEncoderCPR = 1024;
-    // public static final double kWheelDiameterMeters = 0.15;
-    public static final double kDriveEncoderDistancePerPulse =
-        // Assumes the encoders are directly mounted on the wheel shafts
-        (kWheelDiameterMeters * Math.PI) / kEncoderCPR;
-
-    public static final double kTurningEncoderDistancePerPulse =
-        // Assumes the encoders are on a 1:1 reduction with the module shaft.
-        (2 * Math.PI) / kEncoderCPR;
-
-    public static final double kPModuleTurningController = 1.1;
-    public static final double kIModuleTurningController = 0.011;
-    public static final double kDModuleTurningController = 0.0;
-
-    public static final double kPModuleDriveController = 0.001;
+    public static final double kDrivingMotorReduction = (45.0 * 16.0 * 50.0) / (kDrivingMotorPinionTeeth * 15.0 * 28.0);
+    public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters) / kDrivingMotorReduction;
   }
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
-    public static final double kDriveDeadband = 0.01;
+    public static final double kDriveDeadband = 0.03;
   }
 
   public static final class AutoConstants {
@@ -117,7 +90,7 @@ public final class Constants {
   }
 
   public static final class NeoMotorContants {
-    public static final double kFreeSpeedRpm = 5676;
+    // public static final double kFreeSpeedRpm = 5676; // commented out because it does nothing right now, but may be useful later
     public static final double kVortexFreeSpeedRpm = 6784;
   }
 }
