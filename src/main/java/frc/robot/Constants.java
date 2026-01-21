@@ -29,14 +29,14 @@ public final class Constants {
     public static final int kBackLeftTurningMotorPort = 6;
     public static final int kBackRightTurningMotorPort = 8;
 
-    public static final double kFrontLeftChassisAngularOffset = 0.7049425;
-    public static final double kFrontRightChassisAngularOffset = 0.9719487;
-    public static final double kBackLeftChassisAngularOffset = 0.5177839;
+    public static final double kFrontLeftChassisAngularOffset = 0.7022918;
+    public static final double kFrontRightChassisAngularOffset = 0.9752622;
+    public static final double kBackLeftChassisAngularOffset = 0.9196725;
     public static final double kBackRightChassisAngularOffset = 0.1900714;
 
     public static final boolean kFrontLeftDriveInverted = true;
     public static final boolean kFrontRightDriveInverted = false;
-    public static final boolean kBackLeftDriveInverted = false;
+    public static final boolean kBackLeftDriveInverted = true;
     public static final boolean kBackRightDriveInverted = true;
 
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
@@ -55,7 +55,8 @@ public final class Constants {
 
     public static final boolean kGyroReversed = false;
 
-    public static final double kMaxSpeedMetersPerSecond = 4;
+    public static final double kMaxSpeedMetersPerSecond = 0.5;
+    public static final double kMaxAngularSpeed = 1;
   }
 
   public static final class ModuleConstants {
@@ -76,7 +77,7 @@ public final class Constants {
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = 3;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-    public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
+    public static final double kMaxAngularAccelerationRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
     public static final double kPXController = 1;
@@ -86,7 +87,7 @@ public final class Constants {
     // Constraint for the motion profiled robot angle controller
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
         new TrapezoidProfile.Constraints(
-            kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+            kMaxAngularAccelerationRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
   }
 
   public static final class NeoMotorContants {
