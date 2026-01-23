@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.EnumSet;
+
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
@@ -14,6 +16,12 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.DoubleArraySubscriber;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEvent;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -49,6 +57,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   private final AHRS m_gyro = new AHRS(NavXComType.kUSB1);
 
+  private final Field2d m_field = new Field2d();
+
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry =
       new SwerveDriveOdometry(
@@ -62,7 +72,24 @@ public class DriveSubsystem extends SubsystemBase {
           });
 
   /** Creates a new DriveSubsystem. */
-  public DriveSubsystem() {}
+  public DriveSubsystem() {
+    NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    NetworkTable limelight = inst.getTable("limelight");
+    DoubleArraySubscriber botPostSub = limelight.getDoubleArrayTopic("botpose").subscribe(new double[] {});
+    inst.addListener(
+      botPostSub,
+      EnumSet.of(NetworkTableEvent.Kind.kValueAll),
+      this::update_pose
+    );
+  }
+
+  private void update_pose(NetworkTableEvent event) {
+    double[] botpose = event.valueData.value.getDoubleArray(); // X, Y, Z, roll, pitch, yaw
+    double x = botpose[0];
+    double y = botpose[1];
+    double rotation = botpose[5];
+    overwrite_pose(new Pose2d(x, y, new Rotation2d(rotation)));
+  }
 
   @Override
   public void periodic() {
@@ -75,6 +102,8 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearLeft.getPosition(),
           m_rearRight.getPosition()
         });
+    m_field.setRobotPose(m_odometry.getPoseMeters());
+    SmartDashboard.putData("Field", m_field);
   }
 
   /**
@@ -101,6 +130,19 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearRight.getPosition()
         },
         pose);
+  }
+
+  /**
+   * Overwrites the pose of the robot.
+   * 
+   * Additionally adjusts the gyro so that the pose's heading and the current heading are in agreement.
+   * 
+   * @param pose The pose to which to set the odometry
+   */
+  public void overwrite_pose(Pose2d pose) {
+    double diff = m_gyro.getYaw() - pose.getRotation().getDegrees();
+    m_gyro.setAngleAdjustment(diff);
+    m_odometry.resetPose(pose);
   }
 
   ChassisSpeeds create_chassis_speeds(double xSpeed, double ySpeed, double rotation, boolean field_relative) {
