@@ -26,7 +26,7 @@ import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
-  // Robot swerve modules
+  //#region Construct swerve modules
   private final SDSSwerveModule m_frontLeft = new SDSSwerveModule(
       DriveConstants.kFrontLeftDriveMotorPort,
       DriveConstants.kFrontLeftTurningMotorPort,
@@ -54,6 +54,7 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kBackRightChassisAngularOffset,
       DriveConstants.kBackRightDriveInverted
     );
+  //#endregion
 
   private final AHRS m_gyro = new AHRS(NavXComType.kUSB1);
 
@@ -82,7 +83,7 @@ public class DriveSubsystem extends SubsystemBase {
     inst.addListener(
       botPostSub,
       EnumSet.of(NetworkTableEvent.Kind.kValueAll),
-      this::update_pose
+      this::updatePose
     );
   }
 
@@ -92,12 +93,12 @@ public class DriveSubsystem extends SubsystemBase {
    * 
    * @param event The event recieved from NetworkTables
    */
-  private void update_pose(NetworkTableEvent event) {
+  private void updatePose(NetworkTableEvent event) {
     double[] botpose = event.valueData.value.getDoubleArray(); // [X, Y, Z, roll, pitch, yaw]
     double x = botpose[0];
     double y = botpose[1];
     double rotation = botpose[5];
-    overwrite_pose(new Pose2d(x, y, new Rotation2d(rotation)));
+    overwritePose(new Pose2d(x, y, new Rotation2d(rotation)));
   }
 
   @Override
@@ -148,13 +149,22 @@ public class DriveSubsystem extends SubsystemBase {
    * 
    * @param pose The pose to which to set the odometry
    */
-  public void overwrite_pose(Pose2d pose) {
+  public void overwritePose(Pose2d pose) {
     double diff = m_gyro.getYaw() - pose.getRotation().getDegrees();
     m_gyro.setAngleAdjustment(diff);
     m_odometry.resetPose(pose);
   }
 
-  ChassisSpeeds create_chassis_speeds(double xSpeed, double ySpeed, double rotation, boolean field_relative) {
+  /**
+   * Abstracts selection between different methods of ChassisSpeed construction depending on field_relative
+   * 
+   * @param xSpeed Target x speed
+   * @param ySpeed Target y speed
+   * @param rotation Target rotation speed
+   * @param field_relative Set if movement should be relative to the field. Regardless of the current heading of the robot, movement along the x will always move in the same direction relative to the field.
+   * @return
+   */
+  private ChassisSpeeds createChassisSpeeds(double xSpeed, double ySpeed, double rotation, boolean field_relative) {
     if (field_relative) {
       return ChassisSpeeds.fromFieldRelativeSpeeds(
         xSpeed,
@@ -179,7 +189,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param fieldRelative Whether the provided x and y speeds are relative to the field.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    final ChassisSpeeds speeds = create_chassis_speeds(xSpeed, ySpeed, rot, fieldRelative);
+    final ChassisSpeeds speeds = createChassisSpeeds(xSpeed, ySpeed, rot, fieldRelative);
 
     var swerveModuleStates = DriveConstants
       .kDriveKinematics
