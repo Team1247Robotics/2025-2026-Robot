@@ -75,7 +75,10 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
     NetworkTable limelight = inst.getTable("limelight");
-    DoubleArraySubscriber botPostSub = limelight.getDoubleArrayTopic("botpose").subscribe(new double[] {});
+    DoubleArraySubscriber botPostSub = limelight
+      .getDoubleArrayTopic("botpose")
+      .subscribe(new double[] {0,0,0,0,0,0});
+    
     inst.addListener(
       botPostSub,
       EnumSet.of(NetworkTableEvent.Kind.kValueAll),
@@ -83,8 +86,14 @@ public class DriveSubsystem extends SubsystemBase {
     );
   }
 
+  /**
+   * Recieve absolute position updates from limelight when it detects and apriltag.
+   * This should only by called by the NetworkTables subscription
+   * 
+   * @param event The event recieved from NetworkTables
+   */
   private void update_pose(NetworkTableEvent event) {
-    double[] botpose = event.valueData.value.getDoubleArray(); // X, Y, Z, roll, pitch, yaw
+    double[] botpose = event.valueData.value.getDoubleArray(); // [X, Y, Z, roll, pitch, yaw]
     double x = botpose[0];
     double y = botpose[1];
     double rotation = botpose[5];
