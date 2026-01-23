@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class LedStrip extends SubsystemBase {
 
     /** The PWM port for the LED strip */
-    public static final int LED_PORT = 9;
+    public static final int LED_PORT = 0;
     /** The number of LEDs in the strip */
     public static final int LED_COUNT = 30;
     /** The density of LEDs per metre */
