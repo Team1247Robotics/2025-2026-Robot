@@ -88,7 +88,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /**
    * Recieve absolute position updates from limelight when it detects and apriltag.
-   * This should only by called by the NetworkTables subscription
+   * This should only by called by the NetworkTables subscription.
    * 
    * @param event The event recieved from NetworkTables
    */
