@@ -59,7 +59,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   private final Field2d m_field = new Field2d();
 
-  private boolean disableOdoCorrection = true;
+  private boolean disableOdoCorrection = false;
 
   // Odometry class for tracking robot pose
   SwerveDrivePoseEstimator m_odometry =

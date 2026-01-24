@@ -17,6 +17,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.PS5Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -69,6 +70,8 @@ public class RobotContainer {
                 false
             ),
             m_robotDrive));
+
+    // m_robotDrive.setDefaultCommand(new AlwaysFaceTag(m_robotDrive, m_driverController));
     
     m_ledStrip.setDefaultCommand(new LedStripScrollRainbow(m_ledStrip));
 
