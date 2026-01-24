@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.PS5Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ledstrip.LedStripScrollRainbow;
+import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LedStrip;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -63,6 +65,8 @@ public class RobotContainer {
                 false
             ),
             m_robotDrive));
+    
+    m_ledStrip.setDefaultCommand(new LedStripScrollRainbow(m_ledStrip));
   }
 
   /**
@@ -87,6 +91,8 @@ public class RobotContainer {
                 m_robotDrive
             )
         );
+
+    new JoystickButton(m_driverController, XboxController.Button.kA.value).whileTrue(new LedStripSetGreen(m_ledStrip));
   }
 
   /**

@@ -6,6 +6,7 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.LEDPattern;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
     /**
@@ -14,11 +15,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class LedStrip extends SubsystemBase {
 
     /** The PWM port for the LED strip */
-    public static final int LED_PORT = 9;
+    public static final int LED_PORT = 0;
     /** The number of LEDs in the strip */
     public static final int LED_COUNT = 30;
-    /** The density of LEDs per metre */
-    public static final double LED_DENSITY_LEDS_PER_METER = 1.0 / 60.0;
+    /** The SPACING of LEDs per metre */
+    public static final double LED_SPACING_LEDS_PER_METER = 1.0 / 60.0;
 
     /** The AddressableLED object for controlling the LED strip */
     private final AddressableLED m_led;
@@ -36,7 +37,7 @@ public class LedStrip extends SubsystemBase {
 
         m_led.start();
 
-        m_rainbowPattern = LEDPattern.rainbow(255, 255).scrollAtAbsoluteSpeed(MetersPerSecond.of(1), Meters.of( LED_DENSITY_LEDS_PER_METER ));
+        m_rainbowPattern = LEDPattern.rainbow(255, 255).scrollAtAbsoluteSpeed(MetersPerSecond.of(0.75), Meters.of( LED_SPACING_LEDS_PER_METER ));
 
     }
     
@@ -47,8 +48,17 @@ public class LedStrip extends SubsystemBase {
         m_led.setData(m_buffer);
     }
 
+    /**
+     * Sets the whole strip to one colour
+     * @param color the color to set it to
+     */
+    public void setSolidColor(Color color) {
+        LEDPattern.solid(color).applyTo(m_buffer);
+        m_led.setData(m_buffer);
+    }
+
     /** Updates the LED strip */
     public void periodic() {
-    showRainbow();
+        // empty
     }
 }
