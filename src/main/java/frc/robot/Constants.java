@@ -31,8 +31,7 @@ public final class Constants {
 
     public static final double kFrontLeftChassisAngularOffset = 0.7006581;
     public static final double kFrontRightChassisAngularOffset = 0.4643519;
-;
-    public static final double kBackLeftChassisAngularOffset = 0.1270996;
+    public static final double kBackLeftChassisAngularOffset = 0.2181360;
     public static final double kBackRightChassisAngularOffset = 0.1978697;
 
     public static final boolean kFrontLeftDriveInverted =  true;
