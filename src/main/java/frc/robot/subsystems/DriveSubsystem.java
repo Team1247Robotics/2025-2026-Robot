@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.EnumSet;
-
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
@@ -16,14 +14,11 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.DoubleArraySubscriber;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEvent;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.sensors.LimelightHelpers;
+import frc.robot.sensors.LimelightHelpers.PoseEstimate;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -77,17 +72,17 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    NetworkTable limelight = inst.getTable("limelight");
-    DoubleArraySubscriber botPostSub = limelight
-      .getDoubleArrayTopic("botpose_targetspace")
-      .subscribe(new double[] {0,0,0,0,0,0});
+    // NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    // NetworkTable limelight = inst.getTable("limelight");
+    // DoubleArraySubscriber botPostSub = limelight
+    //   .getDoubleArrayTopic("botpose_targetspace")
+    //   .subscribe(new double[] {0,0,0,0,0,0});
     
-    inst.addListener(
-      botPostSub,
-      EnumSet.of(NetworkTableEvent.Kind.kValueAll),
-      this::updatePose
-    );
+    // inst.addListener(
+    //   botPostSub,
+    //   EnumSet.of(NetworkTableEvent.Kind.kValueAll),
+    //   this::updatePose
+    // );
   }
 
   /**
@@ -96,25 +91,27 @@ public class DriveSubsystem extends SubsystemBase {
    * 
    * @param event The event recieved from NetworkTables
    */
-  private void updatePose(NetworkTableEvent event) { 
-    boolean isThisAGoodIdea = false;
+  private void updatePose() { 
+    boolean isThisAGoodIdea = true;
     if (!isThisAGoodIdea) return;
 
     
-    double[] botpose = event.valueData.value.getDoubleArray(); // [X, Y, Z, roll, pitch, yaw]
-    double x = botpose[0];
-    double y = botpose[1];
-    double rotation = botpose[5];
+    // double[] botpose = event.valueData.value.getDoubleArray(); // [X, Y, Z, roll, pitch, yaw]
+    // Pose3d pose = LimelightHelpers.getBotPose3d_TargetSpace("limelight");
+    PoseEstimate pose = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+    // final double x = pose.;
+    // final double y = pose.getY();
+    // final double rotation = pose.getRotation().getAngle();
 
-    if (x == 0 && y == 0 && rotation == 0) return;
-    visionCorrectPose(new Pose2d(x, y, new Rotation2d(rotation)), Timer.getFPGATimestamp());
+    // if (x == 0 && y == 0 && rotation == 0) return;
+    // visionCorrectPose(new Pose2d(x, y, new Rotation2d(rotation)), pose);
+    visionCorrectPose(pose.pose, pose.timestampSeconds);
   }
 
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    m_odometry.updateWithTime(
-        Timer.getFPGATimestamp(),
+    m_odometry.update(
         m_gyro.getRotation2d(),
         new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
@@ -125,6 +122,8 @@ public class DriveSubsystem extends SubsystemBase {
     m_field.setRobotPose(getPose());
     SmartDashboard.putData("Field", m_field);
     SmartDashboard.putString("Angle", m_gyro.getRotation2d().toString());
+
+    updatePose();
   }
 
   /**
@@ -159,6 +158,9 @@ public class DriveSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry
    */
   public void visionCorrectPose(Pose2d pose, double timestampSeconds) {
+    final double x = pose.getX();
+    final double y = pose.getY();
+    if (x == 0 && y == 0) return;
     m_odometry.addVisionMeasurement(pose, timestampSeconds);
   }
 
