@@ -29,10 +29,10 @@ public final class Constants {
     public static final int kBackLeftTurningMotorPort = 6;
     public static final int kBackRightTurningMotorPort = 8;
 
-    public static final double kFrontLeftChassisAngularOffset = 0.7022918;
-    public static final double kFrontRightChassisAngularOffset = 0.9752622;
-    public static final double kBackLeftChassisAngularOffset = 0.9196725;
-    public static final double kBackRightChassisAngularOffset = 0.1900714;
+    public static final double kFrontLeftChassisAngularOffset = 0.7006581;
+    public static final double kFrontRightChassisAngularOffset = 0.9746149;
+    public static final double kBackLeftChassisAngularOffset = 0.9565371;
+    public static final double kBackRightChassisAngularOffset = 0.1930150;
 
     public static final boolean kFrontLeftDriveInverted = true;
     public static final boolean kFrontRightDriveInverted = false;
@@ -75,8 +75,8 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 3;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+    public static final double kMaxSpeedMetersPerSecond = 0.1;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 0.1;
     public static final double kMaxAngularAccelerationRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 

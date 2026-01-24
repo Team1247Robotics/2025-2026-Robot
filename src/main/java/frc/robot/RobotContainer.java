@@ -4,11 +4,15 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -56,7 +60,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
                 MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxAngularSpeed,
-                true
+                false
             ),
             m_robotDrive));
   }
@@ -103,8 +107,8 @@ public class RobotContainer {
     // An example trajectory to follow. All units in meters.
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
             Pose2d.kZero,
-            null,
-            new Pose2d(0, 0, Rotation2d.kZero),
+            new ArrayList<Translation2d>(),
+            new Pose2d(1, 0, Rotation2d.kZero),
             config
         );
 
