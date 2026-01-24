@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
@@ -14,6 +16,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
@@ -98,13 +101,15 @@ public class DriveSubsystem extends SubsystemBase {
     
     // double[] botpose = event.valueData.value.getDoubleArray(); // [X, Y, Z, roll, pitch, yaw]
     // Pose3d pose = LimelightHelpers.getBotPose3d_TargetSpace("limelight");
-    PoseEstimate pose = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
-    // final double x = pose.;
-    // final double y = pose.getY();
-    // final double rotation = pose.getRotation().getAngle();
+    PoseEstimate pose;
+    Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
 
-    // if (x == 0 && y == 0 && rotation == 0) return;
-    // visionCorrectPose(new Pose2d(x, y, new Rotation2d(rotation)), pose);
+    if (alliance.isEmpty() || alliance.get().equals(DriverStation.Alliance.Blue)) {
+      pose = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+    } else {
+      pose = LimelightHelpers.getBotPoseEstimate_wpiRed("limelight");
+    }
+
     visionCorrectPose(pose.pose, pose.timestampSeconds);
   }
 
