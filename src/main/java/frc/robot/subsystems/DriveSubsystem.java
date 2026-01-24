@@ -59,6 +59,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   private final Field2d m_field = new Field2d();
 
+  private boolean disableOdoCorrection = true;
+
   // Odometry class for tracking robot pose
   SwerveDrivePoseEstimator m_odometry =
       new SwerveDrivePoseEstimator(
@@ -74,19 +76,7 @@ public class DriveSubsystem extends SubsystemBase {
           );
 
   /** Creates a new DriveSubsystem. */
-  public DriveSubsystem() {
-    // NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    // NetworkTable limelight = inst.getTable("limelight");
-    // DoubleArraySubscriber botPostSub = limelight
-    //   .getDoubleArrayTopic("botpose_targetspace")
-    //   .subscribe(new double[] {0,0,0,0,0,0});
-    
-    // inst.addListener(
-    //   botPostSub,
-    //   EnumSet.of(NetworkTableEvent.Kind.kValueAll),
-    //   this::updatePose
-    // );
-  }
+  public DriveSubsystem() {}
 
   /**
    * Recieve absolute position updates from limelight when it detects and apriltag.
@@ -120,6 +110,11 @@ public class DriveSubsystem extends SubsystemBase {
     } else {
       return false;
     }
+  }
+
+  public boolean toggleOdoCorrection() {
+    disableOdoCorrection = !disableOdoCorrection;
+    return disableOdoCorrection;
   }
 
   @Override
@@ -172,6 +167,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry
    */
   public void visionCorrectPose(Pose2d pose, double timestampSeconds) {
+    if (disableOdoCorrection) return;
     final double x = pose.getX();
     final double y = pose.getY();
     if (x == 0 && y == 0) return;
@@ -193,7 +189,7 @@ public class DriveSubsystem extends SubsystemBase {
         xSpeed,
         ySpeed,
         rotation,
-        m_gyro.getRotation2d()
+        new Rotation2d(-m_gyro.getRotation2d().getRadians())
       );
     }
     return new ChassisSpeeds(
@@ -279,5 +275,16 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public double getTurnRate() {
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+  }
+
+  public void zeroGyro() {
+    m_gyro.reset();;
+  }
+
+  public void adjustGyro(double angle) {
+    double current = new Rotation2d(m_gyro.getAngle()).getRadians();
+    double diff = angle - current;
+    m_gyro.setAngleAdjustment(diff);
+    
   }
 }

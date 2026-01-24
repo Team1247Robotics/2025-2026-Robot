@@ -87,7 +87,7 @@ public class SDSSwerveModule {
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
         m_driveEncoder.getPosition(),
-        new Rotation2d(m_turningEncoder.getPosition())
+        new Rotation2d(-m_turningEncoder.getPosition())
       );
   }
 

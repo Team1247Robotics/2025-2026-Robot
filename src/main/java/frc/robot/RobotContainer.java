@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.PS5Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.drivetrain.AlwaysFaceTag;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.subsystems.DriveSubsystem;
@@ -75,20 +76,24 @@ public class RobotContainer {
     Trigger dpad_down = new POVButton(m_driverController, 180);
     
     dpad_up.onTrue(Commands.runOnce(() -> {
-        double angle = m_robotDrive.isBlueAlliance() ? Math.PI : 0;
-        
+        double angle = m_robotDrive.isBlueAlliance() ? 0 : Math.PI;
+        m_robotDrive.adjustGyro(angle);
         Pose2d current_pose = m_robotDrive.getPose();
         Pose2d pose = new Pose2d(current_pose.getX(), current_pose.getY(), new Rotation2d(angle));
         m_robotDrive.resetOdometry(pose);
     }, m_robotDrive));
 
     dpad_down.onTrue(Commands.runOnce(() -> {
-        double angle = m_robotDrive.isBlueAlliance() ? 0 : Math.PI;
-        
+        double angle = m_robotDrive.isBlueAlliance() ? Math.PI : 0;
+        m_robotDrive.adjustGyro(angle);
         Pose2d current_pose = m_robotDrive.getPose();
         Pose2d pose = new Pose2d(current_pose.getX(), current_pose.getY(), new Rotation2d(angle));
         m_robotDrive.resetOdometry(pose);
     }, m_robotDrive));
+
+    Trigger a_push = new Trigger(() -> m_driverController.getAButton());
+
+    a_push.whileTrue(new AlwaysFaceTag(m_robotDrive, m_driverController));
   }
 
   /**

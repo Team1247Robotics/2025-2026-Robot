@@ -30,14 +30,15 @@ public final class Constants {
     public static final int kBackRightTurningMotorPort = 8;
 
     public static final double kFrontLeftChassisAngularOffset = 0.7006581;
-    public static final double kFrontRightChassisAngularOffset = 0.9746149;
-    public static final double kBackLeftChassisAngularOffset = 0.9565371;
-    public static final double kBackRightChassisAngularOffset = 0.1930150;
+    public static final double kFrontRightChassisAngularOffset = 0.4643519;
+;
+    public static final double kBackLeftChassisAngularOffset = 0.1270996;
+    public static final double kBackRightChassisAngularOffset = 0.1978697;
 
-    public static final boolean kFrontLeftDriveInverted = true;
-    public static final boolean kFrontRightDriveInverted = false;
-    public static final boolean kBackLeftDriveInverted = true;
-    public static final boolean kBackRightDriveInverted = true;
+    public static final boolean kFrontLeftDriveInverted =  true;
+    public static final boolean kFrontRightDriveInverted = true; 
+    public static final boolean kBackLeftDriveInverted =   true;
+    public static final boolean kBackRightDriveInverted =  true;
 
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
 
