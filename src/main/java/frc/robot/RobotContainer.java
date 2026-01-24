@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS5Controller.Button;
 import frc.robot.Constants.AutoConstants;
@@ -25,11 +26,14 @@ import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LedStrip;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -66,6 +70,25 @@ public class RobotContainer {
             m_robotDrive));
     
     m_ledStrip.setDefaultCommand(new LedStripScrollRainbow(m_ledStrip));
+
+    Trigger dpad_up = new POVButton(m_driverController, 0);
+    Trigger dpad_down = new POVButton(m_driverController, 180);
+    
+    dpad_up.onTrue(Commands.runOnce(() -> {
+        double angle = m_robotDrive.isBlueAlliance() ? Math.PI : 0;
+        
+        Pose2d current_pose = m_robotDrive.getPose();
+        Pose2d pose = new Pose2d(current_pose.getX(), current_pose.getY(), new Rotation2d(angle));
+        m_robotDrive.resetOdometry(pose);
+    }, m_robotDrive));
+
+    dpad_down.onTrue(Commands.runOnce(() -> {
+        double angle = m_robotDrive.isBlueAlliance() ? 0 : Math.PI;
+        
+        Pose2d current_pose = m_robotDrive.getPose();
+        Pose2d pose = new Pose2d(current_pose.getX(), current_pose.getY(), new Rotation2d(angle));
+        m_robotDrive.resetOdometry(pose);
+    }, m_robotDrive));
   }
 
   /**

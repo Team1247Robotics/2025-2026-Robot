@@ -102,15 +102,24 @@ public class DriveSubsystem extends SubsystemBase {
     // double[] botpose = event.valueData.value.getDoubleArray(); // [X, Y, Z, roll, pitch, yaw]
     // Pose3d pose = LimelightHelpers.getBotPose3d_TargetSpace("limelight");
     PoseEstimate pose;
-    Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
 
-    if (alliance.isEmpty() || alliance.get().equals(DriverStation.Alliance.Blue)) {
+    if (isBlueAlliance()) {
       pose = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
     } else {
       pose = LimelightHelpers.getBotPoseEstimate_wpiRed("limelight");
     }
 
     visionCorrectPose(pose.pose, pose.timestampSeconds);
+  }
+
+  public boolean isBlueAlliance() {
+    Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
+
+    if (alliance.isEmpty() || alliance.get().equals(DriverStation.Alliance.Blue)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override
