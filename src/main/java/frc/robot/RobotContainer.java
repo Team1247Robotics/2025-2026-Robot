@@ -73,7 +73,7 @@ public class RobotContainer {
 
     // m_robotDrive.setDefaultCommand(new AlwaysFaceTag(m_robotDrive, m_driverController));
     
-    m_ledStrip.setDefaultCommand(new LedStripScrollRainbow(m_ledStrip));
+    m_ledStrip.setDefaultCommand(new LedStripScrollRainbow(m_ledStrip).ignoringDisable(true));
 
     Trigger dpad_up = new POVButton(m_driverController, 0);
     Trigger dpad_down = new POVButton(m_driverController, 180);
