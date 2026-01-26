@@ -4,25 +4,24 @@
 
 package frc.robot.subsystems;
 
-import java.util.EnumSet;
+import java.util.Optional;
 
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.DoubleArraySubscriber;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEvent;
-import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.sensors.LimelightHelpers;
+import frc.robot.sensors.LimelightHelpers.PoseEstimate;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -60,9 +59,11 @@ public class DriveSubsystem extends SubsystemBase {
 
   private final Field2d m_field = new Field2d();
 
+  private boolean disableOdoCorrection = false;
+
   // Odometry class for tracking robot pose
-  SwerveDriveOdometry m_odometry =
-      new SwerveDriveOdometry(
+  SwerveDrivePoseEstimator m_odometry =
+      new SwerveDrivePoseEstimator(
           DriveConstants.kDriveKinematics,
           m_gyro.getRotation2d(),
           new SwerveModulePosition[] {
@@ -70,22 +71,12 @@ public class DriveSubsystem extends SubsystemBase {
             m_frontRight.getPosition(),
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
-          });
+          },
+          Pose2d.kZero
+          );
 
   /** Creates a new DriveSubsystem. */
-  public DriveSubsystem() {
-    NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    NetworkTable limelight = inst.getTable("limelight");
-    DoubleArraySubscriber botPostSub = limelight
-      .getDoubleArrayTopic("botpose")
-      .subscribe(new double[] {0,0,0,0,0,0});
-    
-    inst.addListener(
-      botPostSub,
-      EnumSet.of(NetworkTableEvent.Kind.kValueAll),
-      this::updatePose
-    );
-  }
+  public DriveSubsystem() {}
 
   /**
    * Recieve absolute position updates from limelight when it detects and apriltag.
@@ -93,12 +84,37 @@ public class DriveSubsystem extends SubsystemBase {
    * 
    * @param event The event recieved from NetworkTables
    */
-  private void updatePose(NetworkTableEvent event) {
-    double[] botpose = event.valueData.value.getDoubleArray(); // [X, Y, Z, roll, pitch, yaw]
-    double x = botpose[0];
-    double y = botpose[1];
-    double rotation = botpose[5];
-    overwritePose(new Pose2d(x, y, new Rotation2d(rotation)));
+  private void updatePose() { 
+    boolean isThisAGoodIdea = true;
+    if (!isThisAGoodIdea) return;
+
+    
+    // double[] botpose = event.valueData.value.getDoubleArray(); // [X, Y, Z, roll, pitch, yaw]
+    // Pose3d pose = LimelightHelpers.getBotPose3d_TargetSpace("limelight");
+    PoseEstimate pose;
+
+    if (isBlueAlliance()) {
+      pose = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+    } else {
+      pose = LimelightHelpers.getBotPoseEstimate_wpiRed("limelight");
+    }
+
+    visionCorrectPose(pose.pose, pose.timestampSeconds);
+  }
+
+  public boolean isBlueAlliance() {
+    Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
+
+    if (alliance.isEmpty() || alliance.get().equals(DriverStation.Alliance.Blue)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean toggleOdoCorrection() {
+    disableOdoCorrection = !disableOdoCorrection;
+    return disableOdoCorrection;
   }
 
   @Override
@@ -112,8 +128,11 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearLeft.getPosition(),
           m_rearRight.getPosition()
         });
-    m_field.setRobotPose(m_odometry.getPoseMeters());
+    m_field.setRobotPose(getPose());
     SmartDashboard.putData("Field", m_field);
+    SmartDashboard.putString("Angle", m_gyro.getRotation2d().toString());
+
+    updatePose();
   }
 
   /**
@@ -122,7 +141,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    return m_odometry.getEstimatedPosition();
   }
 
   /**
@@ -143,16 +162,16 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Overwrites the pose of the robot.
-   * 
-   * Additionally adjusts the gyro so that the pose's heading and the current heading are in agreement.
+   * Corrects the pose of the robot with an external pose provider, such as vision.
    * 
    * @param pose The pose to which to set the odometry
    */
-  public void overwritePose(Pose2d pose) {
-    double diff = m_gyro.getYaw() - pose.getRotation().getDegrees();
-    m_gyro.setAngleAdjustment(diff);
-    m_odometry.resetPose(pose);
+  public void visionCorrectPose(Pose2d pose, double timestampSeconds) {
+    if (disableOdoCorrection) return;
+    final double x = pose.getX();
+    final double y = pose.getY();
+    if (x == 0 && y == 0) return;
+    m_odometry.addVisionMeasurement(pose, timestampSeconds);
   }
 
   /**
@@ -170,7 +189,7 @@ public class DriveSubsystem extends SubsystemBase {
         xSpeed,
         ySpeed,
         rotation,
-        m_gyro.getRotation2d()
+        new Rotation2d(-m_gyro.getRotation2d().getRadians())
       );
     }
     return new ChassisSpeeds(
@@ -199,6 +218,7 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kDrivePeriod
         )
       );
+    
     setModuleStates(swerveModuleStates);
   }
 
@@ -255,5 +275,16 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public double getTurnRate() {
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+  }
+
+  public void zeroGyro() {
+    m_gyro.reset();;
+  }
+
+  public void adjustGyro(double angle) {
+    double current = new Rotation2d(m_gyro.getAngle()).getRadians();
+    double diff = angle - current;
+    m_gyro.setAngleAdjustment(diff);
+    
   }
 }

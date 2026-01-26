@@ -20,6 +20,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Configs;
+import frc.robot.Constants.DriveConstants;
 
 public class SDSSwerveModule {
   private final SparkFlex m_driveMotor;
@@ -86,7 +87,7 @@ public class SDSSwerveModule {
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
         m_driveEncoder.getPosition(),
-        new Rotation2d(m_turningEncoder.getPosition())
+        new Rotation2d(-m_turningEncoder.getPosition())
       );
   }
 
@@ -102,7 +103,14 @@ public class SDSSwerveModule {
     correctedDesiredState.optimize(currentRoation);
     correctedDesiredState.cosineScale(currentRoation);
 
-    m_driveClosedLoopController.setSetpoint(correctedDesiredState.speedMetersPerSecond, ControlType.kVelocity);
+    m_driveClosedLoopController.setSetpoint(
+      Math.max(
+        Math.min(
+          correctedDesiredState.speedMetersPerSecond,
+          DriveConstants.kMaxSpeedMetersPerSecond
+        ),
+        -DriveConstants.kMaxSpeedMetersPerSecond
+      ), ControlType.kVelocity);
     m_turningClosedLoopController.setSetpoint(correctedDesiredState.angle.getRadians(), ControlType.kPosition);
 
     m_desiredState = desiredState;

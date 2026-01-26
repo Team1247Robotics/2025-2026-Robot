@@ -4,29 +4,38 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.PS5Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.drivetrain.AlwaysFaceTag;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LedStrip;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -58,11 +67,36 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
                 MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxAngularSpeed,
-                true
+                false
             ),
             m_robotDrive));
+
+    // m_robotDrive.setDefaultCommand(new AlwaysFaceTag(m_robotDrive, m_driverController));
     
     m_ledStrip.setDefaultCommand(new LedStripScrollRainbow(m_ledStrip));
+
+    Trigger dpad_up = new POVButton(m_driverController, 0);
+    Trigger dpad_down = new POVButton(m_driverController, 180);
+    
+    dpad_up.onTrue(Commands.runOnce(() -> {
+        double angle = m_robotDrive.isBlueAlliance() ? 0 : Math.PI;
+        m_robotDrive.adjustGyro(angle);
+        Pose2d current_pose = m_robotDrive.getPose();
+        Pose2d pose = new Pose2d(current_pose.getX(), current_pose.getY(), new Rotation2d(angle));
+        m_robotDrive.resetOdometry(pose);
+    }, m_robotDrive));
+
+    dpad_down.onTrue(Commands.runOnce(() -> {
+        double angle = m_robotDrive.isBlueAlliance() ? Math.PI : 0;
+        m_robotDrive.adjustGyro(angle);
+        Pose2d current_pose = m_robotDrive.getPose();
+        Pose2d pose = new Pose2d(current_pose.getX(), current_pose.getY(), new Rotation2d(angle));
+        m_robotDrive.resetOdometry(pose);
+    }, m_robotDrive));
+
+    Trigger a_push = new Trigger(() -> m_driverController.getAButton());
+
+    a_push.whileTrue(new AlwaysFaceTag(m_robotDrive, m_driverController));
   }
 
   /**
@@ -109,8 +143,8 @@ public class RobotContainer {
     // An example trajectory to follow. All units in meters.
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
             Pose2d.kZero,
-            null,
-            new Pose2d(0, 0, Rotation2d.kZero),
+            new ArrayList<Translation2d>(),
+            new Pose2d(1, 0, Rotation2d.kZero),
             config
         );
 
