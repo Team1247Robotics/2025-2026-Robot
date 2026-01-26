@@ -18,8 +18,8 @@ public class LedStrip extends SubsystemBase {
     public static final int LED_PORT = 0;
     /** The number of LEDs in the strip */
     public static final int LED_COUNT = 30;
-    /** The SPACING of LEDs per metre */
-    public static final double LED_SPACING_LEDS_PER_METER = 1.0 / 60.0;
+    /** The density of LEDs per metre */
+    public static final double LED_DENSITY_LEDS_PER_METER = 60.0;
 
     /** The AddressableLED object for controlling the LED strip */
     private final AddressableLED m_led;
@@ -37,7 +37,7 @@ public class LedStrip extends SubsystemBase {
 
         m_led.start();
 
-        m_rainbowPattern = LEDPattern.rainbow(255, 255).scrollAtAbsoluteSpeed(MetersPerSecond.of(0.75), Meters.of( LED_SPACING_LEDS_PER_METER ));
+        m_rainbowPattern = LEDPattern.rainbow(255, 255).scrollAtAbsoluteSpeed(MetersPerSecond.of(0.75), Meters.of( 1 / LED_DENSITY_LEDS_PER_METER));
 
     }
     
