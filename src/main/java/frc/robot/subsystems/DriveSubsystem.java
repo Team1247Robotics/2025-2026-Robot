@@ -99,6 +99,8 @@ public class DriveSubsystem extends SubsystemBase {
       pose = LimelightHelpers.getBotPoseEstimate_wpiRed("limelight");
     }
 
+    if (pose == null) return;
+
     visionCorrectPose(pose.pose, pose.timestampSeconds);
   }
 
