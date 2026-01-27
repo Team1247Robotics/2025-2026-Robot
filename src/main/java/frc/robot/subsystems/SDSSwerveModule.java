@@ -98,10 +98,10 @@ public class SDSSwerveModule {
    */
   public void setDesiredState(SwerveModuleState desiredState) {
     SwerveModuleState correctedDesiredState = desiredState;
-    Rotation2d currentRoation = new Rotation2d(m_turningEncoder.getPosition());
+    Rotation2d currentRotation = new Rotation2d(m_turningEncoder.getPosition());
 
-    correctedDesiredState.optimize(currentRoation);
-    correctedDesiredState.cosineScale(currentRoation);
+    correctedDesiredState.optimize(currentRotation);
+    correctedDesiredState.cosineScale(currentRotation);
 
     m_driveClosedLoopController.setSetpoint(
       Math.max(

@@ -37,43 +37,43 @@ public class AlwaysFaceTag extends Command {
     @Override
     public void execute() {
         Pose3d tagPosition3d = LimelightHelpers.getTargetPose3d_RobotSpace("limelight");
-        Pose2d tagPosition = new Pose2d(tagPosition3d.getY(), tagPosition3d.getX(), tagPosition3d.getRotation().toRotation2d());
-        Pose2d currentPose = m_drivetrain.getPose();
+        Pose2d robotPose = m_drivetrain.getPose();
+        Pose2d tagPosition = new Pose2d(tagPosition3d.getY(), tagPosition3d.getX(), tagPosition3d.getRotation().toRotation2d().minus(robotPose.getRotation()));
 
         if (!(tagPosition.getX() == 0 && tagPosition.getY() == 0)) {
-            Pose2d tagRotated = tagPosition.rotateBy(currentPose.getRotation()).rotateBy(Rotation2d.kPi);
+            Pose2d tagRotated = tagPosition.rotateBy(robotPose.getRotation()).rotateBy(Rotation2d.kPi);
 
             m_tagPosition = new Pose2d(
-                currentPose.getX() + tagRotated.getX(),
-                currentPose.getY() + tagRotated.getY(),
+                robotPose.getX() + tagRotated.getX(),
+                robotPose.getY() + tagRotated.getY(),
                 tagRotated.getRotation()
             );
         }
-        // SmartDashboard.putString("position", tagPosition.toString());
         m_tagOnField.setRobotPose(m_tagPosition);
         SmartDashboard.putData("Target", m_tagOnField);
 
         double control_y = -MathUtil.applyDeadband(m_controller.getLeftY(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond;
         double control_x = MathUtil.applyDeadband(m_controller.getLeftX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond;
-        double yaw = -MathUtil.applyDeadband(m_controller.getRightX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxAngularSpeed;
+        double turn = -MathUtil.applyDeadband(m_controller.getRightX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxAngularSpeed;
 
-        Pose2d current_pose = m_drivetrain.getPose();
-
-        Rotation2d diff_rotation;
+        Rotation2d diffRotation;
         if (m_tagPosition.getX() == 0 && m_tagPosition.getY() == 0) {
-            diff_rotation = new Rotation2d();
+            diffRotation = new Rotation2d();
         } else {
-            Pose2d diff = current_pose.relativeTo(m_tagPosition).rotateBy(Rotation2d.kPi);
-            SmartDashboard.putString("diff", diff.getX() + " " + diff.getY() + " " + diff.getRotation().getDegrees());
-
-            double current_rotation = current_pose.getRotation().getRadians();
-    
-            diff_rotation = new Rotation2d(diff.getRotation().getRadians() - current_rotation);
+            // diffRotation = robotPose.minus(m_tagPosition).getRotation().minus(robotPose.getRotation());
+            // diffRotation = new Rotation2d(
+            //     Math.atan2(-(tagPosition.getY() - robotPose.getY()), -(tagPosition.getX() - robotPose.getX()))
+            // );
+            Translation2d tagPoint = m_tagPosition.getTranslation();
+            Rotation2d targetRotation = tagPoint.minus(robotPose.getTranslation()).getAngle();
+            Rotation2d heading = targetRotation.minus(robotPose.getRotation());
+            diffRotation = heading;
         }
-        SmartDashboard.putString("Rotation", diff_rotation.toString());
+        SmartDashboard.putString("Target Angle", diffRotation.toString());
         // double tx = (LimelightHelpers.getTX("limelight") / 360) * (Math.PI * 2);
 
-        m_drivetrain.drive(control_y, control_x, -diff_rotation.getRadians() / 5, true);
+        // m_drivetrain.drive(control_y, control_x, turn, true);
+        m_drivetrain.drive(control_y, control_x, diffRotation.getRadians(), true);
     }
 
     public Pose2d updateTagPosition(Pose2d newTagPosition) {
