@@ -15,7 +15,7 @@ public class Intake extends SubsystemBase {
     private static final int INTAKE_CAN_ID = 10;
     private static final double INTAKE_RPM = 2000;
     private static final double DISPENSE_RPM = -2000;
-    
+
     private static final double INTAKE_PID_P = 0.0001;
     private static final double INTAKE_PID_I = 0.0;
     private static final double INTAKE_PID_D = 0.0;
@@ -29,28 +29,27 @@ public class Intake extends SubsystemBase {
         SparkMaxConfig config = new SparkMaxConfig();
 
         config.closedLoop.pid(
-            INTAKE_PID_P,
-            INTAKE_PID_I,
-            INTAKE_PID_D
-        );
+                INTAKE_PID_P,
+                INTAKE_PID_I,
+                INTAKE_PID_D);
 
         config.idleMode(IdleMode.kBrake);
 
-    intakeMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        intakeMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     /**
      * Pull into the robot
      */
     public void intake() {
-    closedLoopController.setSetpoint(INTAKE_RPM, ControlType.kVelocity);
+        closedLoopController.setSetpoint(INTAKE_RPM, ControlType.kVelocity);
     }
 
     /**
      * Dispense out of the robot
      */
     public void dispense() {
-    closedLoopController.setSetpoint(DISPENSE_RPM, ControlType.kVelocity);
+        closedLoopController.setSetpoint(DISPENSE_RPM, ControlType.kVelocity);
     }
 
     /**
