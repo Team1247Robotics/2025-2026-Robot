@@ -41,7 +41,7 @@ public class Intake extends SubsystemBase {
     /**
      * Pull into the robot
      */
-    public void intake() {
+    public void aspire() {
         closedLoopController.setSetpoint(INTAKE_RPM, ControlType.kVelocity);
     }
 

@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.LEDPattern;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-    /**
-     * Subsystem for controlling an LED strip.
-     */
+/**
+ * Subsystem for controlling an LED strip.
+ */
 public class LedStrip extends SubsystemBase {
 
     /** The PWM port for the LED strip */
@@ -37,10 +37,11 @@ public class LedStrip extends SubsystemBase {
 
         m_led.start();
 
-        m_rainbowPattern = LEDPattern.rainbow(255, 255).scrollAtAbsoluteSpeed(MetersPerSecond.of(0.75), Meters.of( 1 / LED_DENSITY_LEDS_PER_METER));
+        m_rainbowPattern = LEDPattern.rainbow(255, 255).scrollAtAbsoluteSpeed(MetersPerSecond.of(0.75),
+                Meters.of(1 / LED_DENSITY_LEDS_PER_METER));
 
     }
-    
+
     /** Displays the rainbow pattern on the LED strip */
     public void showRainbow() {
         m_rainbowPattern.applyTo(m_buffer);
@@ -49,7 +50,8 @@ public class LedStrip extends SubsystemBase {
     }
 
     /**
-     * Sets the whole strip to one colour
+     * Sets the whole strip to one color
+     * 
      * @param color the color to set it to
      */
     public void setSolidColor(Color color) {
