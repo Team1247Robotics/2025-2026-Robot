@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.PS5Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.drivetrain.AlwaysFaceTag;
+import frc.robot.commands.drivetrain.FacePointTest;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.subsystems.DriveSubsystem;
@@ -69,7 +69,6 @@ public class RobotContainer {
             ),
             m_robotDrive));
 
-    // m_robotDrive.setDefaultCommand(new AlwaysFaceTag(m_robotDrive, m_driverController));
     
     m_ledStrip.setDefaultCommand(new LedStripScrollRainbow(m_ledStrip).ignoringDisable(true));
 
@@ -94,7 +93,7 @@ public class RobotContainer {
 
     Trigger a_push = new Trigger(() -> m_driverController.getAButton());
 
-    a_push.whileTrue(new AlwaysFaceTag(m_robotDrive, m_driverController));
+    a_push.whileTrue(new FacePointTest(m_robotDrive, m_driverController));
   }
 
   /**
