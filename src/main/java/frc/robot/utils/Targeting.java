@@ -8,6 +8,9 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.sensors.LimelightHelpers;
 
+/**
+ * Utils to handle conversions between robot and field relative spaces.
+ */
 public class Targeting {
     /**
      * Place an object in robot relative space into field relative space.
