@@ -22,6 +22,11 @@ public class FaceHeading extends Command {
     protected final DriveSubsystem m_drivetrain;
 
     /**
+     * Offset in radians to face from the target. This is applied immeditely before calculating velocities and cannot be avoided.
+     */
+    protected Rotation2d m_offset = Rotation2d.kZero;
+
+    /**
      * Target heading to reach.
      * @implNote
      * Does not need to be set when extending.
@@ -47,7 +52,7 @@ public class FaceHeading extends Command {
      */
     protected boolean m_fieldRelative = true;
 
-    
+
     private PIDController m_pid = new PIDController(0.7, 0.0, 0);
 
     /**
@@ -189,7 +194,7 @@ public class FaceHeading extends Command {
     protected double calculateTurn(Rotation2d target) {
         double robotHeading = (m_drivetrain.getPose().getRotation().getRadians() % (Math.PI * 2));
 
-        double direct = (target.getRadians() % (Math.PI * 2));
+        double direct = ((target.plus(m_offset).getRadians()) % (Math.PI * 2));
         double indirect = direct - Math.PI * 2;
 
         double directDistance = Math.abs(direct - robotHeading);
