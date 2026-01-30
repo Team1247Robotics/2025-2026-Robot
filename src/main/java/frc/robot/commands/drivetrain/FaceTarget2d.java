@@ -9,6 +9,14 @@ import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.utils.Targeting;
 
+/**
+ * Face a field relative Pose2d.
+ * 
+ * @implNote
+ * Subclasses can call {@link #pointToTarget} to dynamically change target more efficiently.
+ * @implNote
+ * Protected constructor {@link #FaceTarget2d(DriveSubsystem)} can be paired with {@link #pointToTarget} to instantiate without supplying a target.
+ */
 public class FaceTarget2d extends FaceHeading {
     private Supplier<Pose2d> m_targetSupplier;
 
