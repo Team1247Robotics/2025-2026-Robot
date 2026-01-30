@@ -11,11 +11,13 @@ import com.studica.frc.AHRS.NavXComType;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -104,6 +106,9 @@ public class DriveSubsystem extends SubsystemBase {
     visionCorrectPose(pose.pose, pose.timestampSeconds);
   }
 
+  /**
+   * Check if the alliance is the blue alliance. Defaults to true if the alliance is undefined.
+   */
   public boolean isBlueAlliance() {
     Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
 
@@ -114,8 +119,30 @@ public class DriveSubsystem extends SubsystemBase {
     }
   }
 
+  /**
+   * Inverted response of {@link #isBlueAlliance()}
+   * @return
+   */
+  public boolean isRedAlliance() {
+    return !isBlueAlliance();
+  }
+
+  /**
+   * Toggle if the camera should be used for pose correction using AprilTags
+   * @return New state of odo correction.
+   */
   public boolean toggleOdoCorrection() {
     disableOdoCorrection = !disableOdoCorrection;
+    return disableOdoCorrection;
+  }
+
+  /**
+   * Set if the camera shoule be used for pose correction using AprilTags
+   * @param value - True for enable correction, false for off.
+   * @return New state of odo correction.
+   */
+  public boolean setOdoCorrection(boolean value) {
+    disableOdoCorrection = value;
     return disableOdoCorrection;
   }
 
@@ -135,6 +162,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putString("Angle", m_gyro.getRotation2d().toString());
 
     updatePose();
+    postTargetToSmartDashboard();
   }
 
   /**
@@ -161,6 +189,26 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearRight.getPosition()
         },
         pose);
+  }
+
+  /**
+   * Checks if limelight data is at least present in NetworkTables.
+   * @return If "targetpose_robotspace" was found in NetworkTables.
+   */
+  public boolean isLimelightSafe() {
+    return NetworkTableInstance.getDefault().getTable("limelight").containsKey("targetpose_robotspace");
+  }
+
+  /**
+   * Sends the current target data to SmartDashboard.
+   */
+  private void postTargetToSmartDashboard() {
+    if (!isLimelightSafe()) return;
+
+    Pose3d tagPosition3d = LimelightHelpers.getTargetPose3d_RobotSpace("limelight");
+    Pose2d tagPosition = new Pose2d(tagPosition3d.getX(), tagPosition3d.getY(), tagPosition3d.getRotation().toRotation2d());
+
+    SmartDashboard.putString("Target Position Robot Space", tagPosition.toString());
   }
 
   /**
@@ -262,6 +310,13 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
+   * Resets the gyro yaw. Wrapper function for {@link #zeroHeading()}.
+   */
+  public void zeroGyro() {
+    zeroHeading();
+  }
+
+  /**
    * Returns the heading of the robot.
    *
    * @return the robot's heading in degrees, from -180 to 180
@@ -279,10 +334,11 @@ public class DriveSubsystem extends SubsystemBase {
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
-  public void zeroGyro() {
-    m_gyro.reset();;
-  }
 
+  /**
+   * Adjusts the gyro so the set angle is zero.
+   * @param angle - Double representation of of the direction in radians.
+   */
   public void adjustGyro(double angle) {
     double current = new Rotation2d(m_gyro.getAngle()).getRadians();
     double diff = angle - current;

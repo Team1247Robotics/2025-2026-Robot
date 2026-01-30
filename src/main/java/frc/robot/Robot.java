@@ -4,13 +4,9 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.sensors.LimelightHelpers;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -46,13 +42,6 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-
-    Pose3d tagPosition3d = LimelightHelpers.getTargetPose3d_RobotSpace("limelight");
-    Pose2d tagPosition = new Pose2d(tagPosition3d.getX(), tagPosition3d.getY(), tagPosition3d.getRotation().toRotation2d());
-
-    SmartDashboard.putString("Target Position Robot Space", tagPosition.toString());
-    // m_tagOnField.setRobotPose(tagPosition);
-    // SmartDashboard.putData("Target", m_tagOnField);
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
