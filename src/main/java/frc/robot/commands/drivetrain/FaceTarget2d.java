@@ -38,13 +38,13 @@ public class FaceTarget2d extends FaceHeading {
     }
 
     protected void pointToTarget(double inputX, double inputY, Pose2d target) {
-        Rotation2d angle = Targeting.convertFieldRelativePoseToRobotRelativeTranslation(m_drivetrain.getPose(), target, Translation2d.kZero).getAngle();
+        Rotation2d angle = Targeting.convertFieldRelativeToRobotRelativeTranslation(m_drivetrain.getPose(), target, Translation2d.kZero).getAngle();
 
         pointToSetpoint(inputX, inputY, angle);
     }
 
     protected void pointToTarget(Pose2d target) {
-        Rotation2d angle = Targeting.convertFieldRelativePoseToRobotRelativeTranslation(m_drivetrain.getPose(), target, Translation2d.kZero).getAngle();
+        Rotation2d angle = Targeting.convertFieldRelativeToRobotRelativeTranslation(m_drivetrain.getPose(), target, Translation2d.kZero).getAngle();
 
         pointToSetpoint(angle);
     }
