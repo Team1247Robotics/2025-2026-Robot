@@ -91,7 +91,7 @@ public final class Constants {
   }
 
   public static final class NeoMotorContants {
-    // public static final double kFreeSpeedRpm = 5676; // commented out because it does nothing right now, but may be useful later
+    public static final double kFreeSpeedRpm = 5676; // commented out because it does nothing right now, but may be useful later
     public static final double kVortexFreeSpeedRpm = 6784;
   }
 }

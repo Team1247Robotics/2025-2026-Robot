@@ -11,6 +11,8 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import frc.robot.Constants.NeoMotorContants;
+
 public class Intake extends SubsystemBase {
     private static final int INTAKE_CAN_ID = 10;
     private static final double INTAKE_RPM = 2000;
@@ -19,6 +21,9 @@ public class Intake extends SubsystemBase {
     private static final double INTAKE_PID_P = 0.0001;
     private static final double INTAKE_PID_I = 0.0;
     private static final double INTAKE_PID_D = 0.0;
+
+    private static final double NOMINAL_VOLTAGE = 12.0; // volts
+    private static final double INTAKE_FEED_FORWARD_KV = NOMINAL_VOLTAGE / NeoMotorContants.kFreeSpeedRpm; // volts per RPM
 
     private final SparkMax intakeMotor;
     private final SparkClosedLoopController closedLoopController;
