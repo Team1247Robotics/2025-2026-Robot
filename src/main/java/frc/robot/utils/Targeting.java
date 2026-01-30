@@ -10,10 +10,10 @@ import frc.robot.sensors.LimelightHelpers;
 
 public class Targeting {
     /**
-     * Place an object in robot relative space into field relative space
-     * @param robotPose - Current pose of the robot in field relative space
-     * @param robotSpaceObject - Pose of the object in robot relative space
-     * @return - Pose of object in field relative space
+     * Place an object in robot relative space into field relative space.
+     * @param robotPose - Current pose of the robot in field relative space.
+     * @param robotSpaceObject - Pose of the object in robot relative space.
+     * @return Pose of object in field relative space.
      */
     public static Pose3d robotRelativeToFieldRelative(Pose2d robotPose, Pose3d robotSpaceObject) {
         Pose3d objectRotated = robotSpaceObject.rotateBy(
@@ -31,10 +31,10 @@ public class Targeting {
     }
 
     /**
-     * Place an object in robot relative space into field relative space
-     * @param robotPose - Current pose of the robot in field relative space
-     * @param robotSpaceObject - Pose of the object in robot relative space
-     * @return - Pose of object in field relative space
+     * Place an object in robot relative space into field relative space.
+     * @param robotPose - Current pose of the robot in field relative space.
+     * @param robotSpaceObject - Pose of the object in robot relative space.
+     * @return Pose of object in field relative space.
      */
     public static Pose2d robotRelativeToFieldRelative(Pose2d robotPose, Pose2d robotSpaceObject) {
         Pose2d objectRotated = robotSpaceObject.rotateBy(
@@ -55,7 +55,7 @@ public class Targeting {
      * @param base - The value to test of X and Y are 0.
      * @param func - Function to call if base is valid.
      * @param defaultReturn - A default value to return if the base is invalid.
-     * @return
+     * @return Return of func or default if invalid.
      */
     public static <T> T defaultIfInvalid(Pose2d base, Supplier<T> func, T defaultReturn) {
         if (base.getX() == 0 && base.getY() == 0 || base.getX() < 0 || base.getY() < 0) {
@@ -72,7 +72,7 @@ public class Targeting {
      * @param base - The value to test of X and Y are 0.
      * @param func - Function to call if base is valid.
      * @param defaultReturn - A default value to return if the base is invalid.
-     * @return
+     * @return Return of func or default if invalid.
      */
     public static <T> T defaultIfInvalid(Translation2d base, Supplier<T> func, T defaultReturn) {
         if (base.getX() == 0 && base.getY() == 0) {
@@ -83,11 +83,11 @@ public class Targeting {
     }
 
     /**
-     * Converts the returns from limelight target tracking into a field relative Pose2d
-     * @param robotPose - Current robot pose in field relative space
-     * @param limelightObject - Pose of the target in robot relative space
-     * @param defaultPose - Default pose to return if the pose is invalid (target not found)
-     * @return Field relative target pose
+     * Converts the returns from limelight target tracking into a field relative Pose2d.
+     * @param robotPose - Current robot pose in field relative space.
+     * @param limelightObject - Pose of the target in robot relative space.
+     * @param defaultPose - Default pose to return if the pose is invalid (target not found).
+     * @return Field relative target pose.
      */
     public static Pose2d convertLimelightTargetPoseToFieldRelative(Pose2d robotPose, Pose3d limelightObject, Pose2d defaultPose) {
         Pose2d target = new Pose2d(
@@ -107,10 +107,10 @@ public class Targeting {
     /**
      * Converts Field Relative Translation2d into a robot relative Translation2d where the robot is the origin.
      * 
-     * @param robotPose - The position of the robot in field relative space
-     * @param target - The position of the target in field relative space
-     * @param defaultTranslation - Default value to return if the target pose is invalid
-     * @return Robot relative Translation2d or defaultTranslation if target is invalid
+     * @param robotPose - The position of the robot in field relative space.
+     * @param target - The position of the target in field relative space.
+     * @param defaultTranslation - Default value to return if the target pose is invalid.
+     * @return Robot relative Translation2d or defaultTranslation if target is invalid.
      */
     public static Translation2d convertFieldRelativeToRobotRelativeTranslation(Translation2d robotPose, Translation2d target, Translation2d defaultTranslation) {
         return Targeting.defaultIfInvalid(target, () -> {
@@ -121,21 +121,21 @@ public class Targeting {
     }
 
     /**
-     * Converts field relative Pose2d into robot relative Translation where the robot is the origin
-     * @param robotPose - Current robot pose in field relative space
-     * @param target - Target pose in field relative space
-     * @param defaultTranslation - Default if target position is invalid
-     * @return Robot relative translation of the target or default if target position is invalid
+     * Converts field relative Pose2d into robot relative Translation where the robot is the origin.
+     * @param robotPose - Current robot pose in field relative space.
+     * @param target - Target pose in field relative space.
+     * @param defaultTranslation - Default if target position is invalid.
+     * @return Robot relative translation of the target or default if target position is invalid.
      */
     public static Translation2d convertFieldRelativeToRobotRelativeTranslation(Pose2d robotPose, Pose2d target, Translation2d defaultTranslation) {
         return convertFieldRelativeToRobotRelativeTranslation(robotPose.getTranslation(), target.getTranslation(), defaultTranslation);
     }
 
     /**
-     * Gets limelight pose and returns a field relative Pose2d
-     * @param robotPose - Current robot pose in field relative space
-     * @param defaultPose - Default pose if the value from the limelight is invalid 
-     * @return Pose2d of target in field relative space
+     * Gets limelight pose and returns a field relative Pose2d.
+     * @param robotPose - Current robot pose in field relative space.
+     * @param defaultPose - Default pose if the value from the limelight is invalid.
+     * @return Pose2d of target in field relative space.
      */
     public static Pose2d getLimelightTargetAsFieldRelativePose(Pose2d robotPose, Pose2d defaultPose) {
         Pose3d tagPosition3d = LimelightHelpers.getTargetPose3d_RobotSpace("limelight");
