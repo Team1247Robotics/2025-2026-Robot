@@ -16,10 +16,6 @@ public class Intake extends SubsystemBase {
     private static final double INTAKE_RPM = 2000;
     private static final double DISPENSE_RPM = -2000;
 
-    private static final double INTAKE_PID_P = 0.0001;
-    private static final double INTAKE_PID_I = 0.0;
-    private static final double INTAKE_PID_D = 0.0;
-
     private final SparkMax intakeMotor;
     private final SparkClosedLoopController closedLoopController;
 
@@ -28,14 +24,18 @@ public class Intake extends SubsystemBase {
         closedLoopController = intakeMotor.getClosedLoopController();
         SparkMaxConfig config = new SparkMaxConfig();
 
-        config.closedLoop.pid(
-                INTAKE_PID_P,
-                INTAKE_PID_I,
-                INTAKE_PID_D);
+        config.closedLoop.feedForward.kS(0).kV(0).kA(0).kG(0).kCos(0).kCosRatio(0);
 
         config.idleMode(IdleMode.kBrake);
 
         intakeMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    }
+
+    /**
+     * intale
+     */
+    public void intake() {
+        aspire();
     }
 
     /**
