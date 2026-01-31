@@ -47,7 +47,7 @@ public final class Configs {
             
             turningConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-                .pid(1, 0, 0)
+                .pid(0.9, 0, 0)
                 .outputRange(-1, 1)
                 .positionWrappingEnabled(true)
                 .positionWrappingInputRange(0, turningFactor);

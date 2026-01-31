@@ -15,8 +15,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS5Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -24,7 +24,9 @@ import frc.robot.commands.drivetrain.FacePointTest;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LedStrip;
+import frc.robot.subsystems.LonelyTalonFx;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -46,6 +48,9 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final LedStrip m_ledStrip = new LedStrip();
 
+  private final LonelyTalonFx m_badAppleMachine = new LonelyTalonFx();
+//   private final Intake m_intake = new Intake();
+
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
@@ -55,6 +60,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    m_badAppleMachine.setDefaultCommand(new RunCommand(() -> m_badAppleMachine.playBadApple(), m_badAppleMachine));
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
@@ -71,6 +78,7 @@ public class RobotContainer {
 
     
     m_ledStrip.setDefaultCommand(new LedStripScrollRainbow(m_ledStrip).ignoringDisable(true));
+    // m_intake.setDefaultCommand(new RunCommand(() -> {m_intake.aspire();}, m_intake));
 
     Trigger dpad_up = new POVButton(m_driverController, 0);
     Trigger dpad_down = new POVButton(m_driverController, 180);
@@ -128,6 +136,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+
     // Create config for trajectory
     TrajectoryConfig config = new TrajectoryConfig(
                 AutoConstants.kMaxSpeedMetersPerSecond,

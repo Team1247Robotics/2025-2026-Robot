@@ -36,7 +36,7 @@ public class Intake extends SubsystemBase {
         config.closedLoop.pid(
                 INTAKE_PID_P,
                 INTAKE_PID_I,
-                INTAKE_PID_D);
+                INTAKE_PID_D).feedForward.kV(INTAKE_FEED_FORWARD_KV);
 
         config.idleMode(IdleMode.kBrake);
 

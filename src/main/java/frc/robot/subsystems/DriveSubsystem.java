@@ -6,8 +6,9 @@ package frc.robot.subsystems;
 
 import java.util.Optional;
 
-import com.studica.frc.AHRS;
-import com.studica.frc.AHRS.NavXComType;
+import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.RobotConfig;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -57,7 +58,8 @@ public class DriveSubsystem extends SubsystemBase {
     );
   //#endregion
 
-  private final AHRS m_gyro = new AHRS(NavXComType.kUSB1);
+  // private final AHRS m_gyro = new AHRS(NavXComType.kUSB1);
+  private final Pigeon2 m_gyro = new Pigeon2(21);
 
   private final Field2d m_field = new Field2d();
 
@@ -78,7 +80,19 @@ public class DriveSubsystem extends SubsystemBase {
           );
 
   /** Creates a new DriveSubsystem. */
-  public DriveSubsystem() {}
+  public DriveSubsystem() {
+    // RobotConfig config;
+    // try {
+    //   config = RobotConfig.fromGUISettings();
+    // } catch (Exception e) {
+    //   e.printStackTrace();
+    // }
+
+    // AutoBuilder.configure(
+    //   this::getPose,
+    //   this::resetOdometry,
+    //   , null, null, config, null, null);
+  }
 
   /**
    * Recieve absolute position updates from limelight when it detects and apriltag.
@@ -331,7 +345,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The turn rate of the robot, in degrees per second
    */
   public double getTurnRate() {
-    return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+    return m_gyro.getAngularVelocityZWorld().getValueAsDouble() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
 
@@ -340,9 +354,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param angle - Double representation of of the direction in radians.
    */
   public void adjustGyro(double angle) {
-    double current = new Rotation2d(m_gyro.getAngle()).getRadians();
-    double diff = angle - current;
-    m_gyro.setAngleAdjustment(diff);
-    
+    m_gyro.setYaw(angle);
+  
   }
 }

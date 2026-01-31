@@ -4,7 +4,14 @@
 
 package frc.robot;
 
+import org.photonvision.PhotonPoseEstimator;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -93,5 +100,28 @@ public final class Constants {
   public static final class NeoMotorContants {
     public static final double kFreeSpeedRpm = 5676; // commented out because it does nothing right now, but may be useful later
     public static final double kVortexFreeSpeedRpm = 6784;
+  }
+
+  public static final class PhotonVisionConstants {
+    public static final AprilTagFieldLayout kFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltAndymark);
+
+    public static final Transform3d kRobotToCam = new Transform3d(
+      new Translation3d(
+        0.5,
+        0.0,
+        0.5
+      ),
+      new Rotation3d(
+        0,
+        0,
+        0
+      )
+    );
+
+    public static final PhotonPoseEstimator kPoseEstimator = new PhotonPoseEstimator(kFieldLayout, kRobotToCam);
+
+    public static final String kCamera0Name = "camera 0";
+    public static final String kCamera1Name = "camera 1";
+    public static final String kCamera2Name = "camera 2";
   }
 }
