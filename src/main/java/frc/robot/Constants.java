@@ -100,13 +100,15 @@ public final class Constants {
   }
 
   public static final class NeoMotorContants {
-    public static final double kFreeSpeedRpm = 5676; // commented out because it does nothing right now, but may be useful later
+    public static final double kFreeSpeedRpm = 5676;
     public static final double kVortexFreeSpeedRpm = 6784;
   }
 
   public static final class PhotonVisionConstants {
     public static final AprilTagFieldLayout kFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltAndymark);
 
+    // Refer to https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html
+    // and https://docs.photonvision.org/en/latest/docs/apriltag-pipelines/coordinate-systems.html
     public static final Transform3d kRobotToCam0 = new Transform3d(
       new Translation3d(
         0.5,
