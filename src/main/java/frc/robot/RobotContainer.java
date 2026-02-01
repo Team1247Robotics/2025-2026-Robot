@@ -23,6 +23,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.drivetrain.FacePointTest;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
+import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LedStrip;
 import frc.robot.subsystems.LonelyTalonFx;
@@ -48,6 +49,8 @@ public class RobotContainer {
   private final LedStrip m_ledStrip = new LedStrip();
 
   private final LonelyTalonFx m_badAppleMachine = new LonelyTalonFx();
+
+  private final PhotonVision.PhotonVisionEstimationSubsystem m_poseEstimators = new PhotonVision.PhotonVisionEstimationSubsystem(m_robotDrive::updatePoseWithPhotonVision);
 //   private final Intake m_intake = new Intake();
 
   // The driver's controller
@@ -59,8 +62,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-
-    m_badAppleMachine.setDefaultCommand(new RunCommand(() -> m_badAppleMachine.playBadApple(), m_badAppleMachine));
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
@@ -127,6 +128,9 @@ public class RobotContainer {
         );
 
     new JoystickButton(m_driverController, XboxController.Button.kA.value).whileTrue(new LedStripSetGreen(m_ledStrip));
+
+    new JoystickButton(m_driverController, XboxController.Button.kY.value).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
+    new JoystickButton(m_driverController, XboxController.Button.kX.value).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
   }
 
   /**

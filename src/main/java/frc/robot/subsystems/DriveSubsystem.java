@@ -7,8 +7,8 @@ package frc.robot.subsystems;
 import java.util.Optional;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.config.RobotConfig;
+// import com.pathplanner.lib.auto.AutoBuilder;
+// import com.pathplanner.lib.config.RobotConfig;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -117,7 +117,11 @@ public class DriveSubsystem extends SubsystemBase {
 
     if (pose == null) return;
 
-    visionCorrectPose(pose.pose, pose.timestampSeconds);
+    // visionCorrectPose(pose.pose, pose.timestampSeconds);
+  }
+
+  public void updatePoseWithPhotonVision(Pose2d pose, double timestamp) {
+    visionCorrectPose(pose, timestamp);
   }
 
   /**
