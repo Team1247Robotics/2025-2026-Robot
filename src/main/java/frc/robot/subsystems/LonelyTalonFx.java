@@ -33,7 +33,7 @@ public class LonelyTalonFx extends SubsystemBase {
 
     public LonelyTalonFx() {
         m_player.addInstrument(m_motor);
-        for (int i = 0; i < sounds.length; i++) {
+        for (int i = 0; i < sounds.length && i < names.length; i++) {
             if (i == 0) {
                 m_chooser.setDefaultOption(names[i], sounds[i]);
             } else {
