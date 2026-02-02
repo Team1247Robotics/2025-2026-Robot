@@ -135,28 +135,13 @@ public final class Constants {
       )
     );
 
-    // public static final Transform3d kRobotToCam2 = new Transform3d(
-    //   new Translation3d(
-    //     0.5,
-    //     0.0,
-    //     0.5
-    //   ),
-    //   new Rotation3d(
-    //     0,
-    //     0,
-    //     0
-    //   )
-    // );
-
     public static final Transform3d[] kRobotToCams = {
       kRobotToCam0,
       kRobotToCam1,
-      // kRobotToCam2
     };
 
     public static final String kCamera0Name = "front camera";
     public static final String kCamera1Name = "rio pov";
-    // public static final String kCamera2Name = "camera 2";
 
     public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
     public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);

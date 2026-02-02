@@ -4,22 +4,11 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
-
-import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.drivetrain.FacePointTest;
@@ -32,9 +21,7 @@ import frc.robot.subsystems.LonelyTalonFx;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -52,7 +39,9 @@ public class RobotContainer {
 
   private final LonelyTalonFx m_badAppleMachine = new LonelyTalonFx();
 
+  @SuppressWarnings("unused") // automatically creates its own default command. as long as it is constructed, it will work.
   private final PhotonVision.PhotonVisionEstimationSubsystem m_poseEstimators = new PhotonVision.PhotonVisionEstimationSubsystem(m_robotDrive::updatePoseWithPhotonVision);
+  
 //   private final Intake m_intake = new Intake();
 
   // The driver's controller
@@ -67,16 +56,16 @@ public class RobotContainer {
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
-                MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
-                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxAngularSpeed,
-                false
-            ),
-            m_robotDrive));
+      // The left stick controls translation of the robot.
+      // Turning is controlled by the X axis of the right stick.
+      new RunCommand(
+        () -> m_robotDrive.drive(
+          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
+          MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
+          -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxAngularSpeed,
+          false
+        ),
+        m_robotDrive));
 
     
     m_ledStrip.setDefaultCommand(new LedStripScrollRainbow(m_ledStrip).ignoringDisable(true));
@@ -86,19 +75,19 @@ public class RobotContainer {
     Trigger dpad_down = new POVButton(m_driverController, 180);
     
     dpad_up.onTrue(Commands.runOnce(() -> {
-        double angle = m_robotDrive.isBlueAlliance() ? 0 : Math.PI;
-        m_robotDrive.adjustGyro(angle);
-        Pose2d current_pose = m_robotDrive.getPose();
-        Pose2d pose = new Pose2d(current_pose.getX(), current_pose.getY(), new Rotation2d(angle));
-        m_robotDrive.resetOdometry(pose);
+      double angle = m_robotDrive.isBlueAlliance() ? 0 : Math.PI;
+      m_robotDrive.adjustGyro(angle);
+      Pose2d current_pose = m_robotDrive.getPose();
+      Pose2d pose = new Pose2d(current_pose.getX(), current_pose.getY(), new Rotation2d(angle));
+      m_robotDrive.resetOdometry(pose);
     }, m_robotDrive));
 
     dpad_down.onTrue(Commands.runOnce(() -> {
-        double angle = m_robotDrive.isBlueAlliance() ? Math.PI : 0;
-        m_robotDrive.adjustGyro(angle);
-        Pose2d current_pose = m_robotDrive.getPose();
-        Pose2d pose = new Pose2d(current_pose.getX(), current_pose.getY(), new Rotation2d(angle));
-        m_robotDrive.resetOdometry(pose);
+      double angle = m_robotDrive.isBlueAlliance() ? Math.PI : 0;
+      m_robotDrive.adjustGyro(angle);
+      Pose2d current_pose = m_robotDrive.getPose();
+      Pose2d pose = new Pose2d(current_pose.getX(), current_pose.getY(), new Rotation2d(angle));
+      m_robotDrive.resetOdometry(pose);
     }, m_robotDrive));
 
     Trigger a_push = new Trigger(() -> m_driverController.getAButton());
@@ -114,20 +103,20 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(m_driverController, Button.kR1.value)
-        .whileTrue(
-            new RunCommand(
-                () -> m_robotDrive.setX(),
-                m_robotDrive
-            )
-        );
+      .whileTrue(
+        new RunCommand(
+          () -> m_robotDrive.setX(),
+          m_robotDrive
+        )
+      );
 
     new JoystickButton(m_driverController, XboxController.Button.kStart.value)
-        .onTrue(
-            new InstantCommand(
-                () -> m_robotDrive.zeroHeading(),
-                m_robotDrive
-            )
-        );
+      .onTrue(
+        new InstantCommand(
+          () -> m_robotDrive.zeroHeading(),
+          m_robotDrive
+        )
+      );
 
     new JoystickButton(m_driverController, XboxController.Button.kA.value).whileTrue(new LedStripSetGreen(m_ledStrip));
 
@@ -141,7 +130,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("james"); // auto is called james
+    return m_robotDrive.getAutonomousCommand();
 
     // Create config for trajectory
     // TrajectoryConfig config = new TrajectoryConfig(

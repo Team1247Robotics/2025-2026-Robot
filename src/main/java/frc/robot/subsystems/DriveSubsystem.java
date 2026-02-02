@@ -17,17 +17,17 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.Kinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.sensors.LimelightHelpers;
-import frc.robot.sensors.LimelightHelpers.PoseEstimate;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -82,8 +82,12 @@ public class DriveSubsystem extends SubsystemBase {
           Pose2d.kZero
           );
 
+  private final SendableChooser<Command> autoChooser; // doing this in DriveSubsystem because it seems like a core component of the drivetrain to follow preprogrammed paths.
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    autoChooser = AutoBuilder.buildAutoChooser();
+
     RobotConfig config = null;
     try {
       config = RobotConfig.fromGUISettings();
@@ -92,6 +96,7 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     if (config != null) {
+      SmartDashboard.putData("Auto Chooser", autoChooser);
       AutoBuilder.configure(
         this::getPose,
         this::resetOdometry,
@@ -107,6 +112,14 @@ public class DriveSubsystem extends SubsystemBase {
         );
     }
 
+  }
+
+  public SendableChooser<Command> getAutoChooser() {
+    return autoChooser;
+  }
+
+  public Command getAutonomousCommand() {
+    return autoChooser.getSelected();
   }
 
   public ChassisSpeeds getChassisSpeeds() {
@@ -129,27 +142,27 @@ public class DriveSubsystem extends SubsystemBase {
    * 
    * @param event The event recieved from NetworkTables
    */
-  private void updatePose() { 
+  // private void updatePose() { 
 
-    PoseEstimate pose;
+  //   PoseEstimate pose;
 
-    if (isBlueAlliance()) {
-      pose = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
-    } else {
-      pose = LimelightHelpers.getBotPoseEstimate_wpiRed("limelight");
-    }
+  //   if (isBlueAlliance()) {
+  //     pose = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+  //   } else {
+  //     pose = LimelightHelpers.getBotPoseEstimate_wpiRed("limelight");
+  //   }
 
-    if (pose == null) return;
+  //   if (pose == null) return;
 
-    visionCorrectPose(pose.pose, pose.timestampSeconds);
-  }
+  //   visionCorrectPose(pose.pose, pose.timestampSeconds);
+  // }
 
   public void updatePoseWithPhotonVision(Pose2d pose, double timestamp) {
     visionCorrectPose(pose, timestamp);
   }
 
   /**
-   * Check if the alliance is the blue alliance. Defaults to true if the alliance is undefined.
+   * Check if the alliance is the blue alliance. Defaults to true if the alliance is undefined (ie. in a simulation).
    */
   public boolean isBlueAlliance() {
     Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
@@ -162,7 +175,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Inverted response of {@link #isBlueAlliance()}
+   * Inverted response of {@link #isBlueAlliance()}. Defaults to false if the alliance is undefined.
    * @return
    */
   public boolean isRedAlliance() {
