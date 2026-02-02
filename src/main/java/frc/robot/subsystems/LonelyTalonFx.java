@@ -11,20 +11,14 @@ public class LonelyTalonFx extends SubsystemBase {
     private final TalonFX m_motor = new TalonFX(40);
     private final Orchestra m_player = new Orchestra();
 
-    private static final String[] sounds = {
-        "usseewa.chrp",
-        "bad_apple.chrp",
-        "king.chrp",
-        "flop_era.chrp",
-        "iris_out.chrp"
-    };
+    private record Sound(String file, String name) {}
 
-    private static final String[] names = {
-        "Usseewa",
-        "Bad Apple!",
-        "King",
-        "Flop Era",
-        "Iris Out"
+    private static final Sound[] sounds = {
+        new Sound("bad_apple.chrp", "Bad Apple!"),
+        new Sound("usseewa.chrp", "Usseewa"),
+        new Sound("king.chrp", "King"),
+        new Sound("flop_era.chrp", "Flop Era"),
+        new Sound("iris_out.chrp", "Iris Out")
     };
 
     private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -33,11 +27,12 @@ public class LonelyTalonFx extends SubsystemBase {
 
     public LonelyTalonFx() {
         m_player.addInstrument(m_motor);
-        for (int i = 0; i < sounds.length && i < names.length; i++) {
+        for (int i = 0; i < sounds.length; i++) {
+            var sound = sounds[i];
             if (i == 0) {
-                m_chooser.setDefaultOption(names[i], sounds[i]);
+                m_chooser.setDefaultOption(sound.name, sound.file);
             } else {
-                m_chooser.addOption(names[i], sounds[i]);
+                m_chooser.addOption(sound.name, sound.file);
             }
         }
         SmartDashboard.putData("Lonely Talon", m_chooser);

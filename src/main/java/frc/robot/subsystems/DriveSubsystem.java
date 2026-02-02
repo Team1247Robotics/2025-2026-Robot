@@ -7,14 +7,17 @@ package frc.robot.subsystems;
 import java.util.Optional;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
-// import com.pathplanner.lib.auto.AutoBuilder;
-// import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.Kinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -81,17 +84,43 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    // RobotConfig config;
-    // try {
-    //   config = RobotConfig.fromGUISettings();
-    // } catch (Exception e) {
-    //   e.printStackTrace();
-    // }
+    RobotConfig config = null;
+    try {
+      config = RobotConfig.fromGUISettings();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
-    // AutoBuilder.configure(
-    //   this::getPose,
-    //   this::resetOdometry,
-    //   , null, null, config, null, null);
+    if (config != null) {
+      AutoBuilder.configure(
+        this::getPose,
+        this::resetOdometry,
+        this::getChassisSpeeds,
+        (speeds, feedForwards) -> drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false),
+        new PPHolonomicDriveController(
+          new PIDConstants(0.5, 0, 0),
+          new PIDConstants(0.5, 0, 0)
+        ),
+        config,
+        this::isRedAlliance,
+        this
+        );
+    }
+
+  }
+
+  public ChassisSpeeds getChassisSpeeds() {
+    return DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
+    
+  }
+
+  public SwerveModuleState[] getModuleStates() {
+    return new SwerveModuleState[] {
+      m_frontLeft.getState(),
+      m_frontRight.getState(),
+      m_rearLeft.getState(),
+      m_rearRight.getState(),
+    };
   }
 
   /**
@@ -101,12 +130,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param event The event recieved from NetworkTables
    */
   private void updatePose() { 
-    boolean isThisAGoodIdea = true;
-    if (!isThisAGoodIdea) return;
 
-    
-    // double[] botpose = event.valueData.value.getDoubleArray(); // [X, Y, Z, roll, pitch, yaw]
-    // Pose3d pose = LimelightHelpers.getBotPose3d_TargetSpace("limelight");
     PoseEstimate pose;
 
     if (isBlueAlliance()) {
@@ -117,7 +141,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     if (pose == null) return;
 
-    // visionCorrectPose(pose.pose, pose.timestampSeconds);
+    visionCorrectPose(pose.pose, pose.timestampSeconds);
   }
 
   public void updatePoseWithPhotonVision(Pose2d pose, double timestamp) {
@@ -179,7 +203,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putData("Field", m_field);
     SmartDashboard.putString("Angle", m_gyro.getRotation2d().toString());
 
-    updatePose();
+    // updatePose();
     postTargetToSmartDashboard();
   }
 

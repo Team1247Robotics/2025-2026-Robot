@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.ArrayList;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -139,50 +141,51 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    return new PathPlannerAuto("james"); // auto is called james
 
     // Create config for trajectory
-    TrajectoryConfig config = new TrajectoryConfig(
-                AutoConstants.kMaxSpeedMetersPerSecond,
-                AutoConstants.kMaxAccelerationMetersPerSecondSquared
-            )
-            // Add kinematics to ensure max speed is actually obeyed
-            .setKinematics(DriveConstants.kDriveKinematics);
+    // TrajectoryConfig config = new TrajectoryConfig(
+    //             AutoConstants.kMaxSpeedMetersPerSecond,
+    //             AutoConstants.kMaxAccelerationMetersPerSecondSquared
+    //         )
+    //         // Add kinematics to ensure max speed is actually obeyed
+    //         .setKinematics(DriveConstants.kDriveKinematics);
 
     
-    // An example trajectory to follow. All units in meters.
-    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-            Pose2d.kZero,
-            new ArrayList<Translation2d>(),
-            new Pose2d(1, 0, Rotation2d.kZero),
-            config
-        );
+    // // An example trajectory to follow. All units in meters.
+    // Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+    //         Pose2d.kZero,
+    //         new ArrayList<Translation2d>(),
+    //         new Pose2d(1, 0, Rotation2d.kZero),
+    //         config
+    //     );
 
-    var thetaController = new ProfiledPIDController(
-            AutoConstants.kPThetaController,
-            0,
-            0,
-            AutoConstants.kThetaControllerConstraints
-        );
-    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+    // var thetaController = new ProfiledPIDController(
+    //         AutoConstants.kPThetaController,
+    //         0,
+    //         0,
+    //         AutoConstants.kThetaControllerConstraints
+    //     );
+    // thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-    ParallelRaceGroup swerveControllerCommand = new SwerveControllerCommand(
-            exampleTrajectory,
-            m_robotDrive::getPose, // Functional interface to feed supplier
-            DriveConstants.kDriveKinematics,
+    // ParallelRaceGroup swerveControllerCommand = new SwerveControllerCommand(
+    //         exampleTrajectory,
+    //         m_robotDrive::getPose, // Functional interface to feed supplier
+    //         DriveConstants.kDriveKinematics,
 
-            // Position controllers
-            new PIDController(AutoConstants.kPXController, 0, 0),
-            new PIDController(AutoConstants.kPYController, 0, 0),
-            thetaController,
-            m_robotDrive::setModuleStates,
-            m_robotDrive
-        ).repeatedly().until(() -> false);
+    //         // Position controllers
+    //         new PIDController(AutoConstants.kPXController, 0, 0),
+    //         new PIDController(AutoConstants.kPYController, 0, 0),
+    //         thetaController,
+    //         m_robotDrive::setModuleStates,
+    //         m_robotDrive
+    //     ).repeatedly().until(() -> false);
 
-    m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+    // m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
 
-    // Reset odometry to the initial pose of the trajectory, run path following
-    // command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
+    // // Reset odometry to the initial pose of the trajectory, run path following
+    // // command, then stop at the end.
+    // return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
   }
 
 
