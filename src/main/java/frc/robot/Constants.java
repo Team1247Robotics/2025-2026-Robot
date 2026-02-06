@@ -64,8 +64,8 @@ public final class Constants {
 
     public static final boolean kGyroReversed = false;
 
-    public static final double kMaxSpeedMetersPerSecond = 0.5;
-    public static final double kMaxAngularSpeed = 1;
+    public static final double kMaxSpeedMetersPerSecond = 0.5; // 4.8;
+    public static final double kMaxAngularSpeed = 1; // 2 * Math.PI; // radians per second
   }
 
   public static final class ModuleConstants {
@@ -74,7 +74,7 @@ public final class Constants {
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
 
     public static final int kDrivingMotorPinionTeeth = 14;
-    public static final double kDrivingMotorReduction = (45.0 * 16.0 * 50.0) / (kDrivingMotorPinionTeeth * 15.0 * 28.0);
+    public static final double kDrivingMotorReduction = (45.0 * 16.0 * 50.0) / (kDrivingMotorPinionTeeth * 15.0 * 28.0); // L3, see https://www.swervedrivespecialties.com/products/mk4-swerve-module
     public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters) / kDrivingMotorReduction;
   }
 
@@ -84,8 +84,8 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 0.1;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 0.1;
+    public static final double kMaxSpeedMetersPerSecond = 0.1; // 3;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 0.1;  // 3;
     public static final double kMaxAngularAccelerationRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
