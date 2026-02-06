@@ -1,0 +1,61 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueTrenchNtoShootN"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueShootNToDepot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ActivateIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueDepotPassThru"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DeactivateIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueDepottoShootN"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

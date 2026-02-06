@@ -1,0 +1,134 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.62953488372093,
+        "y": 7.304418604651163
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.62953488372093,
+        "y": 7.304418604651163
+      },
+      "isLocked": false,
+      "linkedName": "Blue_Trench_North_Start"
+    },
+    {
+      "anchor": {
+        "x": 2.6712946428571427,
+        "y": 5.126102290376375
+      },
+      "prevControl": {
+        "x": 2.9212918525262155,
+        "y": 5.12492112244696
+      },
+      "nextControl": {
+        "x": 2.42129743318807,
+        "y": 5.12728345830579
+      },
+      "isLocked": false,
+      "linkedName": "Blue_Shoot_North"
+    },
+    {
+      "anchor": {
+        "x": 0.4396428571369335,
+        "y": 7.075788690481532
+      },
+      "prevControl": {
+        "x": 0.8069298518766899,
+        "y": 7.073108415746274
+      },
+      "nextControl": {
+        "x": 0.07235586239717717,
+        "y": 7.078468965216789
+      },
+      "isLocked": false,
+      "linkedName": "Blue_Depot_Enter"
+    },
+    {
+      "anchor": {
+        "x": 0.5008321568100444,
+        "y": 5.126102290376375
+      },
+      "prevControl": {
+        "x": 0.20991947033805458,
+        "y": 5.107832255227673
+      },
+      "nextControl": {
+        "x": 0.7917448432820343,
+        "y": 5.144372325525077
+      },
+      "isLocked": false,
+      "linkedName": "Blue_Depot_Exit"
+    },
+    {
+      "anchor": {
+        "x": 3.62953488372093,
+        "y": 7.304418604651163
+      },
+      "prevControl": {
+        "x": 2.7720716859585135,
+        "y": 7.245418437228266
+      },
+      "nextControl": {
+        "x": 4.486998081483346,
+        "y": 7.36341877207406
+      },
+      "isLocked": false,
+      "linkedName": "Blue_Trench_North_Start"
+    },
+    {
+      "anchor": {
+        "x": 1.6402976190476188,
+        "y": 3.3955208333333338
+      },
+      "prevControl": {
+        "x": 1.9630418630881312,
+        "y": 3.411278110917731
+      },
+      "nextControl": {
+        "x": 1.317553375007107,
+        "y": 3.3797635557489367
+      },
+      "isLocked": false,
+      "linkedName": "Blue_ClimbS"
+    },
+    {
+      "anchor": {
+        "x": 3.5978869047619044,
+        "y": 7.32375
+      },
+      "prevControl": {
+        "x": 3.3478869047619035,
+        "y": 7.3122696047895905
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Blue_Trench_North"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}
