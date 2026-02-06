@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6712946428571427,
-        "y": 5.126102290376375
+        "x": 3.5978869047619044,
+        "y": 7.32375
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2145238095178863,
-        "y": 6.684270833338675
+        "x": 2.5538392857142855,
+        "y": 6.958333333333334
       },
       "isLocked": false,
-      "linkedName": "Blue_Shoot_North"
+      "linkedName": "Blue_Trench_North"
     },
     {
       "anchor": {
-        "x": 0.4396428571369335,
-        "y": 7.075788690481532
+        "x": 2.6712946428571427,
+        "y": 5.126102290376375
       },
       "prevControl": {
-        "x": 2.201473214279791,
-        "y": 7.467306547624389
+        "x": 2.984508928571428,
+        "y": 5.9664880952380965
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Blue_Depot_Enter"
+      "linkedName": "Blue_Shoot_North"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -89.99999999982008
+    "rotation": -39.378750093730126
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -23.24716143413247
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

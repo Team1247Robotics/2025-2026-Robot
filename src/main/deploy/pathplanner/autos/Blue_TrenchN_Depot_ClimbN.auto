@@ -7,7 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueTrenchNtoShootN"
+            "pathName": "Blue_TrenchN_To_ShootN"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RampUpShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AcquireTarget"
           }
         },
         {
@@ -19,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueShootNToDepot"
+            "pathName": "Blue_ShootN_To_Depot"
           }
         },
         {
@@ -31,7 +43,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueDepotPassThru"
+            "pathName": "Blue_Depot_PassThru"
           }
         },
         {
@@ -43,13 +55,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueDepottoShootN"
+            "pathName": "Blue_Depot_To_ShootN"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RampUpShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AcquireTarget"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue_ShootN_To_ClimbN"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Climb"
           }
         }
       ]

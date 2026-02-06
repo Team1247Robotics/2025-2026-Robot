@@ -20,11 +20,11 @@
         "y": 5.126102290376375
       },
       "prevControl": {
-        "x": 2.9212918525262155,
+        "x": 2.921291852526216,
         "y": 5.12492112244696
       },
       "nextControl": {
-        "x": 2.42129743318807,
+        "x": 2.4212974331880694,
         "y": 5.12728345830579
       },
       "isLocked": false,
@@ -92,7 +92,7 @@
         "y": 3.3797635557489367
       },
       "isLocked": false,
-      "linkedName": "Blue_ClimbS"
+      "linkedName": "Blue_Climb_South"
     },
     {
       "anchor": {
@@ -125,7 +125,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Reference",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
