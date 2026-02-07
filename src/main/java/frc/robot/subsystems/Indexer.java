@@ -1,12 +1,15 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Configs.IndexerMotor;
 import frc.robot.Constants.IndexerConstants;
 
 public class Indexer extends SubsystemBase {
@@ -17,6 +20,7 @@ public class Indexer extends SubsystemBase {
   public Indexer() {
     m_encoder = m_motor.getEncoder();
     m_clController = m_motor.getClosedLoopController();
+    m_motor.configure(IndexerMotor.config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public double getPosition() {

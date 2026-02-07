@@ -55,7 +55,7 @@ public final class Configs {
     }
   }
 
-  public static final class Indexer {
+  public static final class IndexerMotor {
     public static final SparkMaxConfig config = new SparkMaxConfig();
 
     static {
