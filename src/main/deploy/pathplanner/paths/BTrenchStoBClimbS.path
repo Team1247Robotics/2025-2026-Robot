@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 3.8235340076017477,
-        "y": 0.825630733223081
+        "y": 0.8256307332230811
       },
       "isLocked": false,
       "linkedName": "Blue_Trench_South"
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 1.0,
+    "maxAcceleration": 1.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

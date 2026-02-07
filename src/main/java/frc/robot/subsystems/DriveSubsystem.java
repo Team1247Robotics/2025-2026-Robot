@@ -81,7 +81,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public ChassisSpeeds getChassisSpeeds() {
-    return DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
+    return ChassisSpeeds.fromFieldRelativeSpeeds(DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()), m_gyro.getRotation2d());
     
   }
 
@@ -186,7 +186,7 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @param pose The pose to which to set the odometry.
    */
-  public void resetOdometry(Pose2d pose) {
+  public void resetPose(Pose2d pose) {
     m_odometry.resetPosition(
         m_gyro.getRotation2d(),
         new SwerveModulePosition[] {
@@ -276,6 +276,18 @@ public class DriveSubsystem extends SubsystemBase {
         )
       );
     
+    setModuleStates(swerveModuleStates);
+  }
+
+  public void drive(ChassisSpeeds speeds) {
+    var swerveModuleStates = DriveConstants
+      .kDriveKinematics
+      .toSwerveModuleStates(
+        ChassisSpeeds.discretize(
+          speeds,
+          DriveConstants.kDrivePeriod
+        )
+      );
     setModuleStates(swerveModuleStates);
   }
 

@@ -22,7 +22,7 @@ public class ResetHeading {
       m_drivetrain.adjustGyro(angle);
       Pose2d current_pose = m_drivetrain.getPose();
       Pose2d pose = new Pose2d(current_pose.getX(), current_pose.getY(), new Rotation2d(angle));
-      m_drivetrain.resetOdometry(pose);
+      m_drivetrain.resetPose(pose);
     }
   }
 

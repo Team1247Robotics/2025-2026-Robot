@@ -100,8 +100,8 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 0.1; // 3;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 0.1;  // 3;
+    public static final double kMaxSpeedMetersPerSecond = 3; // 3;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 3;  // 3;
     public static final double kMaxAngularAccelerationRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
@@ -138,26 +138,26 @@ public final class Constants {
       )
     );
 
-    public static final Transform3d kRobotToCam1 = new Transform3d(
-      new Translation3d(
-        0.5,
-        0.0,
-        0.5
-      ),
-      new Rotation3d(
-        0,
-        0,
-        0
-      )
-    );
+    // public static final Transform3d kRobotToCam1 = new Transform3d(
+    //   new Translation3d(
+    //     0.5,
+    //     0.0,
+    //     0.5
+    //   ),
+    //   new Rotation3d(
+    //     0,
+    //     0,
+    //     0
+    //   )
+    // );
 
     public static final Transform3d[] kRobotToCams = {
       kRobotToCam0,
-      kRobotToCam1,
+      // kRobotToCam1,
     };
 
     public static final String kCamera0Name = "idk";
-    public static final String kCamera1Name = "rio pov";
+    // public static final String kCamera1Name = "rio pov";
 
     public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
     public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
