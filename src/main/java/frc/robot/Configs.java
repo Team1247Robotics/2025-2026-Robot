@@ -1,4 +1,5 @@
 package frc.robot;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -72,9 +73,10 @@ public final class Configs {
 
       config.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .pid(0.12, 0.0, 0)
+        .pid(0.12, 0.0, 0, ClosedLoopSlot.kSlot0) // Position
+        .pid(0.12, 0.0, 0, ClosedLoopSlot.kSlot1) // Velocity
         .outputRange(-1, 1)
-        .feedForward.kV(feedForward);
+        .feedForward.kV(feedForward, ClosedLoopSlot.kSlot1);
     }
   }
 }

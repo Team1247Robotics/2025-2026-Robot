@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -32,10 +33,10 @@ public class Indexer extends SubsystemBase {
   }
 
   public void setPosition(double target) {
-    m_clController.setSetpoint(target, ControlType.kPosition);
+    m_clController.setSetpoint(target, ControlType.kPosition, ClosedLoopSlot.kSlot0);
   }
 
   public void setVelocity(double target) {
-    m_clController.setSetpoint(target, ControlType.kVelocity);
+    m_clController.setSetpoint(target, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
   }
 }
