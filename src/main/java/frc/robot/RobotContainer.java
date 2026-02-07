@@ -5,16 +5,17 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ResetHeading;
 import frc.robot.commands.drivetrain.FacePointTest;
+import frc.robot.commands.hub.AlwaysFaceHub;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.sensors.PhotonVision;
+import frc.robot.subsystems.AutoBuilderSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LedStrip;
 import frc.robot.subsystems.LonelyTalonFx;
@@ -39,9 +40,8 @@ public class RobotContainer {
 
   private final LonelyTalonFx m_badAppleMachine = new LonelyTalonFx();
 
-  @SuppressWarnings("unused") // automatically creates its own default command. as long as it is constructed, it will work.
-  private final PhotonVision.PhotonVisionEstimationSubsystem m_poseEstimators = new PhotonVision.PhotonVisionEstimationSubsystem(m_robotDrive::updatePoseWithPhotonVision);
-  
+  private final AutoBuilderSubsystem m_autoBuilderSubsystem = new AutoBuilderSubsystem(m_robotDrive);
+
 //   private final Intake m_intake = new Intake();
 
   // The driver's controller
@@ -51,6 +51,9 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    new PhotonVision.PhotonVisionEstimationSubsystem(m_robotDrive::updatePoseWithPhotonVision);
+
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -74,25 +77,12 @@ public class RobotContainer {
     Trigger dpad_up = new POVButton(m_driverController, 0);
     Trigger dpad_down = new POVButton(m_driverController, 180);
     
-    dpad_up.onTrue(Commands.runOnce(() -> {
-      double angle = m_robotDrive.isBlueAlliance() ? 0 : Math.PI;
-      m_robotDrive.adjustGyro(angle);
-      Pose2d current_pose = m_robotDrive.getPose();
-      Pose2d pose = new Pose2d(current_pose.getX(), current_pose.getY(), new Rotation2d(angle));
-      m_robotDrive.resetOdometry(pose);
-    }, m_robotDrive));
+    dpad_up.onTrue(new ResetHeading.ResetHeadingForward(m_robotDrive));
+    dpad_down.onTrue(new ResetHeading.ResetHeadingBackward(m_robotDrive));
 
-    dpad_down.onTrue(Commands.runOnce(() -> {
-      double angle = m_robotDrive.isBlueAlliance() ? Math.PI : 0;
-      m_robotDrive.adjustGyro(angle);
-      Pose2d current_pose = m_robotDrive.getPose();
-      Pose2d pose = new Pose2d(current_pose.getX(), current_pose.getY(), new Rotation2d(angle));
-      m_robotDrive.resetOdometry(pose);
-    }, m_robotDrive));
+    // Trigger a_push = new Trigger(() -> m_driverController.getAButton());
 
-    Trigger a_push = new Trigger(() -> m_driverController.getAButton());
-
-    a_push.whileTrue(new FacePointTest(m_robotDrive, m_driverController));
+    // a_push.whileTrue(new FacePointTest(m_robotDrive, m_driverController));
   }
 
   /**
@@ -118,7 +108,14 @@ public class RobotContainer {
         )
       );
 
-    new JoystickButton(m_driverController, XboxController.Button.kA.value).whileTrue(new LedStripSetGreen(m_ledStrip));
+    // new JoystickButton(m_driverController, XboxController.Button.kA.value).whileTrue(new LedStripSetGreen(m_ledStrip));
+
+    new JoystickButton(m_driverController, XboxController.Button.kB.value).whileTrue(new AlwaysFaceHub(
+      m_robotDrive,
+      () -> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
+      () -> MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
+      true
+      ));
 
     new JoystickButton(m_driverController, XboxController.Button.kY.value).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
     new JoystickButton(m_driverController, XboxController.Button.kX.value).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
@@ -130,51 +127,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return m_robotDrive.getAutonomousCommand();
-
-    // Create config for trajectory
-    // TrajectoryConfig config = new TrajectoryConfig(
-    //             AutoConstants.kMaxSpeedMetersPerSecond,
-    //             AutoConstants.kMaxAccelerationMetersPerSecondSquared
-    //         )
-    //         // Add kinematics to ensure max speed is actually obeyed
-    //         .setKinematics(DriveConstants.kDriveKinematics);
-
-    
-    // // An example trajectory to follow. All units in meters.
-    // Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-    //         Pose2d.kZero,
-    //         new ArrayList<Translation2d>(),
-    //         new Pose2d(1, 0, Rotation2d.kZero),
-    //         config
-    //     );
-
-    // var thetaController = new ProfiledPIDController(
-    //         AutoConstants.kPThetaController,
-    //         0,
-    //         0,
-    //         AutoConstants.kThetaControllerConstraints
-    //     );
-    // thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-    // ParallelRaceGroup swerveControllerCommand = new SwerveControllerCommand(
-    //         exampleTrajectory,
-    //         m_robotDrive::getPose, // Functional interface to feed supplier
-    //         DriveConstants.kDriveKinematics,
-
-    //         // Position controllers
-    //         new PIDController(AutoConstants.kPXController, 0, 0),
-    //         new PIDController(AutoConstants.kPYController, 0, 0),
-    //         thetaController,
-    //         m_robotDrive::setModuleStates,
-    //         m_robotDrive
-    //     ).repeatedly().until(() -> false);
-
-    // m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
-
-    // // Reset odometry to the initial pose of the trajectory, run path following
-    // // command, then stop at the end.
-    // return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
+    return m_autoBuilderSubsystem.getAutonomousCommand();
   }
 
 

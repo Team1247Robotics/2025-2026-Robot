@@ -4,13 +4,8 @@
 
 package frc.robot.subsystems;
 
-import java.util.Optional;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.config.PIDConstants;
-import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -21,13 +16,11 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.sensors.LimelightHelpers;
-import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.utils.GetAlliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -82,44 +75,9 @@ public class DriveSubsystem extends SubsystemBase {
           Pose2d.kZero
           );
 
-  private final SendableChooser<Command> autoChooser; // doing this in DriveSubsystem because it seems like a core component of the drivetrain to follow preprogrammed paths.
-
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    autoChooser = AutoBuilder.buildAutoChooser();
 
-    RobotConfig config = null;
-    try {
-      config = RobotConfig.fromGUISettings();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    if (config != null) {
-      SmartDashboard.putData("Auto Chooser", autoChooser);
-      AutoBuilder.configure(
-        this::getPose,
-        this::resetOdometry,
-        this::getChassisSpeeds,
-        (speeds, feedForwards) -> drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false),
-        new PPHolonomicDriveController(
-          new PIDConstants(0.5, 0, 0),
-          new PIDConstants(0.5, 0, 0)
-        ),
-        config,
-        this::isRedAlliance,
-        this
-        );
-    }
-
-  }
-
-  public SendableChooser<Command> getAutoChooser() {
-    return autoChooser;
-  }
-
-  public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
   }
 
   public ChassisSpeeds getChassisSpeeds() {
@@ -165,13 +123,7 @@ public class DriveSubsystem extends SubsystemBase {
    * Check if the alliance is the blue alliance. Defaults to true if the alliance is undefined (ie. in a simulation).
    */
   public boolean isBlueAlliance() {
-    Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
-
-    if (alliance.isEmpty() || alliance.get().equals(DriverStation.Alliance.Blue)) {
-      return true;
-    } else {
-      return false;
-    }
+    return GetAlliance.isBlueAlliance();
   }
 
   /**
@@ -179,7 +131,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return
    */
   public boolean isRedAlliance() {
-    return !isBlueAlliance();
+    return GetAlliance.isRedAlliance();
   }
 
   /**
