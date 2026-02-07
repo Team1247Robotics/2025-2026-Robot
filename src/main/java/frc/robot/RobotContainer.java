@@ -5,12 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ResetHeading;
 import frc.robot.commands.drivetrain.FacePointTest;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
@@ -49,7 +48,8 @@ public class RobotContainer {
    */
   public RobotContainer() {
     new PhotonVision.PhotonVisionEstimationSubsystem(m_robotDrive::updatePoseWithPhotonVision);
-    
+
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -73,21 +73,8 @@ public class RobotContainer {
     Trigger dpad_up = new POVButton(m_driverController, 0);
     Trigger dpad_down = new POVButton(m_driverController, 180);
     
-    dpad_up.onTrue(Commands.runOnce(() -> {
-      double angle = m_robotDrive.isBlueAlliance() ? 0 : Math.PI;
-      m_robotDrive.adjustGyro(angle);
-      Pose2d current_pose = m_robotDrive.getPose();
-      Pose2d pose = new Pose2d(current_pose.getX(), current_pose.getY(), new Rotation2d(angle));
-      m_robotDrive.resetOdometry(pose);
-    }, m_robotDrive));
-
-    dpad_down.onTrue(Commands.runOnce(() -> {
-      double angle = m_robotDrive.isBlueAlliance() ? Math.PI : 0;
-      m_robotDrive.adjustGyro(angle);
-      Pose2d current_pose = m_robotDrive.getPose();
-      Pose2d pose = new Pose2d(current_pose.getX(), current_pose.getY(), new Rotation2d(angle));
-      m_robotDrive.resetOdometry(pose);
-    }, m_robotDrive));
+    dpad_up.onTrue(new ResetHeading.ResetHeadingForward(m_robotDrive));
+    dpad_down.onTrue(new ResetHeading.ResetHeadingBackward(m_robotDrive));
 
     Trigger a_push = new Trigger(() -> m_driverController.getAButton());
 
