@@ -1,0 +1,97 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue_TrenchN_To_ShootN"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RampUpShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AcquireTarget"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue_ShootN_To_Depot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ActivateIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue_Depot_PassThru"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DeactivateIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue_Depot_To_ShootN"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RampUpShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AcquireTarget"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue_ShootN_To_ClimbN"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Climb"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

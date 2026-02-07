@@ -18,12 +18,12 @@ public class LedStrip extends SubsystemBase {
     public static final int LED_PORT = 0;
     /** The number of LEDs in the strip */
     public static final int LED_COUNT = 30;
-    /** The density of LEDs per metre */
+    /** The density of LEDs per meter */
     public static final double LED_DENSITY_LEDS_PER_METER = 60.0;
 
     /** The AddressableLED object for controlling the LED strip */
     private final AddressableLED m_led;
-    /** The buffer to hold the LED dsta */
+    /** The buffer to hold the LED data */
     private final AddressableLEDBuffer m_buffer;
     /** The rainbow LED pattern */
     private final LEDPattern m_rainbowPattern;
@@ -52,7 +52,7 @@ public class LedStrip extends SubsystemBase {
     /**
      * Sets the whole strip to one color
      * 
-     * @param color the color to set it to
+     * @param color the color to set the strip to 
      */
     public void setSolidColor(Color color) {
         LEDPattern.solid(color).applyTo(m_buffer);
