@@ -1,0 +1,15 @@
+package frc.robot.commands.indexer;
+
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.IndexerConstants;
+import frc.robot.subsystems.Indexer;
+
+public class StepAndPauseIndexer extends SequentialCommandGroup {
+  public StepAndPauseIndexer(Indexer indexer) {
+    addCommands(
+      new StepIndexer(indexer),
+      Commands.waitSeconds(IndexerConstants.Control.stepWaitTime)
+    );
+  }
+}

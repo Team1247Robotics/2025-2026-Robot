@@ -73,6 +73,10 @@ public final class Constants {
 
     public static final class Control {
       public static final double allowableError = Math.PI / 8; // Can be off Math.PI / 8 of target to be considered "at target";
+
+      public static final double indexerStdStepSize = Math.PI / 2;
+
+      public static final double stepWaitTime = 0.25; // seconds
     }
   }
 
