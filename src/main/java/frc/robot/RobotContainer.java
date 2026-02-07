@@ -11,6 +11,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ResetHeading;
 import frc.robot.commands.drivetrain.FacePointTest;
+import frc.robot.commands.hub.AlwaysFaceHub;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.sensors.PhotonVision;
@@ -108,6 +109,13 @@ public class RobotContainer {
       );
 
     new JoystickButton(m_driverController, XboxController.Button.kA.value).whileTrue(new LedStripSetGreen(m_ledStrip));
+
+    new JoystickButton(m_driverController, XboxController.Button.kB.value).whileTrue(new AlwaysFaceHub(
+      m_robotDrive,
+      () -> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
+      () -> MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
+      true
+      ));
 
     new JoystickButton(m_driverController, XboxController.Button.kY.value).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
     new JoystickButton(m_driverController, XboxController.Button.kX.value).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
