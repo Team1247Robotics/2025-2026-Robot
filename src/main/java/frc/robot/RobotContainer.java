@@ -14,6 +14,7 @@ import frc.robot.commands.drivetrain.FacePointTest;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.sensors.PhotonVision;
+import frc.robot.subsystems.AutoBuilderSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LedStrip;
 import frc.robot.subsystems.LonelyTalonFx;
@@ -37,6 +38,8 @@ public class RobotContainer {
   private final LedStrip m_ledStrip = new LedStrip();
 
   private final LonelyTalonFx m_badAppleMachine = new LonelyTalonFx();
+
+  private final AutoBuilderSubsystem m_autoBuilderSubsystem = new AutoBuilderSubsystem(m_robotDrive);
 
 //   private final Intake m_intake = new Intake();
 
@@ -116,7 +119,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return m_robotDrive.getAutonomousCommand();
+    return m_autoBuilderSubsystem.getAutonomousCommand();
   }
 
 
