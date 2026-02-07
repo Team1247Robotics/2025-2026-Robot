@@ -80,9 +80,9 @@ public class RobotContainer {
     dpad_up.onTrue(new ResetHeading.ResetHeadingForward(m_robotDrive));
     dpad_down.onTrue(new ResetHeading.ResetHeadingBackward(m_robotDrive));
 
-    Trigger a_push = new Trigger(() -> m_driverController.getAButton());
+    // Trigger a_push = new Trigger(() -> m_driverController.getAButton());
 
-    a_push.whileTrue(new FacePointTest(m_robotDrive, m_driverController));
+    // a_push.whileTrue(new FacePointTest(m_robotDrive, m_driverController));
   }
 
   /**
@@ -108,7 +108,7 @@ public class RobotContainer {
         )
       );
 
-    new JoystickButton(m_driverController, XboxController.Button.kA.value).whileTrue(new LedStripSetGreen(m_ledStrip));
+    // new JoystickButton(m_driverController, XboxController.Button.kA.value).whileTrue(new LedStripSetGreen(m_ledStrip));
 
     new JoystickButton(m_driverController, XboxController.Button.kB.value).whileTrue(new AlwaysFaceHub(
       m_robotDrive,

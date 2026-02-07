@@ -68,6 +68,10 @@ public final class Constants {
     public static final double kMaxAngularSpeed = 1; // 2 * Math.PI; // radians per second
   }
 
+  public static final class IndexerConstants {
+    public static final int kMotorCanId = 11;
+  }
+
   public static final class ModuleConstants {
     public static final double kDrivingMotorFreeSpeedRps = NeoMotorContants.kVortexFreeSpeedRpm / 60;
     public static final double kWheelDiameterMeters = 0.0762;
@@ -100,7 +104,7 @@ public final class Constants {
   }
 
   public static final class NeoMotorContants {
-    public static final double kFreeSpeedRpm = 5676;
+    public static final double kNeoFreeSpeedRpm = 5676;
     public static final double kVortexFreeSpeedRpm = 6784;
   }
 
@@ -140,7 +144,7 @@ public final class Constants {
       kRobotToCam1,
     };
 
-    public static final String kCamera0Name = "front camera";
+    public static final String kCamera0Name = "idk";
     public static final String kCamera1Name = "rio pov";
 
     public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);

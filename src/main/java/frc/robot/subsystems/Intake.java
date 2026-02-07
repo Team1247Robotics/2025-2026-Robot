@@ -23,7 +23,7 @@ public class Intake extends SubsystemBase {
     private static final double INTAKE_PID_D = 0.0;
 
     private static final double NOMINAL_VOLTAGE = 12.0; // volts
-    private static final double INTAKE_FEED_FORWARD_KV = NOMINAL_VOLTAGE / NeoMotorContants.kFreeSpeedRpm; // volts per RPM
+    private static final double INTAKE_FEED_FORWARD_KV = NOMINAL_VOLTAGE / NeoMotorContants.kNeoFreeSpeedRpm; // volts per RPM
 
     private final SparkMax intakeMotor;
     private final SparkClosedLoopController closedLoopController;

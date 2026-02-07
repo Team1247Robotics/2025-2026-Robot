@@ -23,7 +23,7 @@ public class HubPositions {
   }
 
   private static Pose2d getTag(int id) {
-    Optional<Pose3d> tag = PhotonVisionConstants.kApriltagFieldLayout.getTagPose(7);
+    Optional<Pose3d> tag = PhotonVisionConstants.kApriltagFieldLayout.getTagPose(id);
     if (tag.isEmpty()) {
       throw new Error("Tag not found"); // if this happens on the field we deserved that crash
     }

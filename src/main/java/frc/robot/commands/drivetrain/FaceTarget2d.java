@@ -6,6 +6,8 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.utils.Targeting;
 
@@ -78,6 +80,8 @@ public class FaceTarget2d extends FaceHeading {
         m_targetSupplier = newTargetSupplier;
     }
 
+    private Field2d m_targetOnField = new Field2d();
+
     /**
      * Point to target with X and Y velocities.
      * @param inputX - Target X velocity.
@@ -85,7 +89,10 @@ public class FaceTarget2d extends FaceHeading {
      * @param target - Target pose to face in field space.
      */
     protected void pointToTarget(double inputX, double inputY, Pose2d target) {
+        m_targetOnField.setRobotPose(target);
+        SmartDashboard.putData("Target", m_targetOnField);
         Rotation2d angle = Targeting.convertFieldRelativeToRobotRelativeTranslation(m_drivetrain.getPose(), target, Translation2d.kZero).getAngle();
+
 
         pointToSetpoint(inputX, inputY, angle);
     }
@@ -95,6 +102,8 @@ public class FaceTarget2d extends FaceHeading {
      * @param target - Target pose to face in field space.
      */
     protected void pointToTarget(Pose2d target) {
+        m_targetOnField.setRobotPose(target);
+        SmartDashboard.putData("Target", m_targetOnField);
         Rotation2d angle = Targeting.convertFieldRelativeToRobotRelativeTranslation(m_drivetrain.getPose(), target, Translation2d.kZero).getAngle();
 
         pointToSetpoint(angle);

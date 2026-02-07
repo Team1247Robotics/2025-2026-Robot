@@ -15,17 +15,15 @@ public class AutoBuilderSubsystem extends SubsystemBase {
   private final SendableChooser<Command> autoChooser;
 
   public AutoBuilderSubsystem(DriveSubsystem drivetrain) {
-    autoChooser = AutoBuilder.buildAutoChooser();
-
+    
     RobotConfig config = null;
     try {
       config = RobotConfig.fromGUISettings();
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-    if (config != null) {
-      SmartDashboard.putData("Auto Chooser", autoChooser);
+    
+    // if (config != null) {
       AutoBuilder.configure(
         drivetrain::getPose,
         drivetrain::resetOdometry,
@@ -34,12 +32,14 @@ public class AutoBuilderSubsystem extends SubsystemBase {
         new PPHolonomicDriveController(
           new PIDConstants(0.5, 0, 0),
           new PIDConstants(0.5, 0, 0)
-        ),
-        config,
-        GetAlliance::isRedAlliance,
-        this
-        );
-    }
+          ),
+          config,
+          GetAlliance::isRedAlliance,
+          this
+          );
+      autoChooser = AutoBuilder.buildAutoChooser();
+      SmartDashboard.putData("Auto Chooser", autoChooser);
+    // }
   }
 
   public SendableChooser<Command> getAutoChooser() {
