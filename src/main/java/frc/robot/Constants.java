@@ -105,7 +105,7 @@ public final class Constants {
   }
 
   public static final class PhotonVisionConstants {
-    public static final AprilTagFieldLayout kFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltAndymark);
+    public static final AprilTagFieldLayout kApriltagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltAndymark);
 
     // Refer to https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html
     // and https://docs.photonvision.org/en/latest/docs/apriltag-pipelines/coordinate-systems.html

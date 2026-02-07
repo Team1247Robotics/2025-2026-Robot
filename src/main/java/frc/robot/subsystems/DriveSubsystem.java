@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.Optional;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -21,12 +20,12 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.sensors.LimelightHelpers;
+import frc.robot.utils.GetAlliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -165,13 +164,7 @@ public class DriveSubsystem extends SubsystemBase {
    * Check if the alliance is the blue alliance. Defaults to true if the alliance is undefined (ie. in a simulation).
    */
   public boolean isBlueAlliance() {
-    Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
-
-    if (alliance.isEmpty() || alliance.get().equals(DriverStation.Alliance.Blue)) {
-      return true;
-    } else {
-      return false;
-    }
+    return GetAlliance.isBlueAlliance();
   }
 
   /**
@@ -179,7 +172,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return
    */
   public boolean isRedAlliance() {
-    return !isBlueAlliance();
+    return GetAlliance.isRedAlliance();
   }
 
   /**

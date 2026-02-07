@@ -47,7 +47,7 @@ public class PhotonVision {
 
         public PhotonVisionSingleCameraPoseEstimator(Transform3d robotToCam, PhotonCamera camera, Supplier<VisionSystemSim> visionSimSupplier, EstimateConsumer estimateConsumer) {
             estConsumer = estimateConsumer;
-            m_poseEstimator = new PhotonPoseEstimator(PhotonVisionConstants.kFieldLayout, robotToCam);
+            m_poseEstimator = new PhotonPoseEstimator(PhotonVisionConstants.kApriltagFieldLayout, robotToCam);
             m_camera = camera;
             m_visionSimSupplier = visionSimSupplier;
         }
@@ -123,7 +123,7 @@ public class PhotonVision {
 
             if (Robot.isSimulation()) {
                 m_visionSim = new VisionSystemSim("main");
-                m_visionSim.addAprilTags(PhotonVisionConstants.kFieldLayout);
+                m_visionSim.addAprilTags(PhotonVisionConstants.kApriltagFieldLayout);
 
                 var cameraProp = new SimCameraProperties();
                 cameraProp.setCalibration(960, 720, Rotation2d.fromDegrees(90));
