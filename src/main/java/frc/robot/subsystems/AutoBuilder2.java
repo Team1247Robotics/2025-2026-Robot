@@ -39,8 +39,8 @@ public class AutoBuilder2 {
           drivetrain.drive(speeds.vxMetersPerSecond, -speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false);
         },
         new PPHolonomicDriveController(
-          new PIDConstants(2, 0, 0),
-          new PIDConstants(1, 0, 0)
+          new PIDConstants(2.2, 0, 0),
+          new PIDConstants(2, 0, 0)
         ),
         config,
         GetAlliance::isRedAlliance,

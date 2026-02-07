@@ -4,6 +4,8 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.utils.Controller;
@@ -71,6 +73,7 @@ public class FaceHeading extends Command {
         this.m_target = target;
         this.m_xSupplier = xSupplier;
         this.m_ySupplier = ySupplier;
+        m_pid.enableContinuousInput(0, Math.PI * 2);
     }
 
     /**
@@ -201,8 +204,9 @@ public class FaceHeading extends Command {
         double indirectDistance = Math.abs(indirect - robotHeading);
 
         double targetWraparound = directDistance < indirectDistance ? direct : indirect;
+        SmartDashboard.putString("waa", "direct: " + direct + ", indirect: " + indirect + ", targetWraparound: " + targetWraparound);
 
-        return m_pid.calculate(robotHeading, targetWraparound);
+        return m_pid.calculate(robotHeading, target.getRadians());
     }
 
     /**
