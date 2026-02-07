@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.4396428571428571,
-        "y": 6.919181547619048
+        "x": 2.6712946428571427,
+        "y": 5.126102290376375
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.48831906465627384,
-        "y": 5.734727164792572
+        "x": 4.433124999999962,
+        "y": 4.530922619052148
       },
       "isLocked": false,
-      "linkedName": "Blue_Depot_Enter"
+      "linkedName": "Blue_Shoot_North"
     },
     {
       "anchor": {
-        "x": 0.5008321568100444,
-        "y": 5.126102290376375
+        "x": 0.4787946428580052,
+        "y": 0.6418452380946054
       },
       "prevControl": {
-        "x": 0.48180679785327124,
-        "y": 6.73652951700139
+        "x": 1.3140327380961008,
+        "y": 0.8245535714279391
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Blue_Depot_Exit"
+      "linkedName": "Blue_Outpost"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -88.58849266533377
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -89.99999999982008
+    "rotation": -39.378750093730126
   },
   "useDefaultConstraints": true
 }
