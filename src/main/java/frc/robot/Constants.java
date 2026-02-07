@@ -69,7 +69,15 @@ public final class Constants {
   }
 
   public static final class IndexerConstants {
-    public static final int kMotorCanId = 11;
+    public static final int kMotorCanId = 12;
+
+    public static final class Control {
+      public static final double allowableError = Math.PI / 8; // Can be off Math.PI / 8 of target to be considered "at target";
+    }
+  }
+
+  public static final class ShooterConstants {
+     public static final int kMotorCanId = 11;
   }
 
   public static final class ModuleConstants {
