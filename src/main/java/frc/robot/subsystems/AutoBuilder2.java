@@ -40,7 +40,7 @@ public class AutoBuilder2 {
         },
         new PPHolonomicDriveController(
           new PIDConstants(2.2, 0, 0),
-          new PIDConstants(2, 0, 0)
+          new PIDConstants(1.6, 0, 0)
         ),
         config,
         GetAlliance::isRedAlliance,
