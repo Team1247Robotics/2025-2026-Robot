@@ -22,6 +22,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Configs;
 import frc.robot.Constants.DriveConstants;
 
+/** This class represents a single swerve module with a drive and turning motor. */
 public class SDSSwerveModule {
   private final SparkFlex m_driveMotor;
   private final SparkMax m_turningMotor;

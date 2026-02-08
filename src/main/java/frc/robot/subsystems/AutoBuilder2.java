@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.utils.GetAlliance;
 
+/** This class sets up the AutoBuilder and the auto chooser for selecting autonomous routines. */
 public class AutoBuilder2 {
   private final SendableChooser<Command> autoChooser;
 

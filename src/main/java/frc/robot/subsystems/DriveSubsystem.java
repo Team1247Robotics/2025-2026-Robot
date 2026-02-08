@@ -23,6 +23,7 @@ import frc.robot.sensors.LimelightHelpers;
 import frc.robot.utils.GetAlliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+/** This class represents the robot's drive subsystem. */
 public class DriveSubsystem extends SubsystemBase {
   //#region Construct swerve modules
   private final SDSSwerveModule m_frontLeft = new SDSSwerveModule(
@@ -132,7 +133,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /**
    * Inverted response of {@link #isBlueAlliance()}. Defaults to false if the alliance is undefined.
-   * @return
+   * @return if alliance is red.
    */
   public boolean isRedAlliance() {
     return GetAlliance.isRedAlliance();
