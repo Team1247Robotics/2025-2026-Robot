@@ -82,6 +82,10 @@ public final class Constants {
 
   public static final class ShooterConstants {
      public static final int kMotorCanId = 11;
+
+     public static final class Control {
+      public static final double allowableError = 10; // RPS (maybe)
+     }
   }
 
   public static final class ModuleConstants {
