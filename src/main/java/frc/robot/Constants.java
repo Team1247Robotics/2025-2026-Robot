@@ -88,6 +88,10 @@ public final class Constants {
      }
   }
 
+  public static final class IndexerSensorConstants {
+    public static final int sensorId = 0;
+  }
+
   public static final class ModuleConstants {
     public static final double kDrivingMotorFreeSpeedRps = NeoMotorContants.kVortexFreeSpeedRpm / 60;
     public static final double kWheelDiameterMeters = 0.0762;

@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.motors;
 
 import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.hardware.TalonFX;
