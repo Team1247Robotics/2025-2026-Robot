@@ -125,6 +125,8 @@ public final class Constants {
   }
 
   public static final class PhotonVisionConstants {
+
+    // NE FIRST uses the AndyMark field. See Table 5-1: District Field Types at https://firstfrc.blob.core.windows.net/frc2026/Manual/2026GameManual.pdf
     public static final AprilTagFieldLayout kApriltagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltAndymark);
 
     // Refer to https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html
