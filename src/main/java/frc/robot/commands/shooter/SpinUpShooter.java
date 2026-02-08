@@ -18,8 +18,8 @@ public class SpinUpShooter extends Command {
     m_shooter = shooter;
   }
 
-  private double rpsDifferenceToTarget() {
-    return Math.abs(m_shooter.getVelocity() - m_velocity.getAsDouble());
+  private double rpmDifferenceToTarget() {
+    return Math.abs(m_shooter.getVelocity() - m_velocity.getAsDouble()); // this is actually in RPM, not RPS, because the encoder returns RPM.
   }
 
   @Override
@@ -29,6 +29,7 @@ public class SpinUpShooter extends Command {
 
   @Override
   public boolean isFinished() {
-    return rpsDifferenceToTarget() < m_allowableError;
+    return rpmDifferenceToTarget() < m_allowableError;
   }
 }
+

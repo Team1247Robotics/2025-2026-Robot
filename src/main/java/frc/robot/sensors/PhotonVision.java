@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.Constants.PhotonVisionConstants;
 
+/** PhotonVision subsystem for handling multiple cameras and pose estimation */
 public class PhotonVision {
     private static final PhotonCamera m_camera0 = new PhotonCamera(PhotonVisionConstants.kCamera0Name);
     // private static final PhotonCamera m_camera1 = new PhotonCamera(PhotonVisionConstants.kCamera1Name);
