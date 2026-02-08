@@ -3,11 +3,11 @@ package frc.robot.sensors;
 import com.andymark.jni.AM_CAN_Color_Sensor;
 import com.andymark.jni.AM_CAN_Color_Sensor.AM_ColorSensorData;
 
-import frc.robot.Constants.IndexerSensorConstants;
-
 public class CanColorPromixitySensor {
-  AM_CAN_Color_Sensor m_sensor = new AM_CAN_Color_Sensor(IndexerSensorConstants.sensorId);
-  public CanColorPromixitySensor() {}
+  AM_CAN_Color_Sensor m_sensor;
+  public CanColorPromixitySensor(int sensorId) {
+    m_sensor = new AM_CAN_Color_Sensor(sensorId);
+  }
 
   protected AM_ColorSensorData getData() {
     return m_sensor.getData();
