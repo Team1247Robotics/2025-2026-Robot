@@ -198,15 +198,9 @@ public class FaceHeading extends Command {
         double robotHeading = (m_drivetrain.getPose().getRotation().getRadians() % (Math.PI * 2));
 
         double direct = ((target.plus(m_offset).getRadians()) % (Math.PI * 2));
-        double indirect = direct - Math.PI * 2;
+        SmartDashboard.putNumber("Heading Target Offset", -(direct - robotHeading - m_offset.getRadians()));
 
-        double directDistance = Math.abs(direct - robotHeading);
-        double indirectDistance = Math.abs(indirect - robotHeading);
-
-        double targetWraparound = directDistance < indirectDistance ? direct : indirect;
-        SmartDashboard.putString("waa", "direct: " + direct + ", indirect: " + indirect + ", targetWraparound: " + targetWraparound);
-
-        return m_pid.calculate(robotHeading, target.getRadians());
+        return m_pid.calculate(robotHeading - m_offset.getRadians(), target.getRadians());
     }
 
     /**
