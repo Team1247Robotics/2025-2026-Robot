@@ -32,9 +32,9 @@ public class AutoBuilder2 {
     
     // if (config != null) {
       AutoBuilder.configure(
-        drivetrain::getPose,
-        drivetrain::resetPose,
-        drivetrain::getChassisSpeeds,
+        drivetrain::getPose, // Robot pose supplier
+        drivetrain::resetPose, // Method to reset odometry (will be called if auto has a starting pose)
+        drivetrain::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         (speeds, feedForwards) -> {
           drivetrain.drive(speeds.vxMetersPerSecond, -speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false);
         },
@@ -42,9 +42,9 @@ public class AutoBuilder2 {
           new PIDConstants(2.3, 0, 0),
           new PIDConstants(1.4, 0, 0)
         ),
-        config,
-        GetAlliance::isRedAlliance,
-        drivetrain
+        config, // The robot configuration
+        GetAlliance::isRedAlliance, // Boolean supplier that controls when the path will be mirrored for the red alliance
+        drivetrain // Reference to drivetrain to set requirements
         );
       autoChooser = AutoBuilder.buildAutoChooser();
       SmartDashboard.putData("Auto Chooser", autoChooser);
