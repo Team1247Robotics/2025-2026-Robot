@@ -187,4 +187,4 @@ compile_commands.json
 .factorypath
 
 
-/generate_javadoc.bat
+#/generate_javadoc.bat
