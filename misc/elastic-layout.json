@@ -1,6 +1,6 @@
 {
   "version": 1.0,
-  "grid_size": 120,
+  "grid_size": 30,
   "tabs": [
     {
       "name": "Teleoperated",
@@ -117,6 +117,175 @@
       "grid_layout": {
         "layouts": [],
         "containers": []
+      }
+    },
+    {
+      "name": "Color Proximity Debug",
+      "grid_layout": {
+        "layouts": [],
+        "containers": [
+          {
+            "title": "Color sensor latest",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 270.0,
+            "height": 270.0,
+            "type": "Graph",
+            "properties": {
+              "topic": "/SmartDashboard/Color sensor latest",
+              "period": 0.033,
+              "data_type": "double",
+              "time_displayed": 5.0,
+              "color": 4278238420,
+              "line_width": 2.0
+            }
+          },
+          {
+            "title": "Color sensor derivative",
+            "x": 270.0,
+            "y": 0.0,
+            "width": 270.0,
+            "height": 270.0,
+            "type": "Graph",
+            "properties": {
+              "topic": "/SmartDashboard/Color sensor derivative",
+              "period": 0.033,
+              "data_type": "double",
+              "time_displayed": 5.0,
+              "color": 4278238420,
+              "line_width": 2.0
+            }
+          },
+          {
+            "title": "Color sensor double derivative",
+            "x": 540.0,
+            "y": 0.0,
+            "width": 270.0,
+            "height": 270.0,
+            "type": "Graph",
+            "properties": {
+              "topic": "/SmartDashboard/Color sensor double derivative",
+              "period": 0.033,
+              "data_type": "double",
+              "time_displayed": 5.0,
+              "color": 4278238420,
+              "line_width": 2.0
+            }
+          },
+          {
+            "title": "Concave Up",
+            "x": 810.0,
+            "y": 0.0,
+            "width": 150.0,
+            "height": 90.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/SmartDashboard/Concave Up",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Derivative zero",
+            "x": 810.0,
+            "y": 180.0,
+            "width": 150.0,
+            "height": 90.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/SmartDashboard/Derivative zero",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Time",
+            "x": 960.0,
+            "y": 0.0,
+            "width": 150.0,
+            "height": 90.0,
+            "type": "Match Time",
+            "properties": {
+              "topic": "/SmartDashboard/Time",
+              "period": 0.06,
+              "data_type": "double",
+              "time_display_mode": "Minutes and Seconds",
+              "red_start_time": 20,
+              "yellow_start_time": 30
+            }
+          },
+          {
+            "title": "color sensor count",
+            "x": 0.0,
+            "y": 270.0,
+            "width": 180.0,
+            "height": 120.0,
+            "type": "Large Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/color sensor count",
+              "period": 0.06,
+              "data_type": "double"
+            }
+          },
+          {
+            "title": "Concave Down",
+            "x": 810.0,
+            "y": 90.0,
+            "width": 150.0,
+            "height": 90.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/SmartDashboard/Concave Down",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Debounce OK",
+            "x": 960.0,
+            "y": 90.0,
+            "width": 150.0,
+            "height": 90.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/SmartDashboard/Debounce OK",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Last Hit",
+            "x": 960.0,
+            "y": 180.0,
+            "width": 150.0,
+            "height": 90.0,
+            "type": "Match Time",
+            "properties": {
+              "topic": "/SmartDashboard/Last Hit",
+              "period": 0.033,
+              "data_type": "double",
+              "time_display_mode": "Minutes and Seconds",
+              "red_start_time": 20,
+              "yellow_start_time": 30
+            }
+          }
+        ]
       }
     }
   ]
