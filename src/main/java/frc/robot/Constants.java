@@ -91,14 +91,18 @@ public final class Constants {
   public static final class ColorSensorConstants {
     public static final int sensorId = 0;
 
-    public static final float allowableError = 0.4f;
     public static final int localMaximumDetectionWindowSize = 40;
     public static final int historyBufferSize = 128;
   }
 
-  public static final class HistoryConstants {
-    public static final int derivativeWindow = 5;
-    public static final int totalArrayEndShift = (derivativeWindow * 2) - 1;
+  public static final class TrackerConstants {
+    public static final int derivativeWindow = 6;
+    public static final int calculateEndShift(int x) {return (x * 2) - 1;}
+
+    public static final float debounceTime = 0.5f;
+    public static final float allowableError = 0.1f;
+
+    public static final float settleTime = 2f; // Block detections for this amount of time to allow buffers to populate before making decisions
   }
 
   public static final class ModuleConstants {

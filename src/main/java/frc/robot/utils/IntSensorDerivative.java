@@ -3,14 +3,26 @@ package frc.robot.utils;
 import java.util.ArrayList;
 import java.util.function.Supplier;
 
-import frc.robot.Constants.HistoryConstants;
+import frc.robot.Constants.TrackerConstants;
 
 public class IntSensorDerivative extends IntSensorHistory {
-  protected Supplier<float[]> m_sensorSupplier;
+  protected Supplier<double[]> m_sensorSupplier;
+
   private ArrayList<IntSensorDerivative> m_dependants = new ArrayList<IntSensorDerivative>();
-  public IntSensorDerivative(Supplier<float[]> sensorSupplier) { 
-    super(sensorSupplier.get().length - 1 - HistoryConstants.totalArrayEndShift);
+  private final int m_endShift;
+
+  public IntSensorDerivative(Supplier<double[]> sensorSupplier, short endShift) { 
+    super(sensorSupplier.get().length - 1 - endShift);
     m_sensorSupplier = sensorSupplier;
+    m_endShift = endShift;
+  }
+
+  public IntSensorDerivative(Supplier<double[]> sensorSupplier, int window) {
+    this(sensorSupplier, (short) TrackerConstants.calculateEndShift(window));
+  }
+
+  public IntSensorDerivative(Supplier<double[]> sensorSupplier) {
+    this(sensorSupplier, TrackerConstants.calculateEndShift(TrackerConstants.derivativeWindow));
   }
 
   public IntSensorDerivative(IntSensorHistory parent) {
@@ -18,13 +30,20 @@ public class IntSensorDerivative extends IntSensorHistory {
     parent.addDependant(this);
   }
 
+  public IntSensorDerivative(IntSensorHistory parent, int window) {
+    this(parent::getBuffer, window);
+    parent.addDependant(this);
+  }
+
   public int getSyncedFrametime() {
-    return HistoryConstants.derivativeWindow + (m_dependants.size() > 0 ? m_dependants.get(0).getSyncedFrametime() : 0);
+    return ((m_endShift - 1) / 2) + (m_dependants.size() > 0 ? m_dependants.get(0).getSyncedFrametime() : 0);
   }
 
   @Override
   protected void updateLatest() {
-    float[] sensorBuffer = m_sensorSupplier.get();
-    m_buffer[m_buffer.length - 1] = (sensorBuffer[sensorBuffer.length - 1] - sensorBuffer[sensorBuffer.length - HistoryConstants.totalArrayEndShift]) / HistoryConstants.totalArrayEndShift;
+    double[] sensorBuffer = m_sensorSupplier.get();
+    double change = (sensorBuffer[sensorBuffer.length - 1] - sensorBuffer[sensorBuffer.length - 1 - m_endShift]) / (m_endShift - 2);
+    // float filteredChange = (float) m_filter.calculate(change);
+    m_buffer[m_buffer.length - 1] = change;
   }
 }

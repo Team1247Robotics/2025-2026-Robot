@@ -3,18 +3,21 @@ package frc.robot.utils;
 import java.util.ArrayList;
 import java.util.function.IntSupplier;
 
+import edu.wpi.first.math.filter.MedianFilter;
+
 public class IntSensorHistory {
   protected IntSupplier m_sensorSupplier;
-  protected float[] m_buffer; // Floats because trying to save memory
+  protected double[] m_buffer;
+  protected MedianFilter m_filter = new MedianFilter(10);
   private ArrayList<IntSensorHistory> m_dependants = new ArrayList<IntSensorHistory>();
   public IntSensorHistory(IntSupplier sensorSupplier, int bufferSize) {
     m_sensorSupplier = sensorSupplier;
-    m_buffer = new float[bufferSize];
+    m_buffer = new double[bufferSize];
   }
 
   protected IntSensorHistory(int bufferSize) {
     m_sensorSupplier = () -> 0;
-    m_buffer = new float[bufferSize];
+    m_buffer = new double[bufferSize];
   }
 
   public void addDependant(IntSensorHistory dependant) {
@@ -33,10 +36,11 @@ public class IntSensorHistory {
 
   protected void updateLatest() {
     int sensorValue = m_sensorSupplier.getAsInt();
-    m_buffer[m_buffer.length - 1] = sensorValue;
+    double filtered_value = m_filter.calculate(sensorValue);
+    m_buffer[m_buffer.length - 1] = filtered_value;
   }
 
-  public float[] getBuffer() {
+  public double[] getBuffer() {
     return m_buffer;
   }
 
@@ -44,18 +48,18 @@ public class IntSensorHistory {
     return m_buffer.length;
   }
 
-  public float getLastElement() {
+  public double getLastElement() {
     return m_buffer[getLength() - 1];
   }
 
-  public float getLastSyncedElement() {
+  public double getLastSyncedElement() {
     return m_buffer[getLength() - 1 - getSyncedFrametime()];
   }
 
   public double[] asDoubleArray() {
     double[] o = new double[m_buffer.length];
     for (int i = 0; i < m_buffer.length; i++) {
-      o[i] = (float) m_buffer[i];
+      o[i] = m_buffer[i];
     }
     return o;
   }
