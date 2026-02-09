@@ -24,6 +24,7 @@ import frc.robot.subsystems.motors.SDSSwerveModule;
 import frc.robot.utils.GetAlliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+/** This class represents the robot's drive subsystem. */
 public class DriveSubsystem extends SubsystemBase {
   //#region Construct swerve modules
   private final SDSSwerveModule m_frontLeft = new SDSSwerveModule(
@@ -82,6 +83,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public ChassisSpeeds getChassisSpeeds() {
+    // ChassisSpeeds requires robot-relative speeds, so we convert the field-relative speeds from the module states using the current gyro angle.
+    // BUT why are we not getting the robot-relative speeds from the module states in the first place?
+    // getModuleStates() does not seem to be the proper counterpart of setModuleStates() as the order of the modules in the array is different.
+    // TODO: maybe rethink the abstracted relationship between ChassisSpeeds and SwerveModuleStates in this class.
     return ChassisSpeeds.fromFieldRelativeSpeeds(DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()), m_gyro.getRotation2d());
     
   }
@@ -96,10 +101,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Recieve absolute position updates from limelight when it detects and apriltag.
+   * Receive absolute position updates from limelight when it detects and AprilTag.
    * This should only by called by the NetworkTables subscription.
    * 
-   * @param event The event recieved from NetworkTables
+   * @param event The event received from NetworkTables
    */
   // private void updatePose() { 
 
@@ -129,7 +134,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /**
    * Inverted response of {@link #isBlueAlliance()}. Defaults to false if the alliance is undefined.
-   * @return
+   * @return if alliance is red.
    */
   public boolean isRedAlliance() {
     return GetAlliance.isRedAlliance();
@@ -145,7 +150,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Set if the camera shoule be used for pose correction using AprilTags
+   * Set if the camera should be used for pose correction using AprilTags
    * @param value - True for enable correction, false for off.
    * @return New state of odo correction.
    */

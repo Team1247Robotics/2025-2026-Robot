@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "idk"
+            "pathName": "Blue_TrenchN_To_ClimbS"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Climb"
           }
         }
       ]

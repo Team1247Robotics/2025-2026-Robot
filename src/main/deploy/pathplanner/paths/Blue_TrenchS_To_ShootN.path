@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8235340076017477,
-        "y": 0.8256307332230811
+        "x": 3.1652179487179497,
+        "y": 0.6279358974358967
       },
       "isLocked": false,
       "linkedName": "Blue_Trench_South"
     },
     {
       "anchor": {
-        "x": 1.6402976190476188,
-        "y": 3.3955208333333338
+        "x": 2.6303205128205143,
+        "y": 5.0001410256410255
       },
       "prevControl": {
-        "x": 1.8855434556033681,
-        "y": 3.346997852673953
+        "x": 1.6303205128205143,
+        "y": 5.0001410256410255
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Blue_Climb_South"
+      "linkedName": "Blue_Shoot_North"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 179.31793960682737
+    "rotation": -33.58788749245576
   },
   "reversed": false,
   "folder": null,

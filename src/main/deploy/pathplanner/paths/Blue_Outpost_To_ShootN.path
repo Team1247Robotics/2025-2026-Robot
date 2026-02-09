@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.5008321568100444,
-        "y": 5.126102290376375
+        "x": 0.5048958333333333,
+        "y": 0.7462500000000001
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5008321568100444,
-        "y": 5.126102290376375
+        "x": 1.5048958333333333,
+        "y": 0.7462500000000001
       },
       "isLocked": false,
-      "linkedName": "Blue_Depot_Exit"
+      "linkedName": "Blue_Outpost"
     },
     {
       "anchor": {
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -39.378750093730126
+    "rotation": -33.58788749245576
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -88.58849266533377
+    "rotation": -90.00000000008805
   },
   "useDefaultConstraints": true
 }

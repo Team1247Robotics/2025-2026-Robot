@@ -4,15 +4,15 @@
     {
       "anchor": {
         "x": 3.6109375000000004,
-        "y": 5.640223214285714
+        "y": 2.4167261904761905
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3621934721676143,
-        "y": 5.615195057787059
+        "x": 3.0605641025641033,
+        "y": 3.3256794871794875
       },
       "isLocked": false,
-      "linkedName": "Blue_Bump_North"
+      "linkedName": "Blue_Bump_South"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 5.0001410256410255
       },
       "prevControl": {
-        "x": 2.476231324284359,
-        "y": 5.197007787630624
+        "x": 1.6303205128205143,
+        "y": 5.0001410256410255
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -39.378750093730126
+    "rotation": -33.58788749245576
   },
   "reversed": false,
   "folder": null,

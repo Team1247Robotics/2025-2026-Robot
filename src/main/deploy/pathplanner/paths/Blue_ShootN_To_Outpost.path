@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.392150869963334,
-        "y": 4.404961354316798
+        "x": 1.379285714285714,
+        "y": 1.6597916666666679
       },
       "isLocked": false,
       "linkedName": "Blue_Shoot_North"
     },
     {
       "anchor": {
-        "x": 0.4787946428580052,
-        "y": 0.6418452380946054
+        "x": 0.5048958333333333,
+        "y": 0.7462500000000001
       },
       "prevControl": {
-        "x": 1.3140327380961008,
-        "y": 0.8245535714279391
+        "x": 1.0399702380943756,
+        "y": 1.3987797619053948
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -90.00000000008805
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -39.378750093730126
+    "rotation": -33.58788749245576
   },
   "useDefaultConstraints": true
 }
