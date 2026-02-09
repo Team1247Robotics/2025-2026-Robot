@@ -1,11 +1,10 @@
 package frc.robot.subsystems.sensors;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ColorSensorConstants;
 import frc.robot.sensors.CanColorPromixitySensor;
-import frc.robot.utils.IntSensorTracker;
+import frc.robot.utils.statistics.IntSensorTracker;
 
 public class ColorSensor extends SubsystemBase {
   protected CanColorPromixitySensor m_sensor;
@@ -21,7 +20,6 @@ public class ColorSensor extends SubsystemBase {
   public void periodic() {
     m_tracker.update();
     if (m_tracker.atLocalMinimum()) {
-      SmartDashboard.putNumber("Last Hit", Timer.getFPGATimestamp());
       count++;
     }
 

@@ -1,4 +1,4 @@
-package frc.robot.utils;
+package frc.robot.utils.statistics;
 
 import java.util.ArrayList;
 import java.util.function.Supplier;
