@@ -88,8 +88,17 @@ public final class Constants {
      }
   }
 
-  public static final class IndexerSensorConstants {
+  public static final class ColorSensorConstants {
     public static final int sensorId = 0;
+
+    public static final float allowableError = 0.4f;
+    public static final int localMaximumDetectionWindowSize = 40;
+    public static final int historyBufferSize = 128;
+  }
+
+  public static final class HistoryConstants {
+    public static final int derivativeWindow = 5;
+    public static final int totalArrayEndShift = (derivativeWindow * 2) - 1;
   }
 
   public static final class ModuleConstants {
