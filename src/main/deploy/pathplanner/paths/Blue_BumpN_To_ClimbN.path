@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.502435897435899,
-        "y": 6.453666666666667
+        "x": 3.5711591977518657,
+        "y": 6.173946820655841
       },
       "isLocked": false,
       "linkedName": "Blue_Bump_North"
@@ -20,8 +20,8 @@
         "y": 4.204657738095238
       },
       "prevControl": {
-        "x": 2.0605384615384628,
-        "y": 3.8605769230769234
+        "x": 1.8893676806690731,
+        "y": 4.032924532755212
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,14 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "CollectIntake",
+      "waypointRelativePos": 0.4493150684931502,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 1.0,
@@ -48,7 +55,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -179.1449026037333
   },
   "useDefaultConstraints": true
 }
