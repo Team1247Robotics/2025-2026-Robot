@@ -95,7 +95,7 @@ public class IntSensorTracker {
    * @return
    */
   public boolean isConcaveUp() {
-    return m_historyDoubleDerivative.getLastSyncedElement() > -TrackerConstants.allowableError / 2;
+    return m_historyDoubleDerivative.getLastSyncedElement() > 0;
   }
 
   /**
@@ -103,7 +103,7 @@ public class IntSensorTracker {
    * @return
    */
   public boolean isConcaveDown() {
-    return m_historyDoubleDerivative.getLastSyncedElement() < TrackerConstants.allowableError / 2;
+    return m_historyDoubleDerivative.getLastSyncedElement() < 0;
   }
 
   /**

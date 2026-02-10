@@ -22,7 +22,7 @@ public class IntSensorDerivative extends IntSensorHistory {
   }
 
   public IntSensorDerivative(Supplier<double[]> sensorSupplier) {
-    this(sensorSupplier, TrackerConstants.calculateEndShift(TrackerConstants.derivativeWindow));
+    this(sensorSupplier, (short) TrackerConstants.calculateEndShift(TrackerConstants.derivativeWindow));
   }
 
   public IntSensorDerivative(IntSensorHistory parent) {
@@ -40,9 +40,14 @@ public class IntSensorDerivative extends IntSensorHistory {
   }
 
   @Override
+  public int getOwnDesyncTime() {
+      return (m_endShift - 1) / 2;
+  }
+
+  @Override
   protected void updateLatest() {
     double[] sensorBuffer = m_sensorSupplier.get();
-    double change = (sensorBuffer[sensorBuffer.length - 1] - sensorBuffer[sensorBuffer.length - 1 - m_endShift]) / (m_endShift - 2);
+    double change = (sensorBuffer[sensorBuffer.length - 1] - sensorBuffer[sensorBuffer.length - 1 - m_endShift]) / (m_endShift - 4);
     // float filteredChange = (float) m_filter.calculate(change);
     m_buffer[m_buffer.length - 1] = change;
   }

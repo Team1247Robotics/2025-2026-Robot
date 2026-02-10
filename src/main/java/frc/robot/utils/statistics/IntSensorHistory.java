@@ -8,7 +8,7 @@ import edu.wpi.first.math.filter.MedianFilter;
 public class IntSensorHistory {
   protected IntSupplier m_sensorSupplier;
   protected double[] m_buffer;
-  protected MedianFilter m_filter = new MedianFilter(10);
+  protected MedianFilter m_filter = new MedianFilter(15);
   private ArrayList<IntSensorHistory> m_dependants = new ArrayList<IntSensorHistory>();
   public IntSensorHistory(IntSupplier sensorSupplier, int bufferSize) {
     m_sensorSupplier = sensorSupplier;
@@ -40,6 +40,10 @@ public class IntSensorHistory {
     m_buffer[m_buffer.length - 1] = filtered_value;
   }
 
+  public int getOwnDesyncTime() {
+    return 0;
+  }
+
   public double[] getBuffer() {
     return m_buffer;
   }
@@ -53,7 +57,7 @@ public class IntSensorHistory {
   }
 
   public double getLastSyncedElement() {
-    return m_buffer[getLength() - 1 - getSyncedFrametime()];
+    return m_buffer[getLength() - 1 - getSyncedFrametime() + getOwnDesyncTime()];
   }
 
   public double[] asDoubleArray() {

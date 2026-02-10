@@ -96,7 +96,7 @@ public final class Constants {
   }
 
   public static final class TrackerConstants {
-    public static final int derivativeWindow = 6;
+    public static final int derivativeWindow = 20;
     public static final int calculateEndShift(int x) {return (x * 2) - 1;}
 
     public static final float debounceTime = 0.5f;
