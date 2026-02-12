@@ -3,8 +3,6 @@ package frc.robot.utils.statistics;
 import java.util.ArrayList;
 import java.util.function.Supplier;
 
-import edu.wpi.first.math.filter.LinearFilter;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.TrackerConstants;
 
 public class IntSensorDerivative extends IntSensorHistory {
@@ -12,7 +10,6 @@ public class IntSensorDerivative extends IntSensorHistory {
 
   private ArrayList<IntSensorDerivative> m_dependants = new ArrayList<IntSensorDerivative>();
   private final int m_endShift;
-  private LinearFilter dFilter = LinearFilter.backwardFiniteDifference(1, 10, DriveConstants.kDrivePeriod);
 
   public IntSensorDerivative(Supplier<double[]> sensorSupplier, short endShift) { 
     super(sensorSupplier.get().length - 1 - ((endShift - 1) / 2));
@@ -40,11 +37,6 @@ public class IntSensorDerivative extends IntSensorHistory {
 
   public int getSyncedFrametime() {
     return ((m_endShift - 1) / 2) + (m_dependants.size() > 0 ? m_dependants.get(0).getSyncedFrametime() : 0);
-  }
-
-  @Override
-  public int getOwnDesyncTime() {
-      return (m_endShift - 1) / 2;
   }
 
   @Override

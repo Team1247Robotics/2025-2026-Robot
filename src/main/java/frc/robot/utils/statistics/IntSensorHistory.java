@@ -10,6 +10,9 @@ public class IntSensorHistory {
   protected double[] m_buffer;
   protected MedianFilter m_filter = new MedianFilter(15);
   private ArrayList<IntSensorHistory> m_dependants = new ArrayList<IntSensorHistory>();
+  private double max = Double.MIN_VALUE;
+  private double min = Double.MAX_VALUE;
+
   public IntSensorHistory(IntSupplier sensorSupplier, int bufferSize) {
     m_sensorSupplier = sensorSupplier;
     m_buffer = new double[bufferSize];
@@ -26,6 +29,22 @@ public class IntSensorHistory {
 
   public int getSyncedFrametime() {
     return (m_dependants.size() > 0 ? m_dependants.get(0).getSyncedFrametime() : 0);
+  }
+
+  protected void findNewMax() {
+    max = Double.MIN_VALUE;
+    for (int i = 0; i < m_buffer.length; i++) {
+      double value = m_buffer[i];
+      if (value > max) max = value;
+    }
+  }
+
+  protected void findNewMin() {
+    min = Double.MAX_VALUE;
+    for (int i = 0; i < m_buffer.length; i++) {
+      double value = m_buffer[i];
+      if (value < min) min = value;
+    }
   }
 
   protected void shiftBuffer() {

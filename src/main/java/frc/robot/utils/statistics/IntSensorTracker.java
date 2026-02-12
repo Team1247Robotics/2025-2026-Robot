@@ -75,7 +75,7 @@ public class IntSensorTracker {
   public int getLatestValue() {
     int value;
     if (Robot.isSimulation()) {
-      value = (int) (Math.cos(Timer.getFPGATimestamp()) * 10) + (int) Math.round(Math.random()) * 0;
+      value = (int) ((Math.cos(Timer.getFPGATimestamp()) * 20) * (0.9 - Math.round(Math.random()) * 0.2));
     } else {
       value = m_intSupplier.getAsInt();
     }
@@ -133,7 +133,7 @@ public class IntSensorTracker {
    * @return If another hit is allowed
    */
   private boolean shouldPass() {
-    return lastHit < Timer.getFPGATimestamp() - TrackerConstants.debounceTime && isAllowed();
+    return lastHit < Timer.getFPGATimestamp() - TrackerConstants.debounceTimeSeconds && isAllowed();
   }
 
   /**
@@ -141,7 +141,7 @@ public class IntSensorTracker {
    * @return If turbulance has likely settled.
    */
   private boolean isAllowed() {
-    return TrackerConstants.settleTime < Timer.getFPGATimestamp();
+    return TrackerConstants.settleTimeSeconds < Timer.getFPGATimestamp();
   }
 
   /**
