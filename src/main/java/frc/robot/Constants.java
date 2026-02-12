@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Radians;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
@@ -16,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 /**
@@ -102,6 +105,10 @@ public final class Constants {
     public static final float allowableError = 0.1f;
 
     public static final float settleTimeSeconds = 2f; // Block detections on boot for this amount of time to allow buffers to populate before making decisions
+  }
+
+  public static final class GyroConstants {
+    public static final Angle flatThreshold = Radians.of(Math.PI / 8);
   }
 
   public static final class ModuleConstants {
