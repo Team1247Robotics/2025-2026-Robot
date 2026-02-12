@@ -75,7 +75,7 @@ public class IntSensorTracker {
   public int getLatestValue() {
     int value;
     if (Robot.isSimulation()) {
-      value = (int) (Math.cos(Timer.getFPGATimestamp()) * 10) + (int) Math.round(Math.random()) * 1;
+      value = (int) (Math.cos(Timer.getFPGATimestamp()) * 10) + (int) Math.round(Math.random()) * 0;
     } else {
       value = m_intSupplier.getAsInt();
     }
@@ -83,11 +83,13 @@ public class IntSensorTracker {
   }
 
   /**
-   * If the derivative is within the allowable error of zero.
+   * If zero has been crossed at any point between the last and current sample.
    * @return
    */
   public boolean isDerivativeZero() {
-    return Math.abs(m_historyDerivative.getLastSyncedElement()) <= TrackerConstants.allowableError;
+    if (m_historyDerivative.getLastSyncedElement() == 0) return true;
+    double multiplied = m_historyDerivative.getElementOffsetFromSync(0) * m_historyDerivative.getElementOffsetFromSync(2);
+    return multiplied < 0;
   }
 
   /**

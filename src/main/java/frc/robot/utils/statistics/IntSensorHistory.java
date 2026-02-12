@@ -35,7 +35,7 @@ public class IntSensorHistory {
   }
 
   protected void updateLatest() {
-    int sensorValue = m_sensorSupplier.getAsInt();
+    int sensorValue = m_sensorSupplier.getAsInt() * 10;
     double filtered_value = m_filter.calculate(sensorValue);
     m_buffer[m_buffer.length - 1] = filtered_value;
   }
@@ -58,6 +58,15 @@ public class IntSensorHistory {
 
   public double getLastSyncedElement() {
     return m_buffer[getLength() - 1 - getSyncedFrametime() + getOwnDesyncTime()];
+  }
+
+  /**
+   * Starting from the last synced frametime, get the index at that offset. For example, if {@code index} is 0, this function returns the same element as{@link #getLastSyncedElement}, if {@code index} is 1, this function returns the element before {@link #getLastSyncedElement()}.
+   * @param index The index offset
+   * @return The value held at that index
+   */
+  public double getElementOffsetFromSync(int index) {
+    return m_buffer[getLength() - 1 - getSyncedFrametime() - index + getOwnDesyncTime()];
   }
 
   public double[] asDoubleArray() {
