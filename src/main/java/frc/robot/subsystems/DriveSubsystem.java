@@ -30,28 +30,28 @@ public class DriveSubsystem extends SubsystemBase {
   private final SDSSwerveModule m_frontLeft = new SDSSwerveModule(
       DriveConstants.kFrontLeftDriveMotorPort,
       DriveConstants.kFrontLeftTurningMotorPort,
-      DriveConstants.kFrontLeftChassisAngularOffset,
+      DriveConstants.kFrontLeftChassisAngularOffsetMain,
       DriveConstants.kFrontLeftDriveInverted
     );
 
   private final SDSSwerveModule m_rearLeft = new SDSSwerveModule(
       DriveConstants.kBackLeftDriveMotorPort,
       DriveConstants.kBackLeftTurningMotorPort,
-      DriveConstants.kBackLeftChassisAngularOffset,
+      DriveConstants.kBackLeftChassisAngularOffsetMain,
       DriveConstants.kBackLeftDriveInverted
     );
 
   private final SDSSwerveModule m_frontRight = new SDSSwerveModule(
       DriveConstants.kFrontRightDriveMotorPort,
       DriveConstants.kFrontRightTurningMotorPort,
-      DriveConstants.kFrontRightChassisAngularOffset,
+      DriveConstants.kFrontRightChassisAngularOffsetMain,
       DriveConstants.kFrontRightDriveInverted
     );
 
   private final SDSSwerveModule m_rearRight = new SDSSwerveModule(
       DriveConstants.kBackRightDriveMotorPort,
       DriveConstants.kBackRightTurningMotorPort,
-      DriveConstants.kBackRightChassisAngularOffset,
+      DriveConstants.kBackRightChassisAngularOffsetMain,
       DriveConstants.kBackRightDriveInverted
     );
   //#endregion

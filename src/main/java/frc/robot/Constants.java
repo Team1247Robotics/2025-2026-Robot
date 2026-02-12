@@ -41,10 +41,15 @@ public final class Constants {
     public static final int kBackLeftTurningMotorPort = 6;
     public static final int kBackRightTurningMotorPort = 8;
 
-    public static final double kFrontLeftChassisAngularOffset = 0.7006581;
-    public static final double kFrontRightChassisAngularOffset = 0.4643519;
-    public static final double kBackLeftChassisAngularOffset = 0.2181360;
-    public static final double kBackRightChassisAngularOffset = 0.1978697;
+    public static final double kFrontLeftChassisAngularOffsetMain = 0.0;
+    public static final double kFrontRightChassisAngularOffsetMain = 0.0;
+    public static final double kBackLeftChassisAngularOffsetMain = 0.0;
+    public static final double kBackRightChassisAngularOffsetMain = 0.0;
+
+    public static final double kFrontLeftChassisAngularOffsetTesting = 0.7006581;
+    public static final double kFrontRightChassisAngularOffsetTesting = 0.4643519;
+    public static final double kBackLeftChassisAngularOffsetTesting = 0.2181360;
+    public static final double kBackRightChassisAngularOffsetTesting = 0.1978697;
 
     public static final boolean kFrontLeftDriveInverted =  true;
     public static final boolean kFrontRightDriveInverted = true; 
