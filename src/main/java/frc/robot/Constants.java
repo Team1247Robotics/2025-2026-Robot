@@ -28,15 +28,15 @@ import edu.wpi.first.wpilibj.TimedRobot;
  */
 public final class Constants {
   public static final class DriveConstants {
-    public static final int kFrontLeftDriveMotorPort = 1;
+    public static final int kFrontLeftDriveMotorPort = 5;
     public static final int kFrontRightDriveMotorPort = 3;
-    public static final int kBackLeftDriveMotorPort = 5;
-    public static final int kBackRightDriveMotorPort = 7;
+    public static final int kBackLeftDriveMotorPort = 7;
+    public static final int kBackRightDriveMotorPort = 1;
 
-    public static final int kFrontLeftTurningMotorPort = 2;
+    public static final int kFrontLeftTurningMotorPort = 6;
     public static final int kFrontRightTurningMotorPort = 4;
-    public static final int kBackLeftTurningMotorPort = 6;
-    public static final int kBackRightTurningMotorPort = 8;
+    public static final int kBackLeftTurningMotorPort = 8;
+    public static final int kBackRightTurningMotorPort = 2;
 
     public static final double kFrontLeftChassisAngularOffset = 0.7006581;
     public static final double kFrontRightChassisAngularOffset = 0.4643519;
@@ -81,7 +81,7 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-     public static final int kMotorCanId = 11;
+     public static final int kMotorCanId = 9;
 
      public static final class Control {
       public static final double allowableError = 10; // RPM
