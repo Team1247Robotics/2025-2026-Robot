@@ -1,9 +1,8 @@
 package frc.robot.sensors;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ColorSensorConstants;
-import frc.robot.sensors.CanColorPromixitySensor;
+//import frc.robot.sensors.CanColorPromixitySensor;
 import frc.robot.utils.statistics.IntSensorTracker;
 
 public class ColorSensor {
