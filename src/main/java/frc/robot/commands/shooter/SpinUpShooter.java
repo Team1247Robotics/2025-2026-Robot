@@ -4,7 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.motors.Shooter;
+import frc.robot.subsystems.Shooter;
 
 /**
  * Command that spins shooter to set velocity until reaching velocity. Intended to be used in a command sequence to block until the shooter is ready.
