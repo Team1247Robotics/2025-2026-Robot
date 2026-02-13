@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Radians;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
@@ -16,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 /**
@@ -38,10 +41,15 @@ public final class Constants {
     public static final int kBackLeftTurningMotorPort = 8;
     public static final int kBackRightTurningMotorPort = 2;
 
-    public static final double kFrontLeftChassisAngularOffset = 0.7006581;
-    public static final double kFrontRightChassisAngularOffset = 0.4643519;
-    public static final double kBackLeftChassisAngularOffset = 0.2181360;
-    public static final double kBackRightChassisAngularOffset = 0.1978697;
+    public static final double kFrontLeftChassisAngularOffsetMain = 0.0;
+    public static final double kFrontRightChassisAngularOffsetMain = 0.0;
+    public static final double kBackLeftChassisAngularOffsetMain = 0.0;
+    public static final double kBackRightChassisAngularOffsetMain = 0.0;
+
+    public static final double kFrontLeftChassisAngularOffsetTesting = 0.7006581;
+    public static final double kFrontRightChassisAngularOffsetTesting = 0.4643519;
+    public static final double kBackLeftChassisAngularOffsetTesting = 0.2181360;
+    public static final double kBackRightChassisAngularOffsetTesting = 0.1978697;
 
     public static final boolean kFrontLeftDriveInverted =  true;
     public static final boolean kFrontRightDriveInverted = true; 
@@ -102,6 +110,10 @@ public final class Constants {
     public static final float allowableError = 0.1f;
 
     public static final float settleTimeSeconds = 2f; // Block detections on boot for this amount of time to allow buffers to populate before making decisions
+  }
+
+  public static final class GyroConstants {
+    public static final Angle flatThreshold = Radians.of(Math.PI / 8);
   }
 
   public static final class ModuleConstants {

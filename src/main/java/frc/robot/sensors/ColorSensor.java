@@ -1,4 +1,4 @@
-package frc.robot.subsystems.sensors;
+package frc.robot.sensors;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -6,7 +6,7 @@ import frc.robot.Constants.ColorSensorConstants;
 import frc.robot.sensors.CanColorPromixitySensor;
 import frc.robot.utils.statistics.IntSensorTracker;
 
-public class ColorSensor extends SubsystemBase {
+public class ColorSensor {
   protected CanColorPromixitySensor m_sensor;
   protected IntSensorTracker m_tracker;
   private int count = 0;
@@ -16,7 +16,7 @@ public class ColorSensor extends SubsystemBase {
     m_tracker = new IntSensorTracker(m_sensor::getProximity, ColorSensorConstants.historyBufferSize);
   }
 
-  @Override
+  //@Override
   public void periodic() {
     m_tracker.update();
     if (m_tracker.atLocalMinimum()) {
