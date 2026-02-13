@@ -132,4 +132,8 @@ public class RobotContainer {
   }
 
 
+public void periodic() {
+        m_indexerSensor.periodic();
+    }
+
 }
