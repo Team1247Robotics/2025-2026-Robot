@@ -17,19 +17,19 @@ public class PigeonTriggers {
 
   public static Angle calculatePitch(AccelerationData data) {
     double magnitude = Math.sqrt(data.ay * data.ay + data.az * data.az);
-    double pitch = Math.atan2(magnitude, data.ax);
+    double pitch = Math.atan2(data.ax, magnitude);
     return Radians.of(pitch);
   }
 
   public static Angle calculateRoll(AccelerationData data) {
     double magnitude = Math.sqrt(data.ax * data.ax + data.az * data.az);
-    double roll = Math.atan2(magnitude, data.ay);
+    double roll = Math.atan2(data.ay, magnitude);
     return Radians.of(roll);
   }
 
   public static Angle calculateTheta(AccelerationData data) {
     double magnitude = Math.sqrt(data.ax * data.ax + data.ay * data.ay);
-    double theta = Math.atan2(data.az, magnitude);
+    double theta = Math.atan2(magnitude, data.az);
     return Radians.of(theta);
   }
 
