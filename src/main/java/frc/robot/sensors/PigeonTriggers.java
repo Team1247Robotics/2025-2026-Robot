@@ -59,8 +59,6 @@ public class PigeonTriggers {
       Math.abs(angles.getX()) < GyroConstants.flatThreshold.abs(Radians)
       &&
       Math.abs(angles.getY()) < GyroConstants.flatThreshold.abs(Radians)
-      &&
-      Math.abs(angles.getZ()) < GyroConstants.flatThreshold.abs(Radians);
     SmartDashboard.putBoolean("Robot Is Flat", o);
 
     return o;
