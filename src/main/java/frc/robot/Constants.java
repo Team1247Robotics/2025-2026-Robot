@@ -60,15 +60,15 @@ public final class Constants {
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
 
     //#region TODO: get real measurements for this
-    public static final double kTrackWidth = Units.inchesToMeters(22); // Distance between centers of right and left wheels on robot - Was .5
-    public static final double kWheelBase = Units.inchesToMeters(21.875); // Distance between front and back wheels on robot - Was .7
+    public static final double kTrackWidthMeters = Units.inchesToMeters(22); // Distance between centers of right and left wheels on robot - Was .5
+    public static final double kWheelBaseMeters = Units.inchesToMeters(21.875); // Distance between front and back wheels on robot - Was .7
     //#endregion
 
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-        new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-        new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-        new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-        new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)
+        new Translation2d(kWheelBaseMeters / 2, kTrackWidthMeters / 2),
+        new Translation2d(kWheelBaseMeters / 2, -kTrackWidthMeters / 2),
+        new Translation2d(-kWheelBaseMeters / 2, kTrackWidthMeters / 2),
+        new Translation2d(-kWheelBaseMeters / 2, -kTrackWidthMeters / 2)
       );
 
     public static final boolean kGyroReversed = false;
