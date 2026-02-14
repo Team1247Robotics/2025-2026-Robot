@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.TimedRobot;
 
@@ -59,9 +60,8 @@ public final class Constants {
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
 
     //#region TODO: get real measurements for this
-    //Mesurements bellow in inches
-    public static final double kTrackWidth = 22; // Distance between centers of right and left wheels on robot - Was .5
-    public static final double kWheelBase = 21.875; // Distance between front and back wheels on robot - Was .7
+    public static final double kTrackWidth = Units.inchesToMeters(22); // Distance between centers of right and left wheels on robot - Was .5
+    public static final double kWheelBase = Units.inchesToMeters(21.875); // Distance between front and back wheels on robot - Was .7
     //#endregion
 
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
