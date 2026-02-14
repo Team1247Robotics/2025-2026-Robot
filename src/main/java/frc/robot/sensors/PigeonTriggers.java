@@ -15,8 +15,6 @@ public class PigeonTriggers {
 
   public static record AccelerationData(double ax, double ay, double az) {};
 
-  // public static record TiltAngles(double pitch, double roll, double theta) {};
-
   public static Angle calculatePitch(AccelerationData data) {
     double magnitude = Math.sqrt(data.ay * data.ay + data.az * data.az);
     double pitch = Math.atan2(magnitude, data.ax);
@@ -47,7 +45,7 @@ public class PigeonTriggers {
     return new Rotation3d(roll, pitch, theta);
   }
 
-  public static boolean isFlat() {
+  public static boolean isGravityDown() {
 
     // TODO the code herunder needs to be fixed by calling pigeon.getAccelerationX/Y/Z() and doing the math as explained in the links below
     // https://www.thierry-lequeu.fr/data/AN3461.pdf
@@ -58,13 +56,13 @@ public class PigeonTriggers {
     boolean o =
       Math.abs(angles.getX()) < GyroConstants.flatThreshold.abs(Radians)
       &&
-      Math.abs(angles.getY()) < GyroConstants.flatThreshold.abs(Radians)
+      Math.abs(angles.getY()) < GyroConstants.flatThreshold.abs(Radians);
     SmartDashboard.putBoolean("Robot Is Flat", o);
 
     return o;
   }
 
   public static Trigger flat() {
-    return new Trigger(PigeonTriggers::isFlat);
+    return new Trigger(PigeonTriggers::isGravityDown);
   }
 }
