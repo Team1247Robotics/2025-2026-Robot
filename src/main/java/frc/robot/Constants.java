@@ -59,8 +59,9 @@ public final class Constants {
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
 
     //#region TODO: get real measurements for this
-    public static final double kTrackWidth = 0.5; // Distance between centers of right and left wheels on robot
-    public static final double kWheelBase = 0.7; // Distance between front and back wheels on robot
+    //Mesurements bellow in inches
+    public static final double kTrackWidth = 22; // Distance between centers of right and left wheels on robot - Was .5
+    public static final double kWheelBase = 21.875; // Distance between front and back wheels on robot - Was .7
     //#endregion
 
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
