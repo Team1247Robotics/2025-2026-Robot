@@ -3,42 +3,35 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.631496003141108,
+        "x": 5.296052120248067,
         "y": 7.362012020779639
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5874483840934888,
-        "y": 6.996595354112973
+        "x": 3.6835447708601805,
+        "y": 7.3611901981314425
       },
       "isLocked": false,
-      "linkedName": "Blue_Trench_North"
+      "linkedName": "Central_Trench_North_Blue"
     },
     {
       "anchor": {
-        "x": 2.6303205128205143,
-        "y": 5.0001410256410255
+        "x": 3.631496003141108,
+        "y": 7.362012020779639
       },
       "prevControl": {
-        "x": 2.9435347985347997,
-        "y": 5.840526830502747
+        "x": 4.746341958659869,
+        "y": 7.401205740951285
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Blue_Shoot_North"
+      "linkedName": "Blue_Trench_North"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "RampUpShooter",
-      "waypointRelativePos": 0.49041095890410896,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 1.0,
@@ -48,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -33.58788749245576
+    "velocity": 5.0,
+    "rotation": 178.56892367345102
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 178.56892367345102
+    "velocity": 5.0,
+    "rotation": 179.50379985316167
   },
   "useDefaultConstraints": true
 }

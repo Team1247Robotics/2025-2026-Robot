@@ -43,19 +43,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CentralNorthLeftExit_To_Blue_ShootN"
+            "pathName": "Central_LeftMid_To_BlueTrenchN"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "AcquireTarget"
+            "pathName": "CentralBlueTrenchN_To_BlueTrenchN"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue_TrenchN_To_ShootN"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AcquireTarget"
           }
         },
         {

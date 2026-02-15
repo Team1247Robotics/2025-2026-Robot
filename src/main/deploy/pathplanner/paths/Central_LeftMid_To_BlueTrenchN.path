@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.148060817674407,
-        "y": 7.147107686155912
+        "x": 6.917142950628222,
+        "y": 6.4531674855025765
       },
       "isLocked": false,
       "linkedName": "Central_North_Exit"
     },
     {
       "anchor": {
-        "x": 5.3169767441860465,
-        "y": 7.304418604651163
+        "x": 5.296052120248067,
+        "y": 7.362012020779639
       },
       "prevControl": {
-        "x": 6.230606525657548,
-        "y": 7.208412944550381
+        "x": 6.073085434117269,
+        "y": 7.326627990093427
       },
       "nextControl": null,
       "isLocked": false,
@@ -41,13 +41,13 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 2.489552921999103
+    "velocity": 5.0,
+    "rotation": 179.50379985316167
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 5.0,
     "rotation": -93.94518622903753
   },
   "useDefaultConstraints": true
