@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -50,7 +51,7 @@ public class RobotContainer {
 
   // The driver's controller
   CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
-  Joystick m_Joystick = new Joystick(1);
+  CommandJoystick m_Joystick = new CommandJoystick(1);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -116,7 +117,7 @@ public class RobotContainer {
             * DriveConstants.kMaxSpeedMetersPerSecond,
         true));
 
-    new JoystickButton(m_Joystick, 2)
+    m_Joystick.button(2)
         .whileTrue(new LedStripScrollYellow(m_ledStrip).ignoringDisable(true));
 
     m_driverController.y()
