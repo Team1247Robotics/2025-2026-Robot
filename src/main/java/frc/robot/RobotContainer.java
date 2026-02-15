@@ -124,7 +124,7 @@ public class RobotContainer {
         true));
 
     new JoystickButton(m_Joystick, 2)
-        .whileTrue(new LedStripScrollYellow(m_ledStrip));
+        .whileTrue(new LedStripScrollYellow(m_ledStrip).ignoringDisable(true));
 
     new JoystickButton(m_driverController, XboxController.Button.kY.value)
         .onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
