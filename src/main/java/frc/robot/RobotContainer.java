@@ -4,9 +4,9 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -24,10 +24,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /*
@@ -39,11 +39,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+
   private final LedStrip m_ledStrip = new LedStrip();
 
   private final LonelyTalonFx m_badAppleMachine = new LonelyTalonFx();
 
-  private final AutoBuilder2 m_autoBuilder = new AutoBuilder2(m_robotDrive);
+  private /*final*/ AutoBuilder2 m_autoBuilder = null; //new AutoBuilder2(m_robotDrive);
 
   private final ColorSensor m_indexerSensor = new ColorSensor(0);
 
@@ -51,7 +52,8 @@ public class RobotContainer {
 
   // The driver's controller
   CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
-  CommandJoystick m_Joystick = new CommandJoystick(1);
+  
+  CommandJoystick m_Joystick = new CommandJoystick(OIConstants.kSimulationJoystickPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -59,6 +61,17 @@ public class RobotContainer {
   public RobotContainer() {
     new PhotonVision.PhotonVisionEstimationSubsystem(m_robotDrive::updatePoseWithPhotonVision);
 
+    NamedCommands.registerCommand("RampUpShooter", new WaitCommand(1));  // TODO: replace with actual command
+    NamedCommands.registerCommand("ActivateIndex", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("Shoot", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("Climb", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("AcquireTarget", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("ActivateIntake", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("CollectIntake", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("DeactivateIntake", new WaitCommand(1)); // TODO: replace with actual command
+
+    m_autoBuilder = new AutoBuilder2(m_robotDrive); // Must be initialized after all commands are registered since the auto builder uses the registered commands to populate the auto chooser
+    
     // Configure the button bindings
     configureButtonBindings();
 
