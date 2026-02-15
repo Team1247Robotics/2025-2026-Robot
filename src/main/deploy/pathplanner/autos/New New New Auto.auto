@@ -3,6 +3,7 @@
   "command": {
     "type": "sequential",
     "data": {
+<<<<<<< HEAD
       "commands": [
         {
           "type": "path",
@@ -35,6 +36,9 @@
           }
         }
       ]
+=======
+      "commands": []
+>>>>>>> 717d57535620afea8534d388d2bf51cf1f26c3fc
     }
   },
   "resetOdom": true,

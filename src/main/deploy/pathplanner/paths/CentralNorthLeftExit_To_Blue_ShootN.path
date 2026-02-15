@@ -88,7 +88,11 @@
   "reversed": false,
   "folder": null,
   "idealStartingState": {
+<<<<<<< HEAD:src/main/deploy/pathplanner/paths/CentralMidLeft_To_Blue_ShootN.path
+    "velocity": 5.0,
+=======
     "velocity": 1.0,
+>>>>>>> d592142f1d98f06bda8576cb1d41c262370be731:src/main/deploy/pathplanner/paths/CentralNorthLeftExit_To_Blue_ShootN.path
     "rotation": -93.94518622903753
   },
   "useDefaultConstraints": true

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.62953488372093,
-        "y": 7.304418604651163
+        "x": 3.631496003141108,
+        "y": 7.362012020779639
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.235849731663685,
-        "y": 7.336869409660108
+        "x": 5.2378108510838635,
+        "y": 7.394462825788584
       },
       "isLocked": false,
       "linkedName": "Blue_Trench_North"
     },
     {
       "anchor": {
-        "x": 5.3169767441860465,
-        "y": 7.304418604651163
+        "x": 5.296052120248067,
+        "y": 7.362012020779639
       },
       "prevControl": {
-        "x": 3.694436493738819,
-        "y": 7.320644007155635
+        "x": 3.6735118698008398,
+        "y": 7.378237423284111
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 4.0,
-    "rotation": 2.489552921999103
+    "rotation": 179.50379985316167
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 4.0,
-    "rotation": 0.0
+    "rotation": 178.56892367345102
   },
   "useDefaultConstraints": true
 }

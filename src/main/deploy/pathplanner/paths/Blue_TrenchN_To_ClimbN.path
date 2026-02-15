@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.62953488372093,
-        "y": 7.304418604651163
+        "x": 3.631496003141108,
+        "y": 7.362012020779639
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.688435897435899,
-        "y": 7.500205128205128
+        "x": 1.6903970168560774,
+        "y": 7.557798544333604
       },
       "isLocked": false,
       "linkedName": "Blue_Trench_North"
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 178.56892367345102
   },
   "useDefaultConstraints": true
 }
