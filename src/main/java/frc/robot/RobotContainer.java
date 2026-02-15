@@ -6,12 +6,14 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.drivetrain.AlwaysFaceHub;
 import frc.robot.commands.drivetrain.ResetHeading;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
+import frc.robot.commands.ledstrip.LedStripScrollYellow;
 import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.AutoBuilder2;
 import frc.robot.subsystems.DriveSubsystem;
@@ -43,41 +45,43 @@ public class RobotContainer {
 
   private final ColorSensor m_indexerSensor = new ColorSensor(0);
 
-//   private final Intake m_intake = new Intake();
+  // private final Intake m_intake = new Intake();
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  Joystick m_Joystick = new Joystick(1);
 
-  /** 
+  /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     new PhotonVision.PhotonVisionEstimationSubsystem(m_robotDrive::updatePoseWithPhotonVision);
-
 
     // Configure the button bindings
     configureButtonBindings();
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
-      // The left stick controls translation of the robot.
-      // Turning is controlled by the X axis of the right stick.
-      new RunCommand(
-        () -> m_robotDrive.drive(
-          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
-          MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
-          -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxAngularSpeed,
-          false
-        ),
-        m_robotDrive));
+        // The left stick controls translation of the robot.
+        // Turning is controlled by the X axis of the right stick.
+        new RunCommand(
+            () -> m_robotDrive.drive(
+                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband)
+                    * DriveConstants.kMaxSpeedMetersPerSecond,
+                MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)
+                    * DriveConstants.kMaxSpeedMetersPerSecond,
+                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband)
+                    * DriveConstants.kMaxAngularSpeed,
+                false),
+            m_robotDrive));
 
-    
     m_ledStrip.setDefaultCommand(new LedStripScrollRainbow(m_ledStrip).ignoringDisable(true));
-    // m_intake.setDefaultCommand(new RunCommand(() -> {m_intake.aspire();}, m_intake));
+    // m_intake.setDefaultCommand(new RunCommand(() -> {m_intake.aspire();},
+    // m_intake));
 
     Trigger dpad_up = new POVButton(m_driverController, 0);
     Trigger dpad_down = new POVButton(m_driverController, 180);
-    
+
     dpad_up.onTrue(new ResetHeading.ResetHeadingForward(m_robotDrive));
     dpad_down.onTrue(new ResetHeading.ResetHeadingBackward(m_robotDrive));
 
@@ -87,39 +91,45 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling passing it to a
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by
+   * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its
+   * subclasses ({@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling
+   * passing it to a
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
     new JoystickButton(m_driverController, Button.kR1.value)
-      .whileTrue(
-        new RunCommand(
-          () -> m_robotDrive.setX(),
-          m_robotDrive
-        )
-      );
+        .whileTrue(
+            new RunCommand(
+                () -> m_robotDrive.setX(),
+                m_robotDrive));
 
     new JoystickButton(m_driverController, XboxController.Button.kStart.value)
-      .onTrue(
-        new InstantCommand(
-          () -> m_robotDrive.zeroHeading(),
-          m_robotDrive
-        )
-      );
+        .onTrue(
+            new InstantCommand(
+                () -> m_robotDrive.zeroHeading(),
+                m_robotDrive));
 
-    // new JoystickButton(m_driverController, XboxController.Button.kA.value).whileTrue(new LedStripSetGreen(m_ledStrip));
+    // new JoystickButton(m_driverController,
+    // XboxController.Button.kA.value).whileTrue(new LedStripSetGreen(m_ledStrip));
 
     new JoystickButton(m_driverController, XboxController.Button.kB.value).whileTrue(new AlwaysFaceHub(
-      m_robotDrive,
-      () -> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
-      () -> MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
-      true
-      ));
+        m_robotDrive,
+        () -> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband)
+            * DriveConstants.kMaxSpeedMetersPerSecond,
+        () -> MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)
+            * DriveConstants.kMaxSpeedMetersPerSecond,
+        true));
 
-    new JoystickButton(m_driverController, XboxController.Button.kY.value).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
-    new JoystickButton(m_driverController, XboxController.Button.kX.value).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
+    new JoystickButton(m_Joystick, 2)
+        .whileTrue(new LedStripScrollYellow(m_ledStrip));
+
+    new JoystickButton(m_driverController, XboxController.Button.kY.value)
+        .onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
+    new JoystickButton(m_driverController, XboxController.Button.kX.value)
+        .onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
   }
 
   /**
@@ -131,9 +141,8 @@ public class RobotContainer {
     return m_autoBuilder.getAutonomousCommand();
   }
 
-
-public void periodic() {
-        m_indexerSensor.periodic();
-    }
+  public void periodic() {
+    m_indexerSensor.periodic();
+  }
 
 }
