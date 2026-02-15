@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.262743312888665,
-        "y": 8.858857414387938
+        "x": 8.148060817674407,
+        "y": 7.147107686155912
       },
       "isLocked": false,
       "linkedName": "Central_North_Exit"
@@ -20,8 +20,8 @@
         "y": 7.304418604651163
       },
       "prevControl": {
-        "x": 6.128535677016782,
-        "y": 7.28819320214669
+        "x": 6.230606525657548,
+        "y": 7.208412944550381
       },
       "nextControl": null,
       "isLocked": false,
