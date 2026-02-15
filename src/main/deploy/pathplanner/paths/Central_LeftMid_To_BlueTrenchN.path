@@ -12,7 +12,7 @@
         "y": 8.858857414387938
       },
       "isLocked": false,
-      "linkedName": "Central_Mid_Left"
+      "linkedName": "Central_North_Exit"
     },
     {
       "anchor": {
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -93.94518622903752
+    "rotation": -93.94518622903753
   },
   "useDefaultConstraints": true
 }
