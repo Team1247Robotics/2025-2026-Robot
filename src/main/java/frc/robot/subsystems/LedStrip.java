@@ -6,6 +6,7 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.LEDPattern;
+import edu.wpi.first.wpilibj.LEDPattern.GradientType;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -27,6 +28,8 @@ public class LedStrip extends SubsystemBase {
     private final AddressableLEDBuffer m_buffer;
     /** The rainbow LED pattern */
     private final LEDPattern m_rainbowPattern;
+    //**The yellow LED pattern */
+    private final LEDPattern m_yellowLedPattern;
 
     /** Creates a new LedStrip and initializes the LED strip */
     public LedStrip() {
@@ -40,11 +43,23 @@ public class LedStrip extends SubsystemBase {
         m_rainbowPattern = LEDPattern.rainbow(255, 255).scrollAtAbsoluteSpeed(MetersPerSecond.of(0.75),
                 Meters.of(1 / LED_DENSITY_LEDS_PER_METER));
 
+        m_yellowLedPattern = LEDPattern.gradient(GradientType.kContinuous, Color.kBlack, Color.kYellow, Color.kBlack)
+                  .scrollAtAbsoluteSpeed(
+                          MetersPerSecond.of(2.0),
+                          Meters.of(1 / LED_DENSITY_LEDS_PER_METER)
+                  );
+
     }
 
     /** Displays the rainbow pattern on the LED strip */
     public void showRainbow() {
         m_rainbowPattern.applyTo(m_buffer);
+
+        m_led.setData(m_buffer);
+    }
+
+    public void showYellow() {
+        m_yellowLedPattern.applyTo(m_buffer);
 
         m_led.setData(m_buffer);
     }
