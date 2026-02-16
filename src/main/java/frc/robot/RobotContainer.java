@@ -182,16 +182,6 @@ public class RobotContainer {
 
   public void periodic() {
     m_indexerSensor.periodic();
-
-
-    //LED Defaults - if you dont like it, find somewhere else for it
-    if (DriverStation.isDisabled()) {
-      m_ledStrip.setDefaultCommand(new LedStripScrollRainbow(m_ledStrip).ignoringDisable(true));
-    } else {
-      m_ledStrip.setDefaultCommand(new LedStripSetAlianceColor(m_ledStrip).ignoringDisable(true));
-   }
-
-
   }
 
 }
