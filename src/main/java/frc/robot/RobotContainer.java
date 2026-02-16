@@ -64,15 +64,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     new PhotonVision.PhotonVisionEstimationSubsystem(m_robotDrive::updatePoseWithPhotonVision);
-
-    NamedCommands.registerCommand("RampUpShooter", new WaitCommand(1));  // TODO: replace with actual command
-    NamedCommands.registerCommand("ActivateIndex", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("Shoot", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("Climb", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("AcquireTarget", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("ActivateIntake", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("CollectIntake", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("DeactivateIntake", new WaitCommand(1)); // TODO: replace with actual command
+    registerPathplannerCommands();
 
     m_autoBuilder = new AutoBuilder2(m_robotDrive); // Must be initialized after all commands are registered since the auto builder uses the registered commands to populate the auto chooser
     
@@ -115,10 +107,17 @@ public class RobotContainer {
 
     dpad_up.onTrue(new ResetHeading.ResetHeadingForward(m_robotDrive));
     dpad_down.onTrue(new ResetHeading.ResetHeadingBackward(m_robotDrive));
+  }
 
-    // Trigger a_push = new Trigger(() -> m_driverController.getAButton());
-
-    // a_push.whileTrue(new FacePointTest(m_robotDrive, m_driverController));
+  private void registerPathplannerCommands() {
+    NamedCommands.registerCommand("RampUpShooter", new WaitCommand(1));  // TODO: replace with actual command
+    NamedCommands.registerCommand("ActivateIndex", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("Shoot", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("Climb", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("AcquireTarget", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("ActivateIntake", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("CollectIntake", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("DeactivateIntake", new WaitCommand(1)); // TODO: replace with actual command
   }
 
   /**
