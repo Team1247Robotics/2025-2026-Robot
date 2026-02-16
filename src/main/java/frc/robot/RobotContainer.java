@@ -6,10 +6,9 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.LedConfigs;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.drivetrain.AlwaysFaceHub;
 import frc.robot.commands.drivetrain.ResetHeading;
@@ -45,7 +44,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
-  private final LedStrip m_ledStrip = new LedStrip();
+  private final LedStrip m_ledStrip = new LedStrip(LedConfigs.strip1);
 
   private final LonelyTalonFx m_badAppleMachine = new LonelyTalonFx();
 
@@ -81,19 +80,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
-    m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband)
-                    * DriveConstants.kMaxSpeedMetersPerSecond,
-                MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)
-                    * DriveConstants.kMaxSpeedMetersPerSecond,
-                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband)
-                    * DriveConstants.kMaxAngularSpeed,
-                false),
-            m_robotDrive));
+    m_robotDrive.setDefaultCommand(m_robotDrive.defaultControllerCommand(m_driverController));
 
     m_ledStrip.setDefaultCommand(
         new ConditionalCommand(

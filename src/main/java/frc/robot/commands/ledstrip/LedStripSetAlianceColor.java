@@ -1,28 +1,53 @@
 package frc.robot.commands.ledstrip;
 
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LedStrip;
 import frc.robot.utils.GetAlliance;
 import frc.robot.utils.HubActiveState;
 
-public class LedStripSetAlianceColor extends Command{
-    private final LedStrip m_ledStrip;
+public class LedStripSetAlianceColor extends LedStripBaseCommand {
+  private enum LightStates {
+    HubActive,
+    BlueAlliance,
+    RedAlliance,
+    None
+  }
 
-    public LedStripSetAlianceColor(LedStrip ledStrip) {
-        m_ledStrip = ledStrip;
-        addRequirements(ledStrip);
-    }
+  private LightStates m_lastState = LightStates.None;
 
-    @Override
-    public void execute() {
-        if (HubActiveState.getInstance().isOurHubActive()){
-            m_ledStrip.setSolidColor(Color.kViolet);
-        }else if (GetAlliance.isBlueAlliance()) {
-            m_ledStrip.setSolidColor(Color.kBlue);
-        }else if (GetAlliance.isRedAlliance()) {
-            m_ledStrip.setSolidColor(Color.kRed);
-        
-        }
+  public LedStripSetAlianceColor(LedStrip ledStrip) {
+    super(ledStrip);
+  }
+
+  private void updateState(LightStates newState) {
+    switch (newState) {
+      case HubActive:
+        m_strip.setSolidColor(Color.kViolet);
+        break;
+      case BlueAlliance:
+        m_strip.setSolidColor(Color.kBlue);
+        break;
+      case RedAlliance:
+        m_strip.setSolidColor(Color.kRed);
+        break;
+      default:
+        // idk
+        break;
     }
+    m_lastState = newState;
+  }
+
+  private LightStates composeState() {
+    if (HubActiveState.getInstance().isOurHubActive()) return LightStates.HubActive;
+    if (GetAlliance.isBlueAlliance()) return LightStates.BlueAlliance;
+    if (GetAlliance.isRedAlliance()) return LightStates.RedAlliance;
+    return LightStates.None;
+  }
+
+  @Override
+  public void execute() {
+    var latestState = composeState();
+    if (latestState.equals(m_lastState)) return;
+    updateState(latestState);
+  }
 }
