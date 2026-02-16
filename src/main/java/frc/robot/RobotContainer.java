@@ -129,11 +129,9 @@ public class RobotContainer {
       new ParallelCommandGroup(
         new AlwaysFaceHub(
           m_robotDrive,
-          () -> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband)
-              * DriveConstants.kMaxSpeedMetersPerSecond,
-          () -> MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)
-              * DriveConstants.kMaxSpeedMetersPerSecond,
-          true),
+          m_driverController::getLeftY,
+          m_driverController::getLeftX,
+          true).applyControllerFilters(true),
           new LedStripSetGreen(m_ledStrip)
           ));
 
