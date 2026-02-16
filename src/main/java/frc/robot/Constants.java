@@ -95,6 +95,8 @@ public final class Constants {
      public static final class Control {
       public static final double allowableError = 10; // RPM
      }
+
+     public static final double targetSpeed = 1000;
   }
 
   public static final class ColorSensorConstants {

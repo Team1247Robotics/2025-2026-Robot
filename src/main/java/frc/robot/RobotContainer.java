@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.LedConfigs;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.drivetrain.AlwaysFaceHub;
 import frc.robot.commands.drivetrain.ResetHeading;
 import frc.robot.commands.indexer.StepIndexer;
@@ -119,9 +120,9 @@ public class RobotContainer {
    * Register all named commands in Pathplanner
    */
   private void registerPathplannerCommands() {
-    NamedCommands.registerCommand("RampUpShooter", new ArmShooterBlocking(m_shooter, () -> 1000));
+    NamedCommands.registerCommand("RampUpShooter", new ArmShooterBlocking(m_shooter, () -> ShooterConstants.targetSpeed));
     NamedCommands.registerCommand("ActivateIndex", new StepIndexer(m_indexer));
-    NamedCommands.registerCommand("Shoot", new ArmShooterAsync(m_shooter, () -> 1000));
+    NamedCommands.registerCommand("Shoot", new ArmShooterAsync(m_shooter, () -> ShooterConstants.targetSpeed));
     NamedCommands.registerCommand("Climb", new WaitCommand(1)); // TODO: replace with actual command
     NamedCommands.registerCommand("AcquireTarget", new AlwaysFaceHub(m_robotDrive, () -> 0, () -> 0, true));
     NamedCommands.registerCommand("ActivateIntake", new WaitCommand(1)); // TODO: replace with actual command
@@ -164,6 +165,8 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
     m_driverController.x()
         .onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
+
+    m_driverController.a().whileTrue(new ArmShooterAsync(m_shooter, () -> ShooterConstants.targetSpeed));
   }
 
   /**
