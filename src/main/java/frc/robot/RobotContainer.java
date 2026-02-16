@@ -159,11 +159,11 @@ public class RobotContainer {
           m_driverController::getLeftY,
           m_driverController::getLeftX,
           true).applyControllerFilters(true),
-          new LedStripSetGreen(m_ledStrip).ignoringDisable(true)
+          new LedStripSetGreen(m_ledStrip)
           ));
 
     m_Joystick.button(2)
-        .whileTrue(new LedStripScrollYellow(m_ledStrip).ignoringDisable(true));
+        .whileTrue(new LedStripScrollYellow(m_ledStrip));
 
     m_driverController.y()
         .onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
