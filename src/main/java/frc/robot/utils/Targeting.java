@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
-import frc.robot.sensors.LimelightHelpers;
+// import frc.robot.sensors.LimelightHelpers;
 
 /**
  * Utils to handle conversions between robot and field relative spaces.
@@ -134,16 +134,16 @@ public class Targeting {
         return convertFieldRelativeToRobotRelativeTranslation(robotPose.getTranslation(), target.getTranslation(), defaultTranslation);
     }
 
-    /**
-     * Gets limelight pose and returns a field relative Pose2d.
-     * @param robotPose - Current robot pose in field relative space.
-     * @param defaultPose - Default pose if the value from the limelight is invalid.
-     * @return Pose2d of target in field relative space.
-     */
-    public static Pose2d getLimelightTargetAsFieldRelativePose(Pose2d robotPose, Pose2d defaultPose) {
-        Pose3d tagPosition3d = LimelightHelpers.getTargetPose3d_RobotSpace("limelight");
-        if (tagPosition3d == null) return defaultPose;
+    // /**
+    //  * Gets limelight pose and returns a field relative Pose2d.
+    //  * @param robotPose - Current robot pose in field relative space.
+    //  * @param defaultPose - Default pose if the value from the limelight is invalid.
+    //  * @return Pose2d of target in field relative space.
+    //  */
+    // public static Pose2d getLimelightTargetAsFieldRelativePose(Pose2d robotPose, Pose2d defaultPose) {
+    //     Pose3d tagPosition3d = LimelightHelpers.getTargetPose3d_RobotSpace("limelight");
+    //     if (tagPosition3d == null) return defaultPose;
 
-        return Targeting.convertLimelightTargetPoseToFieldRelative(robotPose, tagPosition3d, defaultPose);
-    }
+    //     return Targeting.convertLimelightTargetPoseToFieldRelative(robotPose, tagPosition3d, defaultPose);
+    // }
 }
