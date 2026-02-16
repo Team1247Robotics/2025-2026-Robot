@@ -96,10 +96,11 @@ public class RobotContainer {
             m_robotDrive));
 
     m_ledStrip.setDefaultCommand(
-        ConditionalCommand(
+        new ConditionalCommand(
           new LedStripScrollRainbow(m_ledStrip).ignoringDisable(true),
           new LedStripSetAlianceColor(m_ledStrip).ignoringDisable(true),
-          () -> {return DriverStation.isDisabled();}));
+          DriverStation::isDisabled)
+      );
 
 
     /* 
