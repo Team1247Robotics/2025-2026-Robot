@@ -143,6 +143,8 @@ public class FaceHeading extends Command {
 
     /**
      * Set {@link #m_doFilters}. Can be chained with constructor.
+     * 
+     * Filters apply deadband and the necessary inversions to pass the controller value accessors as-is.
      * @param set - Value to set it to.
      * @return self
      */
