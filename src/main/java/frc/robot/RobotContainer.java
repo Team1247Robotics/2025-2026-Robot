@@ -12,6 +12,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.drivetrain.AlwaysFaceHub;
 import frc.robot.commands.drivetrain.ResetHeading;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
+import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.AutoBuilder2;
 import frc.robot.subsystems.DriveSubsystem;
@@ -21,6 +22,7 @@ import frc.robot.sensors.ColorSensor;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -111,11 +113,16 @@ public class RobotContainer {
 
     // new JoystickButton(m_driverController, XboxController.Button.kA.value).whileTrue(new LedStripSetGreen(m_ledStrip));
 
-    new JoystickButton(m_driverController, XboxController.Button.kB.value).whileTrue(new AlwaysFaceHub(
+    new JoystickButton(m_driverController, XboxController.Button.kB.value).
+    whileTrue(
+      new ParallelCommandGroup(
+      new AlwaysFaceHub(
       m_robotDrive,
       () -> -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
       () -> MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband) * DriveConstants.kMaxSpeedMetersPerSecond,
       true
+      ),
+      new LedStripSetGreen(m_ledStrip)
       ));
 
     new JoystickButton(m_driverController, XboxController.Button.kY.value).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));

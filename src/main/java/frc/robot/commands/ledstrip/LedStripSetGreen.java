@@ -13,7 +13,7 @@ public class LedStripSetGreen extends Command {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         m_ledStrip.setSolidColor(Color.kGreen);
     }
 }
