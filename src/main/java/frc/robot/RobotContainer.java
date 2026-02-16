@@ -99,7 +99,8 @@ public class RobotContainer {
         new ConditionalCommand(
           new LedStripScrollRainbow(m_ledStrip).ignoringDisable(true),
           new LedStripSetAlianceColor(m_ledStrip).ignoringDisable(true),
-          DriverStation::isDisabled));
+          DriverStation::isDisabled)
+      );
 
 
     /* 
