@@ -7,6 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -14,6 +15,7 @@ import frc.robot.commands.drivetrain.AlwaysFaceHub;
 import frc.robot.commands.drivetrain.ResetHeading;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripScrollYellow;
+import frc.robot.commands.ledstrip.LedStripSetAlianceColor;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.AutoBuilder2;
@@ -93,6 +95,25 @@ public class RobotContainer {
             m_robotDrive));
 
     m_ledStrip.setDefaultCommand(new LedStripScrollRainbow(m_ledStrip).ignoringDisable(true));
+
+
+    /* 
+    m_ledStrip.setDefaultCommand(
+        // Default when enabled is Smart Aliance Color Thing
+        // Default when disabled is Rainbow
+
+        new RunCommand(
+            () -> {
+              if (DriverStation.isDisabled()) {
+                  new LedStripScrollRainbow(m_ledStrip).ignoringDisable(true);
+              } else {
+                  new LedStripSetAlianceColor(m_ledStrip).ignoringDisable(true);
+              }
+        }, m_ledStrip).ignoringDisable(true)
+    );
+    */
+
+
     // m_intake.setDefaultCommand(new RunCommand(() -> {m_intake.aspire();},
     // m_intake));
 
@@ -134,7 +155,7 @@ public class RobotContainer {
           () -> MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)
               * DriveConstants.kMaxSpeedMetersPerSecond,
           true),
-          new LedStripSetGreen(m_ledStrip)
+          new LedStripSetGreen(m_ledStrip).ignoringDisable(true)
           ));
 
     m_Joystick.button(2)
@@ -157,6 +178,16 @@ public class RobotContainer {
 
   public void periodic() {
     m_indexerSensor.periodic();
+
+
+    //LED Defaults - if you dont like it, find somewhere else for it
+    if (DriverStation.isDisabled()) {
+      m_ledStrip.setDefaultCommand(new LedStripScrollRainbow(m_ledStrip).ignoringDisable(true));
+    } else {
+      m_ledStrip.setDefaultCommand(new LedStripSetAlianceColor(m_ledStrip).ignoringDisable(true));
+   }
+
+
   }
 
 }
