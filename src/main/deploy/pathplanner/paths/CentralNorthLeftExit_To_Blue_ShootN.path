@@ -12,7 +12,7 @@
         "y": 7.3468421173311755
       },
       "isLocked": false,
-      "linkedName": "Central_Mid_Left"
+      "linkedName": "Central_North_Exit"
     },
     {
       "anchor": {
@@ -88,8 +88,12 @@
   "reversed": false,
   "folder": null,
   "idealStartingState": {
+<<<<<<< HEAD:src/main/deploy/pathplanner/paths/CentralMidLeft_To_Blue_ShootN.path
     "velocity": 5.0,
-    "rotation": -93.94518622903752
+=======
+    "velocity": 1.0,
+>>>>>>> d592142f1d98f06bda8576cb1d41c262370be731:src/main/deploy/pathplanner/paths/CentralNorthLeftExit_To_Blue_ShootN.path
+    "rotation": -93.94518622903753
   },
   "useDefaultConstraints": true
 }

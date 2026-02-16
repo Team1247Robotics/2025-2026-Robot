@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.3169767441860465,
-        "y": 7.304418604651163
+        "x": 5.296052120248067,
+        "y": 7.362012020779639
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.314046112317916,
-        "y": 7.139730769230769
+        "x": 6.293121488379937,
+        "y": 7.197324185359245
       },
       "isLocked": false,
       "linkedName": "Central_Trench_North_Blue"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 8.270000000000001,
-        "y": 6.825769230769231
+        "y": 6.5798660714285715
       },
       "prevControl": {
         "x": 7.270000000000001,
-        "y": 6.825769230769231
+        "y": 6.5798660714285715
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 2.489552921999103
+    "rotation": 179.50379985316167
   },
   "useDefaultConstraints": true
 }

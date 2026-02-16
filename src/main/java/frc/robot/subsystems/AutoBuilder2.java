@@ -47,7 +47,8 @@ public class AutoBuilder2 {
         GetAlliance::isRedAlliance, // Boolean supplier that controls when the path will be mirrored for the red alliance
         drivetrain // Reference to drivetrain to set requirements
         );
-      autoChooser = AutoBuilder.buildAutoChooser();
+
+      autoChooser = AutoBuilder.buildAutoChooser(); // Named commands must be registered before this is called. Alternatively, those two lines could be moved into RobotContainer after all commands are registered.
       SmartDashboard.putData("Auto Chooser", autoChooser);
     // }
   }

@@ -3,38 +3,42 @@
   "command": {
     "type": "sequential",
     "data": {
+<<<<<<< HEAD
       "commands": [
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_TrenchN_To_ShootN"
+            "pathName": null
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": null
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": null
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": null
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_ShootN_To_CentralNorthLeft"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Central_NorthLeft_To_MidLeft"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CentralMidLeft_To_Blue_ShootN"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Blue_ShootN_To_ClimbS"
+            "pathName": null
           }
         }
       ]
+=======
+      "commands": []
+>>>>>>> 717d57535620afea8534d388d2bf51cf1f26c3fc
     }
   },
   "resetOdom": true,

@@ -128,6 +128,8 @@ public final class Constants {
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kSimulationJoystickPort = 1;
+
     public static final double kDriveDeadband = 0.03;
   }
 
