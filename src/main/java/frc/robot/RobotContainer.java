@@ -124,7 +124,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ActivateIndex", new StepIndexer(m_indexer));
     NamedCommands.registerCommand("Shoot", new ArmShooterAsync(m_shooter, () -> ShooterConstants.targetSpeed));
     NamedCommands.registerCommand("Climb", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("AcquireTarget", new AlwaysFaceHub(m_robotDrive, () -> 0, () -> 0, true));
+    NamedCommands.registerCommand("AimAtHub", new AlwaysFaceHub(m_robotDrive, () -> 0, () -> 0, true));
     NamedCommands.registerCommand("ActivateIntake", new WaitCommand(1)); // TODO: replace with actual command
     NamedCommands.registerCommand("CollectIntake", new WaitCommand(1)); // TODO: replace with actual command
     NamedCommands.registerCommand("DeactivateIntake", new WaitCommand(1)); // TODO: replace with actual command
