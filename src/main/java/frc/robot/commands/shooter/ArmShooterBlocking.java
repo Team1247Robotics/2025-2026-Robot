@@ -9,11 +9,12 @@ import frc.robot.subsystems.Shooter;
 /**
  * Command that spins shooter to set velocity until reaching velocity. Intended to be used in a command sequence to block until the shooter is ready.
  */
-public class SpinUpShooter extends Command {
+public class ArmShooterBlocking extends Command {
   private DoubleSupplier m_velocity;
   private Shooter m_shooter;
   protected final double m_allowableError = ShooterConstants.Control.allowableError;
-  public SpinUpShooter(Shooter shooter, DoubleSupplier velocity) {
+  
+  public ArmShooterBlocking(Shooter shooter, DoubleSupplier velocity) {
     m_velocity = velocity;
     m_shooter = shooter;
   }

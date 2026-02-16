@@ -12,15 +12,20 @@ import frc.robot.Constants.LedConfigs;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.drivetrain.AlwaysFaceHub;
 import frc.robot.commands.drivetrain.ResetHeading;
+import frc.robot.commands.indexer.StepIndexer;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripScrollYellow;
 import frc.robot.commands.ledstrip.LedStripSetAlianceColor;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
+import frc.robot.commands.shooter.ArmShooterAsync;
+import frc.robot.commands.shooter.ArmShooterBlocking;
 import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.AutoBuilder2;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.LedStrip;
 import frc.robot.subsystems.LonelyTalonFx;
+import frc.robot.subsystems.Shooter;
 import frc.robot.sensors.ColorSensor;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -52,6 +57,9 @@ public class RobotContainer {
 
   private final ColorSensor m_indexerSensor = new ColorSensor(0);
 
+  private final Shooter m_shooter = new Shooter();
+  private final Indexer m_indexer = new Indexer();
+
   // private final Intake m_intake = new Intake();
 
   // The driver's controller
@@ -71,7 +79,6 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    // Configure default commands
     m_robotDrive.setDefaultCommand(m_robotDrive.defaultControllerCommand(m_driverController));
 
     m_ledStrip.setDefaultCommand(
@@ -80,7 +87,6 @@ public class RobotContainer {
           new LedStripSetAlianceColor(m_ledStrip).ignoringDisable(true),
           DriverStation::isDisabled)
       );
-
 
     /* 
     m_ledStrip.setDefaultCommand(
@@ -109,12 +115,15 @@ public class RobotContainer {
     dpad_down.onTrue(new ResetHeading.ResetHeadingBackward(m_robotDrive));
   }
 
+  /**
+   * Register all named commands in Pathplanner
+   */
   private void registerPathplannerCommands() {
-    NamedCommands.registerCommand("RampUpShooter", new WaitCommand(1));  // TODO: replace with actual command
-    NamedCommands.registerCommand("ActivateIndex", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("Shoot", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("RampUpShooter", new ArmShooterBlocking(m_shooter, () -> 1000));
+    NamedCommands.registerCommand("ActivateIndex", new StepIndexer(m_indexer));
+    NamedCommands.registerCommand("Shoot", new ArmShooterAsync(m_shooter, () -> 1000));
     NamedCommands.registerCommand("Climb", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("AcquireTarget", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("AcquireTarget", new AlwaysFaceHub(m_robotDrive, () -> 0, () -> 0, true));
     NamedCommands.registerCommand("ActivateIntake", new WaitCommand(1)); // TODO: replace with actual command
     NamedCommands.registerCommand("CollectIntake", new WaitCommand(1)); // TODO: replace with actual command
     NamedCommands.registerCommand("DeactivateIntake", new WaitCommand(1)); // TODO: replace with actual command

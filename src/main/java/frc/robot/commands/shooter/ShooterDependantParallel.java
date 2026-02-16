@@ -10,9 +10,9 @@ import frc.robot.subsystems.Shooter;
 public class ShooterDependantParallel extends SequentialCommandGroup {
   public ShooterDependantParallel(Shooter shooter, DoubleSupplier speed, Command... commands) {
     super(
-      new SpinUpShooter(shooter, speed),
+      new ArmShooterBlocking(shooter, speed),
       Commands.parallel(
-        new HoldShooterSpeed(shooter, speed),
+        new ArmShooterAsync(shooter, speed),
         Commands.parallel(commands)
       )
     );

@@ -1,19 +1,25 @@
 package frc.robot.commands.indexer;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IndexerConstants;
 import frc.robot.subsystems.Indexer;
 
 public class SetIndexerPosition extends Command {
-  private final double m_targetPosition;
+  private final DoubleSupplier m_targetSupplier;
   protected final Indexer m_indexer;
   protected final double m_allowableError = IndexerConstants.Control.allowableError;
+  private double m_target = 0;
   
-  
-  public SetIndexerPosition(Indexer indexer, double targetPosition) {
-    m_targetPosition = targetPosition;
+  public SetIndexerPosition(Indexer indexer, DoubleSupplier targetSupplier) {
+    m_targetSupplier = targetSupplier;
     m_indexer = indexer;
     addRequirements(indexer);
+  }
+  
+  public SetIndexerPosition(Indexer indexer, double targetPosition) {
+    this(indexer, () -> targetPosition);
   }
 
   protected double getDistanceFromTarget(double target) {
@@ -22,7 +28,7 @@ public class SetIndexerPosition extends Command {
   }
 
   protected double getDistanceFromTarget() {
-    return getDistanceFromTarget(m_targetPosition);
+    return getDistanceFromTarget(m_target);
   }
 
   protected void moveToTarget(double target) {
@@ -30,7 +36,12 @@ public class SetIndexerPosition extends Command {
   }
 
   protected void moveToTarget() {
-    moveToTarget(m_targetPosition);
+    moveToTarget(m_target);
+  }
+
+  @Override
+  public void initialize() {
+    m_target = m_targetSupplier.getAsDouble();
   }
 
   @Override
