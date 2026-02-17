@@ -84,26 +84,10 @@ public class RobotContainer {
 
     m_ledStrip.setDefaultCommand(
         new ConditionalCommand(
-          new LedStripScrollRainbow(m_ledStrip).ignoringDisable(true),
-          new LedStripSetAlianceColor(m_ledStrip).ignoringDisable(true),
+          new LedStripScrollRainbow(m_ledStrip),
+          new LedStripSetAlianceColor(m_ledStrip),
           DriverStation::isDisabled)
       );
-
-    /* 
-    m_ledStrip.setDefaultCommand(
-        // Default when enabled is Smart Aliance Color Thing
-        // Default when disabled is Rainbow
-
-        new RunCommand(
-            () -> {
-              if (DriverStation.isDisabled()) {
-                  new LedStripScrollRainbow(m_ledStrip).ignoringDisable(true);
-              } else {
-                  new LedStripSetAlianceColor(m_ledStrip).ignoringDisable(true);
-              }
-        }, m_ledStrip).ignoringDisable(true)
-    );
-    */
 
 
     // m_intake.setDefaultCommand(new RunCommand(() -> {m_intake.aspire();},
@@ -155,11 +139,11 @@ public class RobotContainer {
           m_driverController::getLeftY,
           m_driverController::getLeftX,
           true).applyControllerFilters(true),
-          new LedStripSetGreen(m_ledStrip).ignoringDisable(true)
+          new LedStripSetGreen(m_ledStrip)
           ));
 
     m_Joystick.button(2)
-        .whileTrue(new LedStripScrollYellow(m_ledStrip).ignoringDisable(true));
+        .whileTrue(new LedStripScrollYellow(m_ledStrip));
 
     m_driverController.y()
         .onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
