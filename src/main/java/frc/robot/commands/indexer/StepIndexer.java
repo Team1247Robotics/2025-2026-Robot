@@ -8,6 +8,6 @@ import frc.robot.subsystems.Indexer;
  */
 public class StepIndexer extends SetIndexerPosition {
   public StepIndexer(Indexer indexer) {
-    super(indexer, indexer.getPosition() + IndexerConstants.Control.indexerStdStepSize);
+    super(indexer, () -> indexer.getPosition() + IndexerConstants.Control.indexerStdStepSize);
   }
 }

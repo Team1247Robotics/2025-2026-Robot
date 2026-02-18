@@ -29,7 +29,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AcquireTarget"
+                  "name": "AimAtHub"
                 }
               },
               {
@@ -78,7 +78,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AcquireTarget"
+                  "name": "AimAtHub"
                 }
               },
               {

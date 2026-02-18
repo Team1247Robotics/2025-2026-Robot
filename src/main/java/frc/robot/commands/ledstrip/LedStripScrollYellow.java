@@ -1,23 +1,15 @@
 package frc.robot.commands.ledstrip;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.LEDPattern.GradientType;
+import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.subsystems.LedStrip;
 
-public class LedStripScrollYellow extends Command {
-    private final LedStrip m_ledStrip;
+public class LedStripScrollYellow extends LedStripBaseCommand {
 
-    public LedStripScrollYellow(LedStrip ledStrip) {
-        m_ledStrip = ledStrip;
-        addRequirements(ledStrip);
-    }
+  public LedStripScrollYellow(LedStrip strip) {super(strip);}
 
-    @Override
-    public void execute() {
-        m_ledStrip.showYellow();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
+  @Override
+  public void execute() {
+    m_strip.applyGradient(GradientType.kContinuous, Color.kBlack, Color.kYellow, Color.kBlack);
+  }
 }

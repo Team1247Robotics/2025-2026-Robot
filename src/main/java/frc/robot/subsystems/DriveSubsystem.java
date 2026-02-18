@@ -9,7 +9,6 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -19,9 +18,13 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.sensors.LimelightHelpers;
+// import frc.robot.sensors.LimelightHelpers; // this is causing an incomprehensible build error that i am not dealing with rn
+import frc.robot.utils.Controller;
 import frc.robot.utils.GetAlliance;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /** This class represents the robot's drive subsystem. */
 public class DriveSubsystem extends SubsystemBase {
@@ -174,7 +177,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putString("Angle", m_gyro.getRotation2d().toString());
 
     // updatePose();
-    postTargetToSmartDashboard();
+    // postTargetToSmartDashboard();
   }
 
   /**
@@ -214,14 +217,14 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * Sends the current target data to SmartDashboard.
    */
-  private void postTargetToSmartDashboard() {
-    if (!isLimelightSafe()) return;
+  // private void postTargetToSmartDashboard() {
+  //   // if (!isLimelightSafe()) return;
 
-    Pose3d tagPosition3d = LimelightHelpers.getTargetPose3d_RobotSpace("limelight");
-    Pose2d tagPosition = new Pose2d(tagPosition3d.getX(), tagPosition3d.getY(), tagPosition3d.getRotation().toRotation2d());
+  //   // Pose3d tagPosition3d = LimelightHelpers.getTargetPose3d_RobotSpace("limelight");
+  //   // Pose2d tagPosition = new Pose2d(tagPosition3d.getX(), tagPosition3d.getY(), tagPosition3d.getRotation().toRotation2d());
 
-    SmartDashboard.putString("Target Position Robot Space", tagPosition.toString());
-  }
+  //   SmartDashboard.putString("Target Position Robot Space", tagPosition.toString());
+  // }
 
   /**
    * Corrects the pose of the robot with an external pose provider, such as vision.
@@ -282,6 +285,15 @@ public class DriveSubsystem extends SubsystemBase {
       );
     
     setModuleStates(swerveModuleStates);
+  }
+
+  public Command defaultControllerCommand(CommandXboxController controller) {
+    return new RunCommand(() -> this.drive(
+      Controller.applyDriveYFilters(controller::getLeftY),
+      Controller.applyDriveXFilters(controller::getLeftX),
+      Controller.applyDriveRotationFilters(controller::getRightX),
+      false
+    ), this);
   }
 
   public void drive(ChassisSpeeds speeds) {

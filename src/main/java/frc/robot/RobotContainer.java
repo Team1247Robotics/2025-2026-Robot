@@ -6,22 +6,27 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.LedConfigs;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.drivetrain.AlwaysFaceHub;
 import frc.robot.commands.drivetrain.ResetHeading;
+import frc.robot.commands.indexer.StepIndexer;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripScrollYellow;
 import frc.robot.commands.ledstrip.LedStripSetAlianceColor;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
+import frc.robot.commands.shooter.ArmShooterAsync;
+import frc.robot.commands.shooter.ArmShooterBlocking;
 import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.AutoBuilder2;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.LedStrip;
 import frc.robot.subsystems.LonelyTalonFx;
+import frc.robot.subsystems.Shooter;
 import frc.robot.sensors.ColorSensor;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -45,13 +50,16 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
-  private final LedStrip m_ledStrip = new LedStrip();
+  private final LedStrip m_ledStrip = new LedStrip(LedConfigs.strip1);
 
   private final LonelyTalonFx m_badAppleMachine = new LonelyTalonFx();
 
   private /*final*/ AutoBuilder2 m_autoBuilder = null; //new AutoBuilder2(m_robotDrive);
 
   private final ColorSensor m_indexerSensor = new ColorSensor(0);
+
+  private final Shooter m_shooter = new Shooter();
+  private final Indexer m_indexer = new Indexer();
 
   // private final Intake m_intake = new Intake();
 
@@ -65,59 +73,21 @@ public class RobotContainer {
    */
   public RobotContainer() {
     new PhotonVision.PhotonVisionEstimationSubsystem(m_robotDrive::updatePoseWithPhotonVision);
-
-    NamedCommands.registerCommand("RampUpShooter", new WaitCommand(1));  // TODO: replace with actual command
-    NamedCommands.registerCommand("ActivateIndex", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("Shoot", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("Climb", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("AcquireTarget", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("ActivateIntake", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("CollectIntake", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("DeactivateIntake", new WaitCommand(1)); // TODO: replace with actual command
+    registerPathplannerCommands();
 
     m_autoBuilder = new AutoBuilder2(m_robotDrive); // Must be initialized after all commands are registered since the auto builder uses the registered commands to populate the auto chooser
     
     // Configure the button bindings
     configureButtonBindings();
 
-    // Configure default commands
-    m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband)
-                    * DriveConstants.kMaxSpeedMetersPerSecond,
-                MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband)
-                    * DriveConstants.kMaxSpeedMetersPerSecond,
-                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband)
-                    * DriveConstants.kMaxAngularSpeed,
-                false),
-            m_robotDrive));
+    m_robotDrive.setDefaultCommand(m_robotDrive.defaultControllerCommand(m_driverController));
 
     m_ledStrip.setDefaultCommand(
         new ConditionalCommand(
-          new LedStripScrollRainbow(m_ledStrip).ignoringDisable(true),
-          new LedStripSetAlianceColor(m_ledStrip).ignoringDisable(true),
+          new LedStripScrollRainbow(m_ledStrip),
+          new LedStripSetAlianceColor(m_ledStrip),
           DriverStation::isDisabled)
       );
-
-
-    /* 
-    m_ledStrip.setDefaultCommand(
-        // Default when enabled is Smart Aliance Color Thing
-        // Default when disabled is Rainbow
-
-        new RunCommand(
-            () -> {
-              if (DriverStation.isDisabled()) {
-                  new LedStripScrollRainbow(m_ledStrip).ignoringDisable(true);
-              } else {
-                  new LedStripSetAlianceColor(m_ledStrip).ignoringDisable(true);
-              }
-        }, m_ledStrip).ignoringDisable(true)
-    );
-    */
 
 
     // m_intake.setDefaultCommand(new RunCommand(() -> {m_intake.aspire();},
@@ -128,10 +98,20 @@ public class RobotContainer {
 
     dpad_up.onTrue(new ResetHeading.ResetHeadingForward(m_robotDrive));
     dpad_down.onTrue(new ResetHeading.ResetHeadingBackward(m_robotDrive));
+  }
 
-    // Trigger a_push = new Trigger(() -> m_driverController.getAButton());
-
-    // a_push.whileTrue(new FacePointTest(m_robotDrive, m_driverController));
+  /**
+   * Register all named commands in Pathplanner
+   */
+  private void registerPathplannerCommands() {
+    NamedCommands.registerCommand("RampUpShooter", new ArmShooterBlocking(m_shooter, () -> ShooterConstants.targetSpeed));
+    NamedCommands.registerCommand("ActivateIndex", new StepIndexer(m_indexer));
+    NamedCommands.registerCommand("Shoot", new ArmShooterAsync(m_shooter, () -> ShooterConstants.targetSpeed));
+    NamedCommands.registerCommand("Climb", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("AimAtHub", new AlwaysFaceHub(m_robotDrive, () -> 0, () -> 0, true));
+    NamedCommands.registerCommand("ActivateIntake", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("CollectIntake", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("DeactivateIntake", new WaitCommand(1)); // TODO: replace with actual command
   }
 
   /**
@@ -169,6 +149,8 @@ public class RobotContainer {
         .onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
     m_driverController.x()
         .onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
+
+    m_driverController.a().whileTrue(new ArmShooterAsync(m_shooter, () -> ShooterConstants.targetSpeed));
   }
 
   /**
