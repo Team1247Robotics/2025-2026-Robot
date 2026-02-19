@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.GyroConstants;
 
 public class PigeonTriggers {
-  private static final Pigeon2 pigeon = new Pigeon2(21);
+  private static final Pigeon2 pigeon = new Pigeon2(10);
 
   public static record AccelerationData(double ax, double ay, double az) {};
 
