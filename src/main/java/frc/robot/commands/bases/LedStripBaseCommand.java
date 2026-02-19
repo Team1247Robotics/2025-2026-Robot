@@ -9,15 +9,11 @@ public class LedStripBaseCommand extends Command {
   public LedStripBaseCommand(LedStrip strip) {
     m_strip = strip;
     addRequirements(strip);
+    this.ignoringDisable(true);
   }
 
   @Override
   public boolean isFinished() {
     return false;
-  }
-
-  @Override
-  public boolean runsWhenDisabled() {
-    return true;
   }
 }
