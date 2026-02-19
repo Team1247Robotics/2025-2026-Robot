@@ -7,7 +7,6 @@ import frc.robot.subsystems.generics.GenericSparkMaxMotor;
 
 /**
  * A command that does nothing and will only complete when the given motor reaches the given speed.
- * @implNote Only should be necessary to set the target speed. All other parts can be left as-is.
  * @implNote Motor can be accessed under {@link #m_motor}, target can be accessed under {@link #m_target}.
  */
 public class GenericPassiveAwaitMotorSpeed extends GenericAwaitBaseTargetWithinError {
