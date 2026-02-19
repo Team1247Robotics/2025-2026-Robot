@@ -145,10 +145,8 @@ public class RobotContainer {
     m_Joystick.button(2)
         .whileTrue(new LedStripScrollYellow(m_ledStrip));
 
-    m_driverController.y()
-        .onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
-    m_driverController.x()
-        .onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
+    m_driverController.y().onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
+    m_driverController.x().onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
     m_driverController.a().whileTrue(new ArmShooterAsync(m_shooter, () -> ShooterConstants.targetSpeed));
   }

@@ -1,11 +1,10 @@
 package frc.robot.subsystems;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 import frc.robot.Configs;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.generics.GenericSparkMaxMotor;
+import frc.robot.subsystems.generics.GenericNeo;
 
-public class Shooter extends GenericSparkMaxMotor {
+public class Shooter extends GenericNeo {
   public Shooter() {
-    super(ShooterConstants.kMotorCanId, MotorType.kBrushless, Configs.ShooterMotor.config);
+    super(ShooterConstants.kMotorCanId, Configs.ShooterMotor.config);
   }
 }
