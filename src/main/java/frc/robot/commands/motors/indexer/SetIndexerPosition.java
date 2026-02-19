@@ -1,4 +1,4 @@
-package frc.robot.commands.indexer;
+package frc.robot.commands.motors.indexer;
 
 import java.util.function.DoubleSupplier;
 

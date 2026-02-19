@@ -1,20 +1,21 @@
-package frc.robot.commands.shooter;
+package frc.robot.commands.motors.shooter;
 
 import java.util.function.DoubleSupplier;
 
-import frc.robot.commands.generics.GenericSetMotorSpeed;
+import frc.robot.commands.generics.GenericActiveAwaitMotorSpeed;
 import frc.robot.subsystems.Shooter;
 
 /**
- * Indefinitely holds the speed of the shooter until forcefully interrupted. Intended to be used after {@link AwaitShooterReady} in parallel with indexer and intake.
+ * Command that spins shooter to set velocity until reaching velocity. Will finish when the target has been reached.
  */
-public class RunShooterIndefinitely extends GenericSetMotorSpeed {
+public class AwaitShooterReady extends GenericActiveAwaitMotorSpeed {
+  
   /**
    * Instantiate with a dynamically updating value.
    * @param shooter - The shooter object
    * @param velocity - A double supplier that will return the latest target velocity in RPM every tick.
    */
-  public RunShooterIndefinitely(Shooter shooter, DoubleSupplier velocity) {
+  public AwaitShooterReady(Shooter shooter, DoubleSupplier velocity) {
     super(shooter, velocity);
   }
 
@@ -23,7 +24,8 @@ public class RunShooterIndefinitely extends GenericSetMotorSpeed {
    * @param shooter - The shooter object
    * @param velocity - A double representing the target velocity in RPM.
    */
-  public RunShooterIndefinitely(Shooter shooter, double velocity) {
+  public AwaitShooterReady(Shooter shooter, double velocity) {
     super(shooter, velocity);
   }
 }
+

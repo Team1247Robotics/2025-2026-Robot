@@ -1,4 +1,4 @@
-package frc.robot.commands.indexer;
+package frc.robot.commands.motors.indexer;
 
 import frc.robot.Constants.IndexerConstants;
 import frc.robot.subsystems.Indexer;
