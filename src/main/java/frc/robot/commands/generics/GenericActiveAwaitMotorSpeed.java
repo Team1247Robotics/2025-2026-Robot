@@ -16,6 +16,7 @@ public class GenericActiveAwaitMotorSpeed extends GenericPassiveAwaitMotorSpeed 
    */
   public GenericActiveAwaitMotorSpeed(GenericSparkMaxMotor motor, DoubleSupplier target) {
     super(motor, target);
+    addRequirements(motor);
   }
 
   /**
@@ -25,6 +26,7 @@ public class GenericActiveAwaitMotorSpeed extends GenericPassiveAwaitMotorSpeed 
    */
   public GenericActiveAwaitMotorSpeed(GenericSparkMaxMotor motor, double target) {
     super(motor, target);
+    addRequirements(motor);
   }
 
   @Override

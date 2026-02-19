@@ -14,7 +14,6 @@ public class GenericPassiveAwaitMotorSpeed extends GenericAwaitBaseTargetWithinE
   public GenericPassiveAwaitMotorSpeed(GenericSparkMaxMotor motor, DoubleSupplier targetSupplier) {
     super(motor::getVelocity, targetSupplier, GenericConstants.MotorVelocityControlAllowableError);
     m_motor = motor;
-    addRequirements(m_motor);
   }
 
   public GenericPassiveAwaitMotorSpeed(GenericSparkMaxMotor motor, double target) {
