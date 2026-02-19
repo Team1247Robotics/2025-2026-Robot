@@ -29,7 +29,7 @@ public class GenericActiveAwaitMotorSpeed extends GenericPassiveAwaitMotorSpeed 
 
   @Override
   public void execute() {
-    m_motor.setVelocity(m_targetSupplier.getAsDouble());
+    m_motor.setVelocity(m_target.getAsDouble());
   }
 }
 
