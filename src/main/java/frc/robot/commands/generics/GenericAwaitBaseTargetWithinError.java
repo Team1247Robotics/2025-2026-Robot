@@ -21,6 +21,10 @@ public class GenericAwaitBaseTargetWithinError extends Command {
     m_error = error;
   }
 
+  /**
+   * Static target is only accessed once on command initization and that value is used as long as static target is enabled. The value is recorded no matter if static target is enabled, which allows it to be toggled on and off while the command is running.
+   * @param value
+   */
   protected void setUseStaticTarget(boolean value) {
     m_useStaticTarget = value;
   }
