@@ -18,8 +18,8 @@ import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripScrollYellow;
 import frc.robot.commands.ledstrip.LedStripSetAlianceColor;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
-import frc.robot.commands.shooter.ArmShooterAsync;
-import frc.robot.commands.shooter.ArmShooterBlocking;
+import frc.robot.commands.shooter.RunShooterIndefinitely;
+import frc.robot.commands.shooter.AwaitShooterReady;
 import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.AutoBuilder2;
 import frc.robot.subsystems.DriveSubsystem;
@@ -104,9 +104,9 @@ public class RobotContainer {
    * Register all named commands in Pathplanner
    */
   private void registerPathplannerCommands() {
-    NamedCommands.registerCommand("RampUpShooter", new ArmShooterBlocking(m_shooter, () -> ShooterConstants.targetSpeed));
+    NamedCommands.registerCommand("RampUpShooter", new AwaitShooterReady(m_shooter, () -> ShooterConstants.targetSpeed));
     NamedCommands.registerCommand("ActivateIndex", new StepIndexer(m_indexer));
-    NamedCommands.registerCommand("Shoot", new ArmShooterAsync(m_shooter, () -> ShooterConstants.targetSpeed));
+    NamedCommands.registerCommand("Shoot", new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
     NamedCommands.registerCommand("Climb", new WaitCommand(1)); // TODO: replace with actual command
     NamedCommands.registerCommand("AimAtHub", new AlwaysFaceHub(m_robotDrive, () -> 0, () -> 0, true));
     NamedCommands.registerCommand("ActivateIntake", new WaitCommand(1)); // TODO: replace with actual command
@@ -148,7 +148,7 @@ public class RobotContainer {
     m_driverController.y().onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
     m_driverController.x().onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
-    m_driverController.a().whileTrue(new ArmShooterAsync(m_shooter, () -> ShooterConstants.targetSpeed));
+    m_driverController.a().whileTrue(new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
   }
 
   /**

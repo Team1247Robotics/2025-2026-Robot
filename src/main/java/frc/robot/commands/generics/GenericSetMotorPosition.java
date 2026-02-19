@@ -3,13 +3,13 @@ package frc.robot.commands.generics;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.Generics;
+import frc.robot.Constants.GenericConstants;
 import frc.robot.subsystems.generics.GenericSparkMaxMotor;
 
 public class GenericSetMotorPosition extends Command {
   private final DoubleSupplier m_targetSupplier;
   protected final GenericSparkMaxMotor m_motor;
-  protected final double m_allowableError = Generics.MotorPositionControlAllowableError;
+  protected final double m_allowableError = GenericConstants.MotorPositionControlAllowableError;
   private double m_target = 0;
   
   public GenericSetMotorPosition(GenericSparkMaxMotor motor, DoubleSupplier targetSupplier) {

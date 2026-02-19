@@ -32,8 +32,9 @@ import frc.robot.subsystems.LedStrip.LedStripConfig;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static final class Generics {
+  public static final class GenericConstants {
     public static final double MotorPositionControlAllowableError = Math.PI / 2;
+    public static final double MotorVelocityControlAllowableError = 20;
   }
   public static final class DriveConstants {
     public static final int kFrontLeftDriveMotorPort = 5;
