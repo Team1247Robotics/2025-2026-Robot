@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_TrenchN_To_ShootN"
+            "pathName": "TrenchN_To_ShootN"
           }
         },
         {
@@ -50,13 +50,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_ShootN_To_Outpost"
+            "pathName": "ShootN_To_Outpost"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_Outpost_To_ShootS"
+            "pathName": "Outpost_To_ShootS"
           }
         },
         {
@@ -99,7 +99,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_ShootS_To_ClimbS"
+            "pathName": "ShootS_To_ClimbS"
           }
         },
         {
