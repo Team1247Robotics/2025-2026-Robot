@@ -5,87 +5,231 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "TrenchN_To_ShootN"
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Blue_TrenchN_To_ShootN"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AwaitIntakeDeploy"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AwaitShooterWarmup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "RunShooterIndefinitely"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AimAtHubIndefinitely"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunShooterIndefinitely"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunFeederIndefinitely"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AwaitAimAtHub"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "RunIndexerNTimes"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Blue_ShootN_To_Depot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AwaitIntakeInit"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Blue_Depot_PassThru"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunIntakeIndefinitely"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Blue_Depot_To_ShootN"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AwaitShooterWarmup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "RunShooterIndefinitely"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AimAtHubIndefinitely"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunShooterIndefinitely"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunFeederIndefinitely"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AwaitAimAtHub"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "RunIndexerNTimes"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Blue_ShootN_To_ClimbS"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AwaitClimberExtend"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "RampUpShooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AimAtHub"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "ShootN_To_Depot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ActivateIntake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Depot_PassThru"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "DeactivateIntake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Depot_To_ShootN"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "RampUpShooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AimAtHub"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "ShootN_To_ClimbS"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Climb"
+            "name": "AwaitClimberRetract"
           }
         }
       ]
