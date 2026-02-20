@@ -133,14 +133,15 @@ public class RobotContainer {
 
     m_driverController.b().
     whileTrue(
-      new ParallelCommandGroup(
+      Commands.parallel(
         new AlwaysFaceHub(
           m_robotDrive,
           m_driverController::getLeftY,
           m_driverController::getLeftX,
           true).applyControllerFilters(true),
-          new LedStripSetGreen(m_ledStrip)
-          ));
+        new LedStripSetGreen(m_ledStrip)
+      )
+    );
 
     m_Joystick.button(2)
         .whileTrue(new LedStripScrollYellow(m_ledStrip));
