@@ -10,6 +10,7 @@ import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -50,7 +51,7 @@ public class SDSSwerveModule {
       double chassisAngularOffset,
       boolean invertDrive
     ) {
-    m_driveMotor = Constants.UseTestBot ? new SparkMax(driveMotorChannel, MotorType.kBrushless) : new SparkMax(driveMotorChannel, MotorType.kBrushless);
+    m_driveMotor = Constants.UseTestBot ? new SparkMax(driveMotorChannel, MotorType.kBrushless) : new SparkFlex(driveMotorChannel, MotorType.kBrushless);
     m_turningMotor = new SparkMax(turningMotorChannel, MotorType.kBrushless);
 
     m_driveEncoder = m_driveMotor.getEncoder();
