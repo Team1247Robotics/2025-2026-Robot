@@ -121,20 +121,20 @@ public final class Constants {
         );
     }
 
-    public static final SDSSwerveModuleConfig frontLeftConfig = UseTestBot ? TestBotConfigs.frontLeftSwerveConfig : MainBotConfigs.frontLeftSwerveConfig;
+    public static final SDSSwerveModuleConfig frontLeftConfig  = UseTestBot ? TestBotConfigs.frontLeftSwerveConfig : MainBotConfigs.frontLeftSwerveConfig;
     public static final SDSSwerveModuleConfig frontRightConfig = UseTestBot ? TestBotConfigs.frontRightSwerveConfig : MainBotConfigs.frontRightSwerveConfig;
-    public static final SDSSwerveModuleConfig rearLeftConfig = UseTestBot ? TestBotConfigs.rearLeftSwerveConfig : MainBotConfigs.rearLeftSwerveConfig;
-    public static final SDSSwerveModuleConfig rearRightConfig = UseTestBot ? TestBotConfigs.rearRightSwerveConfig : MainBotConfigs.rearRightSwerveConfig;
+    public static final SDSSwerveModuleConfig rearLeftConfig   = UseTestBot ? TestBotConfigs.rearLeftSwerveConfig : MainBotConfigs.rearLeftSwerveConfig;
+    public static final SDSSwerveModuleConfig rearRightConfig  = UseTestBot ? TestBotConfigs.rearRightSwerveConfig : MainBotConfigs.rearRightSwerveConfig;
 
-    public static final int kFrontLeftDriveMotorPort = 5;
+    public static final int kFrontLeftDriveMotorPort  = 5;
     public static final int kFrontRightDriveMotorPort = 3;
-    public static final int kBackLeftDriveMotorPort = 7;
-    public static final int kBackRightDriveMotorPort = 1;
+    public static final int kBackLeftDriveMotorPort   = 7;
+    public static final int kBackRightDriveMotorPort  = 1;
 
-    public static final int kFrontLeftTurningMotorPort = 6;
+    public static final int kFrontLeftTurningMotorPort  = 6;
     public static final int kFrontRightTurningMotorPort = 4;
-    public static final int kBackLeftTurningMotorPort = 8;
-    public static final int kBackRightTurningMotorPort = 2;
+    public static final int kBackLeftTurningMotorPort   = 8;
+    public static final int kBackRightTurningMotorPort  = 2;
 
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
 
