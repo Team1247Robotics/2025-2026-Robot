@@ -57,10 +57,10 @@ public final class Constants {
     public static final double kBackLeftChassisAngularOffsetTesting = 0.2181360;
     public static final double kBackRightChassisAngularOffsetTesting = 0.1978697;
 
-    public static final boolean kFrontLeftDriveInverted =  true;
-    public static final boolean kFrontRightDriveInverted = true; 
-    public static final boolean kBackLeftDriveInverted =   true;
-    public static final boolean kBackRightDriveInverted =  true;
+    public static final boolean kFrontLeftDriveInverted =  false;
+    public static final boolean kFrontRightDriveInverted = false; 
+    public static final boolean kBackLeftDriveInverted =   false;
+    public static final boolean kBackRightDriveInverted =  false;
 
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
 
