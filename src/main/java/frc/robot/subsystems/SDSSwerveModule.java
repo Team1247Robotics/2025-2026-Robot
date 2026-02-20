@@ -24,7 +24,7 @@ import frc.robot.Constants.DriveConstants;
 
 /** This class represents a single swerve module with a drive and turning motor. */
 public class SDSSwerveModule {
-  private final SparkFlex m_driveMotor;
+  private final SparkMax m_driveMotor;
   private final SparkMax m_turningMotor;
 
   private final RelativeEncoder m_driveEncoder;
@@ -47,7 +47,7 @@ public class SDSSwerveModule {
       double chassisAngularOffset,
       boolean invertDrive
     ) {
-    m_driveMotor = new SparkFlex(driveMotorChannel, MotorType.kBrushless);
+    m_driveMotor = new SparkMax(driveMotorChannel, MotorType.kBrushless);
     m_turningMotor = new SparkMax(turningMotorChannel, MotorType.kBrushless);
 
     m_driveEncoder = m_driveMotor.getEncoder();
@@ -56,7 +56,7 @@ public class SDSSwerveModule {
     m_driveClosedLoopController = m_driveMotor.getClosedLoopController();
     m_turningClosedLoopController = m_turningMotor.getClosedLoopController();
 
-    SparkFlexConfig driveConfig = Configs.SDSSwerveModule.drivingConfig;
+    SparkMaxConfig driveConfig = Configs.SDSSwerveModule.drivingConfig;
     driveConfig.inverted(invertDrive);
 
     SparkMaxConfig turningConfig = Configs.SDSSwerveModule.turningConfig;

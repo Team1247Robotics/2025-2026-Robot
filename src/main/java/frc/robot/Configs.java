@@ -11,7 +11,7 @@ import frc.robot.Constants.NeoMotorContants;
 public final class Configs {
   public static final class SDSSwerveModule {
     public static final SparkMaxConfig turningConfig = new SparkMaxConfig();
-    public static final SparkFlexConfig drivingConfig = new SparkFlexConfig();
+    public static final SparkMaxConfig drivingConfig = new SparkMaxConfig();
 
     static {
       double drivingFactor = ModuleConstants.kWheelDiameterMeters * Math.PI / ModuleConstants.kDrivingMotorReduction;
