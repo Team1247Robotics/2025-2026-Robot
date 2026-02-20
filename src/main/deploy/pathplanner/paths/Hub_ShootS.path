@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.5,
+        "y": 4.0
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.58844801855101,
+        "y": 4.0
+      },
+      "isLocked": false,
+      "linkedName": "Blue_Hub"
+    },
+    {
+      "anchor": {
+        "x": 2.6712946428571427,
+        "y": 3.069255952380953
+      },
+      "prevControl": {
+        "x": 2.466441300477067,
+        "y": 2.9259551913372257
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Blue_Shoot_South"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 2.0,
+    "maxAcceleration": 1.0,
+    "maxAngularVelocity": 180.0,
+    "maxAngularAcceleration": 180.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 32.90524292298791
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}
