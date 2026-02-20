@@ -6,6 +6,13 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.Radians;
 
+import java.lang.ModuleLayer.Controller;
+
+import com.revrobotics.spark.SparkBase;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
@@ -40,9 +47,13 @@ public final class Constants {
     public static final double MotorVelocityControlAllowableError = 20;
   }
   public static final class DriveConstants {
+    public static enum ControllerType { kSparkMax, kSparkFlex }
 
     /** Wheel configs specific for the main robot */
     public static final class MainBotConfigs {
+      public static final ControllerType DriveType = ControllerType.kSparkFlex;
+      public static final ControllerType TurningType = ControllerType.kSparkMax;
+
       public static final boolean kFrontLeftDriveInverted =  true;
       public static final boolean kFrontRightDriveInverted = true; 
       public static final boolean kBackLeftDriveInverted =   true;
@@ -83,6 +94,9 @@ public final class Constants {
 
     /** Wheel configs specific for the test swerve bot */
     public static final class TestBotConfigs {
+      public static final ControllerType DriveType = ControllerType.kSparkMax;
+      public static final ControllerType TurningType = ControllerType.kSparkMax;
+
       public static final boolean kFrontLeftDriveInverted  = false;
       public static final boolean kFrontRightDriveInverted = false; 
       public static final boolean kBackLeftDriveInverted   = false;
@@ -121,10 +135,24 @@ public final class Constants {
         );
     }
 
-    public static final SDSSwerveModuleConfig frontLeftConfig  = UseTestBot ? TestBotConfigs.frontLeftSwerveConfig : MainBotConfigs.frontLeftSwerveConfig;
+    public static final ControllerType TurningControllerType = UseTestBot ? TestBotConfigs.TurningType : MainBotConfigs.TurningType;
+    public static final ControllerType DriveControllerType   = UseTestBot ? TestBotConfigs.DriveType   : MainBotConfigs.DriveType;
+
+    public static SparkBase createMotorController(ControllerType type, int canId) {
+      switch (type) {
+        case kSparkFlex:
+          return new SparkFlex(canId, MotorType.kBrushless);
+        case kSparkMax:
+          return new SparkMax(canId, MotorType.kBrushless);
+        default:
+          return null;
+      }
+    }
+
+    public static final SDSSwerveModuleConfig frontLeftConfig  = UseTestBot ? TestBotConfigs.frontLeftSwerveConfig  : MainBotConfigs.frontLeftSwerveConfig;
     public static final SDSSwerveModuleConfig frontRightConfig = UseTestBot ? TestBotConfigs.frontRightSwerveConfig : MainBotConfigs.frontRightSwerveConfig;
-    public static final SDSSwerveModuleConfig rearLeftConfig   = UseTestBot ? TestBotConfigs.rearLeftSwerveConfig : MainBotConfigs.rearLeftSwerveConfig;
-    public static final SDSSwerveModuleConfig rearRightConfig  = UseTestBot ? TestBotConfigs.rearRightSwerveConfig : MainBotConfigs.rearRightSwerveConfig;
+    public static final SDSSwerveModuleConfig rearLeftConfig   = UseTestBot ? TestBotConfigs.rearLeftSwerveConfig   : MainBotConfigs.rearLeftSwerveConfig;
+    public static final SDSSwerveModuleConfig rearRightConfig  = UseTestBot ? TestBotConfigs.rearRightSwerveConfig  : MainBotConfigs.rearRightSwerveConfig;
 
     public static final int kFrontLeftDriveMotorPort  = 5;
     public static final int kFrontRightDriveMotorPort = 3;
@@ -139,7 +167,7 @@ public final class Constants {
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
 
     public static final double kTrackWidthMeters = Units.inchesToMeters(22); // Distance between centers of right and left wheels on robot - Was .5
-    public static final double kWheelBaseMeters = Units.inchesToMeters(21.875); // Distance between front and back wheels on robot - Was .7
+    public static final double kWheelBaseMeters  = Units.inchesToMeters(21.875); // Distance between front and back wheels on robot - Was .7
   
 
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
