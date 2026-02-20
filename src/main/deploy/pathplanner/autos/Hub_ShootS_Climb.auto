@@ -15,7 +15,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Hub_ShootN"
+                        "pathName": "Hub_ShootS"
                       }
                     },
                     {
@@ -100,7 +100,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "ShootN_To_ClimbS"
+                  "pathName": "ShootS_To_ClimbS"
                 }
               },
               {

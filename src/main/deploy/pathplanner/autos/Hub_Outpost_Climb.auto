@@ -94,13 +94,101 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "ShootN_To_Outpost"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Outpost_To_ShootS"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AwaitShooterWarmup"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "RunShooterIndefinitely"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AimAtHubIndefinitely"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunShooterIndefinitely"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunFeederIndefinitely"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AwaitAimAtHub"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "RunIndexerNTimes"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "race",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "ShootN_To_ClimbS"
+                  "pathName": "ShootS_To_ClimbS"
                 }
               },
               {
