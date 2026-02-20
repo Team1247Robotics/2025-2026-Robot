@@ -28,33 +28,23 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /** This class represents the robot's drive subsystem. */
 public class DriveSubsystem extends SubsystemBase {
+
+
   //#region Construct swerve modules
   private final SDSSwerveModule m_frontLeft = new SDSSwerveModule(
-      DriveConstants.kFrontLeftDriveMotorPort,
-      DriveConstants.kFrontLeftTurningMotorPort,
-      DriveConstants.kFrontLeftChassisAngularOffsetMain,
-      DriveConstants.kFrontLeftDriveInverted
+      DriveConstants.frontLeftConfig
     );
 
   private final SDSSwerveModule m_rearLeft = new SDSSwerveModule(
-      DriveConstants.kBackLeftDriveMotorPort,
-      DriveConstants.kBackLeftTurningMotorPort,
-      DriveConstants.kBackLeftChassisAngularOffsetMain,
-      DriveConstants.kBackLeftDriveInverted
+      DriveConstants.rearLeftConfig
     );
 
   private final SDSSwerveModule m_frontRight = new SDSSwerveModule(
-      DriveConstants.kFrontRightDriveMotorPort,
-      DriveConstants.kFrontRightTurningMotorPort,
-      DriveConstants.kFrontRightChassisAngularOffsetMain,
-      DriveConstants.kFrontRightDriveInverted
+      DriveConstants.frontRightConfig
     );
 
   private final SDSSwerveModule m_rearRight = new SDSSwerveModule(
-      DriveConstants.kBackRightDriveMotorPort,
-      DriveConstants.kBackRightTurningMotorPort,
-      DriveConstants.kBackRightChassisAngularOffsetMain,
-      DriveConstants.kBackRightDriveInverted
+      DriveConstants.rearRightConfig
     );
   //#endregion
 

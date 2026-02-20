@@ -8,7 +8,9 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkAbsoluteEncoder;
+import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -18,11 +20,14 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Configs;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
 /** This class represents a single swerve module with a drive and turning motor. */
 public class SDSSwerveModule {
-  private final SparkMax m_driveMotor;
+  public static record SDSSwerveModuleConfig(int driveCanId, int pivotCanId, double zeroOffset, boolean invertDrive) {}
+  
+  private final SparkBase m_driveMotor;
   private final SparkMax m_turningMotor;
 
   private final RelativeEncoder m_driveEncoder;
@@ -39,13 +44,14 @@ public class SDSSwerveModule {
    * @param driveMotorChannel The channel of the drive motor.
    * @param turningMotorChannel The channel of the turning motor.
    */
+  @SuppressWarnings("resource") // its probably fine
   public SDSSwerveModule(
       int driveMotorChannel,
       int turningMotorChannel,
       double chassisAngularOffset,
       boolean invertDrive
     ) {
-    m_driveMotor = new SparkMax(driveMotorChannel, MotorType.kBrushless);
+    m_driveMotor = Constants.UseTestBot ? new SparkMax(driveMotorChannel, MotorType.kBrushless) : new SparkFlex(driveMotorChannel, MotorType.kBrushless);
     m_turningMotor = new SparkMax(turningMotorChannel, MotorType.kBrushless);
 
     m_driveEncoder = m_driveMotor.getEncoder();
@@ -65,6 +71,12 @@ public class SDSSwerveModule {
 
     m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
   }
+
+  public SDSSwerveModule(SDSSwerveModuleConfig config) {
+    this(config.driveCanId, config.pivotCanId, config.zeroOffset, config.invertDrive);
+  }
+
+
 
   /**
    * Returns the current state of the module.

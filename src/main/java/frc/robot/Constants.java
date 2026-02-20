@@ -22,6 +22,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.LedStrip.LedStripConfig;
+import frc.robot.subsystems.SDSSwerveModule.SDSSwerveModuleConfig;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -32,11 +33,99 @@ import frc.robot.subsystems.LedStrip.LedStripConfig;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static final boolean UseTestBot = true;
+
   public static final class GenericConstants {
     public static final double MotorPositionControlAllowableError = Math.PI / 2;
     public static final double MotorVelocityControlAllowableError = 20;
   }
   public static final class DriveConstants {
+
+    /** Wheel configs specific for the main robot */
+    public static final class MainBotConfigs {
+      public static final boolean kFrontLeftDriveInverted =  true;
+      public static final boolean kFrontRightDriveInverted = true; 
+      public static final boolean kBackLeftDriveInverted =   true;
+      public static final boolean kBackRightDriveInverted =  true;
+
+      public static final double kFrontLeftChassisAngularOffset  = 0.0;
+      public static final double kFrontRightChassisAngularOffset = 0.0;
+      public static final double kBackLeftChassisAngularOffset   = 0.0;
+      public static final double kBackRightChassisAngularOffset  = 0.0;
+
+      public static final SDSSwerveModuleConfig frontLeftSwerveConfig = new SDSSwerveModuleConfig(
+          DriveConstants.kFrontLeftDriveMotorPort,
+          DriveConstants.kFrontLeftTurningMotorPort,
+          kFrontLeftChassisAngularOffset,
+          kFrontLeftDriveInverted
+        );
+      public static final SDSSwerveModuleConfig rearLeftSwerveConfig = new SDSSwerveModuleConfig(
+          DriveConstants.kBackLeftDriveMotorPort,
+          DriveConstants.kBackLeftTurningMotorPort,
+          kBackLeftChassisAngularOffset,
+          kBackLeftDriveInverted
+        );
+
+      public static final SDSSwerveModuleConfig frontRightSwerveConfig = new SDSSwerveModuleConfig(
+          DriveConstants.kFrontRightDriveMotorPort,
+          DriveConstants.kFrontRightTurningMotorPort,
+          kFrontRightChassisAngularOffset,
+          kFrontRightDriveInverted
+        );
+
+      public static final SDSSwerveModuleConfig rearRightSwerveConfig = new SDSSwerveModuleConfig(
+          DriveConstants.kBackRightDriveMotorPort,
+          DriveConstants.kBackRightTurningMotorPort,
+          kBackRightChassisAngularOffset,
+          kBackRightDriveInverted
+        );
+    }
+
+    /** Wheel configs specific for the test swerve bot */
+    public static final class TestBotConfigs {
+      public static final boolean kFrontLeftDriveInverted  = false;
+      public static final boolean kFrontRightDriveInverted = false; 
+      public static final boolean kBackLeftDriveInverted   = false;
+      public static final boolean kBackRightDriveInverted  = false;
+
+      public static final double kFrontLeftChassisAngularOffset  = 0.7006581;
+      public static final double kFrontRightChassisAngularOffset = 0.4643519;
+      public static final double kBackLeftChassisAngularOffset   = 0.2181360;
+      public static final double kBackRightChassisAngularOffset  = 0.1978697;
+
+      public static final SDSSwerveModuleConfig frontLeftSwerveConfig = new SDSSwerveModuleConfig(
+          DriveConstants.kFrontLeftDriveMotorPort,
+          DriveConstants.kFrontLeftTurningMotorPort,
+          kFrontLeftChassisAngularOffset,
+          kFrontLeftDriveInverted
+        );
+      public static final SDSSwerveModuleConfig rearLeftSwerveConfig = new SDSSwerveModuleConfig(
+          DriveConstants.kBackLeftDriveMotorPort,
+          DriveConstants.kBackLeftTurningMotorPort,
+          kBackLeftChassisAngularOffset,
+          kBackLeftDriveInverted
+        );
+
+      public static final SDSSwerveModuleConfig frontRightSwerveConfig = new SDSSwerveModuleConfig(
+          DriveConstants.kFrontRightDriveMotorPort,
+          DriveConstants.kFrontRightTurningMotorPort,
+          kFrontRightChassisAngularOffset,
+          kFrontRightDriveInverted
+        );
+
+      public static final SDSSwerveModuleConfig rearRightSwerveConfig = new SDSSwerveModuleConfig(
+          DriveConstants.kBackRightDriveMotorPort,
+          DriveConstants.kBackRightTurningMotorPort,
+          kBackRightChassisAngularOffset,
+          kBackRightDriveInverted
+        );
+    }
+
+    public static final SDSSwerveModuleConfig frontLeftConfig = UseTestBot ? TestBotConfigs.frontLeftSwerveConfig : MainBotConfigs.frontLeftSwerveConfig;
+    public static final SDSSwerveModuleConfig frontRightConfig = UseTestBot ? TestBotConfigs.frontRightSwerveConfig : MainBotConfigs.frontRightSwerveConfig;
+    public static final SDSSwerveModuleConfig rearLeftConfig = UseTestBot ? TestBotConfigs.rearLeftSwerveConfig : MainBotConfigs.rearLeftSwerveConfig;
+    public static final SDSSwerveModuleConfig rearRightConfig = UseTestBot ? TestBotConfigs.rearRightSwerveConfig : MainBotConfigs.rearRightSwerveConfig;
+
     public static final int kFrontLeftDriveMotorPort = 5;
     public static final int kFrontRightDriveMotorPort = 3;
     public static final int kBackLeftDriveMotorPort = 7;
@@ -46,21 +135,6 @@ public final class Constants {
     public static final int kFrontRightTurningMotorPort = 4;
     public static final int kBackLeftTurningMotorPort = 8;
     public static final int kBackRightTurningMotorPort = 2;
-
-    public static final double kFrontLeftChassisAngularOffsetMain = 0.0;
-    public static final double kFrontRightChassisAngularOffsetMain = 0.0;
-    public static final double kBackLeftChassisAngularOffsetMain = 0.0;
-    public static final double kBackRightChassisAngularOffsetMain = 0.0;
-
-    public static final double kFrontLeftChassisAngularOffsetTesting = 0.7006581;
-    public static final double kFrontRightChassisAngularOffsetTesting = 0.4643519;
-    public static final double kBackLeftChassisAngularOffsetTesting = 0.2181360;
-    public static final double kBackRightChassisAngularOffsetTesting = 0.1978697;
-
-    public static final boolean kFrontLeftDriveInverted =  false;
-    public static final boolean kFrontRightDriveInverted = false; 
-    public static final boolean kBackLeftDriveInverted =   false;
-    public static final boolean kBackRightDriveInverted =  false;
 
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
 
