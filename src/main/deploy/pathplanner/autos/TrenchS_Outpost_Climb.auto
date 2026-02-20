@@ -7,13 +7,49 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_TrenchN_To_ShootN"
+            "pathName": "TrenchS_To_ShootS"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AimAtHub"
+            "name": "RampUpShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ActivateIndex"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ShootS_To_Outpost"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Outpost_To_ShootS"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RampUpShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ActivateIndex"
           }
         },
         {
@@ -25,55 +61,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_ShootN_To_CentralNorthLeft-Intake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Central_NorthLeft_To_NorthLeftExit"
+            "pathName": "ShootS_To_ClimbS"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "DeactivateIntake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Central_LeftMid_To_BlueTrenchN"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CentralBlueTrenchN_To_BlueTrenchN"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Blue_TrenchN_To_ShootN"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AimAtHub"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Blue_ShootN_To_ClimbS"
+            "name": "Climb"
           }
         }
       ]

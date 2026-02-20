@@ -15,7 +15,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Blue_TrenchS_To_ShootS"
+                        "pathName": "TrenchS_To_ShootS"
                       }
                     },
                     {
@@ -100,7 +100,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Blue_ShootS_To_ClimbS"
+                  "pathName": "ShootS_To_ClimbS"
                 }
               },
               {

@@ -7,19 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_TrenchS_To_ShootS"
+            "pathName": "TrenchN_To_ShootN"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "RampUpShooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ActivateIndex"
+            "name": "AimAtHub"
           }
         },
         {
@@ -31,25 +25,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_ShootS_To_Outpost"
+            "pathName": "Blue_ShootN_To_CentralNorthLeft-Intake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_Outpost_To_ShootS"
+            "pathName": "Central_NorthLeft_To_NorthLeftExit"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "RampUpShooter"
+            "name": "DeactivateIntake"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "ActivateIndex"
+            "pathName": "Central_LeftMid_To_BlueTrenchN"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CentralBlueTrenchN_To_BlueTrenchN"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TrenchN_To_ShootN"
           }
         },
         {
@@ -59,15 +65,15 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Blue_ShootS_To_ClimbS"
+            "name": "AimAtHub"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Climb"
+            "pathName": "ShootN_To_ClimbS"
           }
         }
       ]

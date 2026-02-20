@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_BumpS_To_ShootS"
+            "pathName": "TrenchN_To_ShootN"
           }
         },
         {
@@ -19,7 +19,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ActivateIndex"
+            "name": "AimAtHub"
           }
         },
         {
@@ -31,13 +31,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_ShootS_To_Outpost"
+            "pathName": "ShootN_To_Depot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ActivateIntake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_Outpost_To_ShootS"
+            "pathName": "Depot_PassThru"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DeactivateIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Depot_To_ShootN"
           }
         },
         {
@@ -49,7 +67,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ActivateIndex"
+            "name": "AimAtHub"
           }
         },
         {
@@ -61,7 +79,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_ShootS_To_ClimbS"
+            "pathName": "ShootN_To_ClimbS"
           }
         },
         {
