@@ -10,7 +10,6 @@ public class LedStripBaseCommand extends Command {
   public LedStripBaseCommand(LedStrip strip) {
     m_strip = strip;
     addRequirements(strip);
-    this.ignoringDisable(m_ignoreDisable);
   }
 
   public void setIgnoreDisable(boolean value) {
