@@ -18,6 +18,7 @@ import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.commands.motors.drivetrain.AlwaysFaceHub;
 import frc.robot.commands.motors.drivetrain.ResetHeading;
 import frc.robot.commands.motors.indexer.StepIndexer;
+import frc.robot.commands.motors.indexer.StepIndexerNTimes;
 import frc.robot.commands.motors.shooter.AwaitShooterReady;
 import frc.robot.commands.motors.shooter.RunShooterIndefinitely;
 import frc.robot.sensors.PhotonVision;
@@ -109,7 +110,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot", new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
 
     NamedCommands.registerCommand("ActivateIndex", new StepIndexer(m_indexer));
-    NamedCommands.registerCommand("RunIndexerNTimes", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("RunIndexerNTimes", new StepIndexerNTimes(m_indexer, 10));
 
     NamedCommands.registerCommand("RunFeederIndefinitely", new WaitCommand(1)); // TODO: replace with actual command
 
