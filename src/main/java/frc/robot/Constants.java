@@ -252,6 +252,8 @@ public final class Constants {
 
   public static final class GyroConstants {
     public static final Angle flatThreshold = Radians.of(Math.PI / 8);
+
+    public static final Angle TargetAngleAllowableError = Radians.of(Math.PI / 16);
   }
 
   public static final class ModuleConstants {

@@ -10,6 +10,8 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.utils.Controller;
 
 /**
+ * @deprecated THIS IS DUE TO BE REPLACED WITH GENERIC REIMPLEMENTATION
+ * <p>
  * Indefinitely face a specified heading
  * 
  * @implNote

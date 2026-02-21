@@ -156,7 +156,7 @@ public class Targeting {
    *
    * @return Signed angular offset in radians from A to B.
    */
-  public double getAngularOffset(Rotation2d rotationA, Rotation2d rotationB) {
+  public static double getAngularOffset(Rotation2d rotationA, Rotation2d rotationB) {
     double aHeading = rotationA.getRadians() % (Math.PI * 2);
     double bHeading = rotationB.getRadians() % (Math.PI * 2);
 

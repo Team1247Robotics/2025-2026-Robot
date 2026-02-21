@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
  * Class to wait until double providers base and target are within a margin of error.
  */
 public class GenericAwaitBaseTargetWithinError extends Command {
-  protected final DoubleSupplier m_base;
-  protected final DoubleSupplier m_target;
+  protected DoubleSupplier m_base;
+  protected DoubleSupplier m_target;
   private double m_error;
 
   private boolean m_useStaticTarget = false;
@@ -20,6 +20,9 @@ public class GenericAwaitBaseTargetWithinError extends Command {
     m_target = target;
     m_error = error;
   }
+
+  public GenericAwaitBaseTargetWithinError(double base, DoubleSupplier target, double error) {this(() -> base, target, error);}
+  public GenericAwaitBaseTargetWithinError(DoubleSupplier base, double target, double error) {this(base, () -> target, error);}
 
   /**
    * Static target is only accessed once on command initization and that value is used as long as static target is enabled. The value is recorded no matter if static target is enabled, which allows it to be toggled on and off while the command is running.
