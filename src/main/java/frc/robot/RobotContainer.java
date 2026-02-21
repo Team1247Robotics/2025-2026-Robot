@@ -65,12 +65,12 @@ public class RobotContainer {
 
   private final ColorSensor m_indexerSensor = new ColorSensor(0);
 
-  private final Shooter m_shooter = new Shooter();
-  private final Indexer m_indexer = new Indexer();
-  private final Feeder  m_Feeder  = new Feeder();
-  private final Climber m_Climber = new Climber();
-  private final Intake  m_Intake  = new Intake();
-  private final IntakeDeployment m_IntakeDeployment = new IntakeDeployment();
+  // private final Shooter m_shooter = new Shooter();
+  // private final Indexer m_indexer = new Indexer();
+  // private final Feeder  m_Feeder  = new Feeder();
+  // private final Climber m_Climber = new Climber();
+  // private final Intake  m_Intake  = new Intake();
+  // private final IntakeDeployment m_IntakeDeployment = new IntakeDeployment();
 
   // private final Intake m_intake = new Intake();
 
@@ -109,26 +109,26 @@ public class RobotContainer {
    */
   private void registerPathplannerCommands() {
 
-    NamedCommands.registerCommand("AwaitShooterWarmup", new AwaitShooterReady(m_shooter, () -> ShooterConstants.targetSpeed));
-    NamedCommands.registerCommand("RunShooterIndefinitely", new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
-    NamedCommands.registerCommand("Shoot", new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
+    // NamedCommands.registerCommand("AwaitShooterWarmup", new AwaitShooterReady(m_shooter, () -> ShooterConstants.targetSpeed));
+    // NamedCommands.registerCommand("RunShooterIndefinitely", new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
+    // NamedCommands.registerCommand("Shoot", new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
 
-    NamedCommands.registerCommand("ActivateIndex", new StepIndexer(m_indexer));
-    NamedCommands.registerCommand("RunIndexerNTimes", new StepIndexerNTimes(m_indexer, 10));
+    // NamedCommands.registerCommand("ActivateIndex", new StepIndexer(m_indexer));
+    // NamedCommands.registerCommand("RunIndexerNTimes", new StepIndexerNTimes(m_indexer, 10));
 
-    NamedCommands.registerCommand("RunFeederIndefinitely", new RunFeeder(m_Feeder));
+    // NamedCommands.registerCommand("RunFeederIndefinitely", new RunFeeder(m_Feeder));
 
-    NamedCommands.registerCommand("AwaitClimberRetract", new RetractClimber(m_Climber));
-    NamedCommands.registerCommand("AwaitClimberExtend", new ExtendClimber(m_Climber));
+    // NamedCommands.registerCommand("AwaitClimberRetract", new RetractClimber(m_Climber));
+    // NamedCommands.registerCommand("AwaitClimberExtend", new ExtendClimber(m_Climber));
 
     NamedCommands.registerCommand("AimAtHub", new HubCommands.AimAt.Indefinitely(m_robotDrive));
     NamedCommands.registerCommand("AimAtHubIndefinitely", new HubCommands.AimAt.Indefinitely(m_robotDrive));
     NamedCommands.registerCommand("AwaitAimAtHub", new HubCommands.AimAt.Await.Passively(m_robotDrive));
 
-    NamedCommands.registerCommand("AwaitIntakeInit", new IntakeCommands.Run.Await.Actively(m_Intake));
-    NamedCommands.registerCommand("RunIntakeIndefinitely", new IntakeCommands.Run.Indefinitely(m_Intake));
-    NamedCommands.registerCommand("DeactivateIntake", Commands.none()); // dont tell the motor to run and it wont run idk what you expect me to do here.
-    NamedCommands.registerCommand("AwaitIntakeDeploy", new AwaitIntakeDeployment.Deploy.Actively(m_IntakeDeployment));
+    // NamedCommands.registerCommand("AwaitIntakeInit", new IntakeCommands.Run.Await.Actively(m_Intake));
+    // NamedCommands.registerCommand("RunIntakeIndefinitely", new IntakeCommands.Run.Indefinitely(m_Intake));
+    // NamedCommands.registerCommand("DeactivateIntake", Commands.none()); // dont tell the motor to run and it wont run idk what you expect me to do here.
+    // NamedCommands.registerCommand("AwaitIntakeDeploy", new AwaitIntakeDeployment.Deploy.Actively(m_IntakeDeployment));
   }
 
   /**
@@ -166,7 +166,7 @@ public class RobotContainer {
     m_driverJoystick.button(5).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
     m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
-    m_driverJoystick.button(7).whileTrue(new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
+    // m_driverJoystick.button(7).whileTrue(new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
   }
 
   /**

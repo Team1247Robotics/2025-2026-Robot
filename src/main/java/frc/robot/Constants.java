@@ -58,10 +58,10 @@ public final class Constants {
       public static final boolean kBackLeftDriveInverted =   true;
       public static final boolean kBackRightDriveInverted =  true;
 
-      public static final double kFrontLeftChassisAngularOffset  = 0.0;
-      public static final double kFrontRightChassisAngularOffset = 0.0;
-      public static final double kBackLeftChassisAngularOffset   = 0.0;
-      public static final double kBackRightChassisAngularOffset  = 0.0;
+      public static final double kFrontLeftChassisAngularOffset  = 0.7789029;
+      public static final double kFrontRightChassisAngularOffset = 0.3413826;
+      public static final double kBackLeftChassisAngularOffset   = 0.9801169;
+      public static final double kBackRightChassisAngularOffset  = 0.3838108;
 
       public static final SDSSwerveModuleConfig frontLeftSwerveConfig = new SDSSwerveModuleConfig(
           DriveConstants.kFrontLeftDriveMotorPort,
