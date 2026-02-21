@@ -12,6 +12,7 @@ import frc.robot.Constants.LedConfigs;
 import frc.robot.Constants.Feature;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.ToggleCommand;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripScrollYellow;
 import frc.robot.commands.ledstrip.LedStripSetAlianceColor;
@@ -116,15 +117,34 @@ public class RobotContainer {
     m_driverJoystick.povDown().onTrue(new ResetHeading.ResetHeadingBackward(m_robotDrive));
   }
 
+  private ToggleCommand autonShooter = new ToggleCommand();
+  private ToggleCommand autonFeeder = new ToggleCommand();
+  private ToggleCommand autonIntake = new ToggleCommand();
+
   /**
    * Register all named commands in Pathplanner
    */
   private void registerPathplannerCommands() {
+    NamedCommands.registerCommand("EnableShooter", autonShooter.enable());
+    NamedCommands.registerCommand("DisabledShooter", autonFeeder.disable());
+    NamedCommands.registerCommand("AwaitShooter", ShooterCommands.Run.Await.Passively(m_shooter));
+
+    NamedCommands.registerCommand("EnableFeeder", autonFeeder.enable());
+    NamedCommands.registerCommand("DisableFeeder", autonFeeder.disable());
+    NamedCommands.registerCommand("AwaitFeeder", FeederCommands.Await.Passively(m_Feeder));
+
+    NamedCommands.registerCommand("EnableIntake", autonIntake.enable());
+    NamedCommands.registerCommand("DisabledIntake", autonIntake.disable());
+    NamedCommands.registerCommand("AwaitIntake", IntakeCommands.Driver.Run.Await.Passively(m_Intake));
+
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
+      autonShooter.getTrigger().whileTrue(ShooterCommands.Run.Indefinitely(m_shooter));
+
       NamedCommands.registerCommand("AwaitShooterWarmup", ShooterCommands.Run.Await.Actively(m_shooter));
       NamedCommands.registerCommand("RunShooterIndefinitely", ShooterCommands.Run.Indefinitely(m_shooter));
       NamedCommands.registerCommand("Shoot", ShooterCommands.Run.Indefinitely(m_shooter));
     } else {
+
       NamedCommands.registerCommand("AwaitShooterWarmup", Commands.none());
       NamedCommands.registerCommand("RunShooterIndefinitely", Commands.none());
       NamedCommands.registerCommand("Shoot", Commands.none());
@@ -139,6 +159,8 @@ public class RobotContainer {
     }
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) {
+      autonFeeder.getTrigger().whileTrue(FeederCommands.Run(m_Feeder));
+      
       NamedCommands.registerCommand("RunFeederIndefinitely", FeederCommands.Run(m_Feeder));
     } else {
       NamedCommands.registerCommand("RunFeederIndefinitely", Commands.none());
@@ -157,6 +179,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("AwaitAimAtHub", HubCommands.AimAt.Await.Passively(m_robotDrive));
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) {
+      autonIntake.getTrigger().whileTrue(IntakeCommands.Driver.Run.Indefinitely(m_Intake));
+
       NamedCommands.registerCommand("AwaitIntakeInit", IntakeCommands.Driver.Run.Await.Actively(m_Intake));
       NamedCommands.registerCommand("RunIntakeIndefinitely", IntakeCommands.Driver.Run.Indefinitely(m_Intake));
       NamedCommands.registerCommand("DeactivateIntake", Commands.none());

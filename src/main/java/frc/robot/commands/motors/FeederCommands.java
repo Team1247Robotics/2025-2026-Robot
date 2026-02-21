@@ -13,10 +13,18 @@ public interface FeederCommands {
       }
     }
 
+    static Command Actively(Feeder feeder) {
+      return new Actively(feeder);
+    }
+
     class Passively extends GenericMotorControl.Velocity.Await.Passively {
       public Passively(Feeder feeder) {
         super(feeder, FeederConstants.Control.TargetSpeed);
       }
+    }
+
+    static Command Passively(Feeder feeder) {
+      return new Passively(feeder);
     }
   }
   class Run extends GenericMotorControl.Velocity.Set {

@@ -154,6 +154,14 @@ public interface ShooterCommands {
         public Passively(Shooter shooter, double velocity) {
           super(shooter, velocity);
         }
+
+        /**
+         * Instatiate with a statically set value.
+         * @param shooter - The shooter object
+         */
+        public Passively(Shooter shooter) {
+          this(shooter, ShooterConstants.targetSpeed);
+        }
       }
 
       /**
@@ -162,7 +170,7 @@ public interface ShooterCommands {
        * @param velocity - A double supplier that will return the latest target velocity in RPM every tick.
        */
       public static Command Passively(Shooter shooter, DoubleSupplier velocity) {
-        return new Actively(shooter, velocity);
+        return new Passively(shooter, velocity);
       }
 
       /**
@@ -171,7 +179,15 @@ public interface ShooterCommands {
        * @param velocity - A double representing the target velocity in RPM.
        */
       public static Command Passively(Shooter shooter, double velocity) {
-        return new Actively(shooter, velocity);
+        return new Passively(shooter, velocity);
+      }
+
+      /**
+       * Instatiate with a statically set value.
+       * @param shooter - The shooter object
+       */
+      public static Command Passively(Shooter shooter) {
+        return new Passively(shooter);
       }
     }
 

@@ -25,7 +25,7 @@
       },
       "nextControl": {
         "x": 3.436767982631533,
-        "y": 0.6945240467199305
+        "y": 0.6945240467199306
       },
       "isLocked": false,
       "linkedName": "Central_Trench_South_Blue"
@@ -41,7 +41,7 @@
       },
       "nextControl": {
         "x": 3.2803507334350686,
-        "y": 0.5606240274870968
+        "y": 0.5606240274870967
       },
       "isLocked": false,
       "linkedName": "Blue_Trench_South"
