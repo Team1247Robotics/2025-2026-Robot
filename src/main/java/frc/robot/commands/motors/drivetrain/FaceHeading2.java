@@ -3,6 +3,7 @@ package frc.robot.commands.motors.drivetrain;
 import static edu.wpi.first.units.Units.Radians;
 
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -24,11 +25,11 @@ public interface FaceHeading2 {
       protected Rotation2d m_offset = Rotation2d.kZero;
   
       /**
-     * Target heading to reach.
-     * @implNote
-     * Does not need to be set when extending.
-     */
-    private Rotation2d m_absoluteTarget;
+       * Target heading to reach.
+       * @implNote
+       * Does not need to be set when extending.
+       */
+      protected Supplier<Rotation2d> m_headingTargetSupplier;
   
       /**
        * Function to get target x velocity or effort.
@@ -51,6 +52,26 @@ public interface FaceHeading2 {
   
   
       private PIDController m_pid = new PIDController(0.7, 0.0, 0);
+
+      /**
+       * @param drivetrain - The drivetrain.
+       * @param target - Rotation target heading supplier.
+       * @param xSupplier - Function that when called returns the target x velocity or effort.
+       * @param ySupplier - Function that when called returns the target y velocity or effort.
+       */
+      public Actively(
+          DriveSubsystem drivetrain,
+          Supplier<Rotation2d> target,
+          DoubleSupplier xSupplier,
+          DoubleSupplier ySupplier
+      ) {
+        super(() -> Targeting.getAngularOffset(Rotation2d.fromDegrees(drivetrain.getHeading()), target.get()), 0, GyroConstants.TargetAngleAllowableError.abs(Radians));
+        this.m_drivetrain = drivetrain;
+        this.m_headingTargetSupplier = target;
+        this.m_xSupplier = xSupplier;
+        this.m_ySupplier = ySupplier;
+        m_pid.enableContinuousInput(0, Math.PI * 2);
+      }
   
       /**
        * @param drivetrain - The drivetrain.
@@ -64,12 +85,7 @@ public interface FaceHeading2 {
           DoubleSupplier xSupplier,
           DoubleSupplier ySupplier
       ) {
-        super(() -> Targeting.getAngularOffset(Rotation2d.fromDegrees(drivetrain.getHeading()), target), 0, GyroConstants.TargetAngleAllowableError.abs(Radians));
-        this.m_drivetrain = drivetrain;
-        this.m_absoluteTarget = target;
-        this.m_xSupplier = xSupplier;
-        this.m_ySupplier = ySupplier;
-        m_pid.enableContinuousInput(0, Math.PI * 2);
+        this(drivetrain, () -> target, xSupplier, ySupplier);
       }
   
       /**
@@ -121,13 +137,21 @@ public interface FaceHeading2 {
   
       /**
        * Updates the target heading.
+       * @param target - New target heading supplier.
+       * @return The new target.
+       */
+      public void updateHeading(Supplier<Rotation2d> target) {
+        m_headingTargetSupplier = target;
+        this.m_base = () -> Targeting.getAngularOffset(Rotation2d.fromDegrees(m_drivetrain.getHeading()), m_headingTargetSupplier.get());
+      }
+
+      /**
+       * Updates the target heading.
        * @param target - New target heading.
        * @return The new target.
        */
-      public Rotation2d updateHeading(Rotation2d target) {
-        m_absoluteTarget = target;
-        this.m_base = () -> Targeting.getAngularOffset(Rotation2d.fromDegrees(m_drivetrain.getHeading()), target);
-        return m_absoluteTarget;
+      public void updateHeading(Rotation2d target) {
+        updateHeading(() -> target);
       }
   
       /**
@@ -135,8 +159,8 @@ public interface FaceHeading2 {
        * @param target - Double reprenting the target heading in radians.
        * @return The new angle in radians.
        */
-      public double updateHeading(double target) {
-        return updateHeading(new Rotation2d(target)).getRadians();
+      public void updateHeading(double target) {
+        updateHeading(Rotation2d.fromRadians(target));
       }
   
       /**
@@ -227,7 +251,7 @@ public interface FaceHeading2 {
   
       @Override
       public void execute() {
-        pointToSetpoint(m_absoluteTarget);
+        pointToSetpoint(m_headingTargetSupplier.get());
       }
     }
   

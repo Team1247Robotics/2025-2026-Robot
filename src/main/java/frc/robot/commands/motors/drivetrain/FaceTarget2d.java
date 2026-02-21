@@ -12,6 +12,8 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.utils.Targeting;
 
 /**
+ * @deprecated Remade generic
+ * <p>
  * Face a field relative Pose2d.
  * 
  * @implNote
