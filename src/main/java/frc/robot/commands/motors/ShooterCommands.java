@@ -5,6 +5,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.generics.GenericMotorControl;
 import frc.robot.subsystems.motors.Shooter;
 
@@ -20,6 +21,26 @@ public interface ShooterCommands {
           )
         );
       }
+
+      public Sequence(Shooter shooter, Double speed, Command... commands) {
+        this(shooter, () -> speed, commands);
+      }
+
+      public Sequence(Shooter shooter, Command... commands) {
+        this(shooter, ShooterConstants.targetSpeed, commands);
+      }
+    }
+
+    public static Command Sequence(Shooter shooter, DoubleSupplier speed, Command... commands) {
+      return new Sequence(shooter, speed, commands);
+    }
+
+    public static Command Sequence(Shooter shooter, double speed, Command... commands) {
+      return new Sequence(shooter, speed, commands);
+    }
+
+    public static Command Sequence(Shooter shooter, Command... commands) {
+      return new Sequence(shooter, commands);
     }
 
     public class Parallel extends SequentialCommandGroup {
@@ -32,6 +53,26 @@ public interface ShooterCommands {
           )
         );
       }
+
+      public Parallel(Shooter shooter, Double speed, Command... commands) {
+        this(shooter, () -> speed, commands);
+      }
+
+      public Parallel(Shooter shooter, Command... commands) {
+        this(shooter, ShooterConstants.targetSpeed, commands);
+      }
+    }
+
+    public static Command Parallel(Shooter shooter, DoubleSupplier speed, Command... commands) {
+      return new Parallel(shooter, speed, commands);
+    }
+
+    public static Command Parallel(Shooter shooter, double speed, Command... commands) {
+      return new Parallel(shooter, speed, commands);
+    }
+
+    public static Command Parallel(Shooter shooter, Command... commands) {
+      return new Parallel(shooter, commands);
     }
   }
 
@@ -59,6 +100,36 @@ public interface ShooterCommands {
         public Actively(Shooter shooter, double velocity) {
           super(shooter, velocity);
         }
+
+        public Actively(Shooter shooter) {
+          this(shooter, ShooterConstants.targetSpeed);
+        }
+      }
+
+      /**
+       * Instantiate with a dynamically updating value.
+       * @param shooter - The shooter object
+       * @param velocity - A double supplier that will return the latest target velocity in RPM every tick.
+       */
+      public static Command Actively(Shooter shooter, DoubleSupplier velocity) {
+        return new Actively(shooter, velocity);
+      }
+
+      /**
+       * Instatiate with a statically set value.
+       * @param shooter - The shooter object
+       * @param velocity - A double representing the target velocity in RPM.
+       */
+      public static Command Actively(Shooter shooter, double velocity) {
+        return new Actively(shooter, velocity);
+      }
+
+      /**
+       * Instatiate with a statically set value.
+       * @param shooter - The shooter object
+       */
+      public static Command Actively(Shooter shooter) {
+        return new Actively(shooter);
       }
 
       /**
@@ -84,6 +155,24 @@ public interface ShooterCommands {
           super(shooter, velocity);
         }
       }
+
+      /**
+       * Instantiate with a dynamically updating value.
+       * @param shooter - The shooter object
+       * @param velocity - A double supplier that will return the latest target velocity in RPM every tick.
+       */
+      public static Command Passively(Shooter shooter, DoubleSupplier velocity) {
+        return new Actively(shooter, velocity);
+      }
+
+      /**
+       * Instatiate with a statically set value.
+       * @param shooter - The shooter object
+       * @param velocity - A double representing the target velocity in RPM.
+       */
+      public static Command Passively(Shooter shooter, double velocity) {
+        return new Actively(shooter, velocity);
+      }
     }
 
     /**
@@ -107,6 +196,40 @@ public interface ShooterCommands {
       public Indefinitely(Shooter shooter, double velocity) {
         super(shooter, velocity);
       }
+
+      /**
+       * Instatiate with a statically set value.
+       * @param shooter - The shooter object
+       */
+      public Indefinitely(Shooter shooter) {
+        this(shooter, ShooterConstants.targetSpeed);
+      }
+    }
+
+    /**
+     * Instantiate with a dynamically updating value.
+     * @param shooter - The shooter object
+     * @param velocity - A double supplier that will return the latest target velocity in RPM every tick.
+     */
+    static Command Indefinitely(Shooter shooter, DoubleSupplier velocity) {
+      return new Indefinitely(shooter, velocity);
+    }
+
+    /**
+     * Instatiate with a statically set value.
+     * @param shooter - The shooter object
+     * @param velocity - A double representing the target velocity in RPM.
+     */
+    static Command Indefinitely(Shooter shooter, double velocity) {
+      return new Indefinitely(shooter, velocity);
+    }
+
+    /**
+     * Instatiate with a statically set value.
+     * @param shooter - The shooter object
+     */
+    static Command Indefinitely(Shooter shooter) {
+      return new Indefinitely(shooter, ShooterConstants.targetSpeed);
     }
   }
 }

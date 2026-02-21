@@ -1,5 +1,6 @@
 package frc.robot.commands.motors;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.FeederConstants;
 import frc.robot.commands.generics.GenericMotorControl;
 import frc.robot.subsystems.motors.Feeder;
@@ -22,5 +23,9 @@ public interface FeederCommands {
     public Run(Feeder feeder) {
       super(feeder, FeederConstants.Control.TargetSpeed);
     }
+  }
+
+  static Command Run(Feeder feeder) {
+    return new Run(feeder);
   }
 }

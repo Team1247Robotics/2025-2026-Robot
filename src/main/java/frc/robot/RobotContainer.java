@@ -9,7 +9,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.LedConfigs;
-import frc.robot.Constants.MotorFeatures;
+import frc.robot.Constants.Feature;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
@@ -54,37 +54,40 @@ public class RobotContainer {
   /**
    * Comment out features from this array to disabled them.
    */
-  private final MotorFeatures[] enabledFeatures = new MotorFeatures[] {
-    // MotorFeatures.Shooter,
-    // MotorFeatures.Indexer,
-    // MotorFeatures.Feeder,
-    // MotorFeatures.Climber,
-    // MotorFeatures.Intake,
-    // MotorFeatures.IntakeDeployment
+  private final Feature[] enabledFeatures = new Feature[] {
+    // Feature.Shooter,
+    // Feature.Indexer,
+    // Feature.Feeder,
+    // Feature.Climber,
+    // Feature.Intake,
+    // Feature.IntakeDeployment
   };
-  // The robot's subsystems
+
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
   private final LedStrip m_ledStrip = new LedStrip(LedConfigs.strip1);
 
   private final LonelyTalonFx m_badAppleMachine = new LonelyTalonFx();
 
-  private /*final*/ AutoBuilder2 m_autoBuilder = null; //new AutoBuilder2(m_robotDrive);
+  private AutoBuilder2 m_autoBuilder = null;
 
   private final ColorSensor m_indexerSensor = new ColorSensor(0);
 
-  private final Shooter m_shooter = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Shooter) ?  new Shooter() : null;
-  private final Indexer m_indexer = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Indexer) ? new Indexer() : null;
-  private final Feeder  m_Feeder  = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Feeder) ? new Feeder() : null;
-  private final Climber m_Climber = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Climber) ? new Climber() : null;
-  private final Intake  m_Intake  = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Intake) ? new Intake() : null;
-  private final IntakeDeployment m_IntakeDeployment = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.IntakeDeployment) ? new IntakeDeployment() : null;
+  private final Shooter m_shooter = Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter) ?  new Shooter() : null;
+  private final Indexer m_indexer = Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer) ? new Indexer() : null;
+  private final Feeder  m_Feeder  = Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder) ? new Feeder() : null;
+  private final Climber m_Climber = Constants.isFeatureEnabled(enabledFeatures, Feature.Climber) ? new Climber() : null;
+  private final Intake  m_Intake  = Constants.isFeatureEnabled(enabledFeatures, Feature.Intake) ? new Intake() : null;
+
+  private final IntakeDeployment m_IntakeDeployment = Constants.isFeatureEnabled(enabledFeatures, Feature.IntakeDeployment) ? new IntakeDeployment() : null;
 
   // private final Intake m_intake = new Intake();
 
   // CommandJoystick m_driverJoystick = new CommandJoystick(OIConstants.kDriverControllerPort);
   CommandXboxController m_driverJoystick = new CommandXboxController(OIConstants.kDriverControllerPort);
-  // CommandXboxController m_copilotController = new CommandXboxController(OIConstants.kCopilotControllerPort);
+
+  boolean enableCopilotController = true;
+  CommandXboxController m_copilotController = enableCopilotController ? new CommandXboxController(OIConstants.kCopilotControllerPort) : null;
   
   CommandJoystick m_Joystick = new CommandJoystick(OIConstants.kSimulationJoystickPort);
 
@@ -117,39 +120,56 @@ public class RobotContainer {
    * Register all named commands in Pathplanner
    */
   private void registerPathplannerCommands() {
-    if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Shooter)) {
-      NamedCommands.registerCommand("AwaitShooterWarmup", new ShooterCommands.Run.Await.Actively(m_shooter, () -> ShooterConstants.targetSpeed));
-      NamedCommands.registerCommand("RunShooterIndefinitely", new ShooterCommands.Run.Indefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
-      NamedCommands.registerCommand("Shoot", new ShooterCommands.Run.Indefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
-
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
+      NamedCommands.registerCommand("AwaitShooterWarmup", ShooterCommands.Run.Await.Actively(m_shooter));
+      NamedCommands.registerCommand("RunShooterIndefinitely", ShooterCommands.Run.Indefinitely(m_shooter));
+      NamedCommands.registerCommand("Shoot", ShooterCommands.Run.Indefinitely(m_shooter));
+    } else {
+      NamedCommands.registerCommand("AwaitShooterWarmup", Commands.none());
+      NamedCommands.registerCommand("RunShooterIndefinitely", Commands.none());
+      NamedCommands.registerCommand("Shoot", Commands.none());
     }
 
-    if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Indexer)) {
-      NamedCommands.registerCommand("ActivateIndex", new IndexerCommands.Abstracts.Step(m_indexer));
-      NamedCommands.registerCommand("RunIndexerNTimes", new IndexerCommands.Abstracts.StepNTimes(m_indexer, 10));
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
+      NamedCommands.registerCommand("ActivateIndex", IndexerCommands.Abstracts.Step(m_indexer));
+      NamedCommands.registerCommand("RunIndexerNTimes", IndexerCommands.Abstracts.StepNTimes(m_indexer, 10));
+    } else {
+      NamedCommands.registerCommand("ActivateIndex", Commands.none());
+      NamedCommands.registerCommand("RunIndexerNTimes", Commands.none());
     }
 
-    if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Feeder)) {
-      NamedCommands.registerCommand("RunFeederIndefinitely", new FeederCommands.Run(m_Feeder));
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) {
+      NamedCommands.registerCommand("RunFeederIndefinitely", FeederCommands.Run(m_Feeder));
+    } else {
+      NamedCommands.registerCommand("RunFeederIndefinitely", Commands.none());
     }
 
-    if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Climber)) {
-      NamedCommands.registerCommand("AwaitClimberRetract", new ClimberCommands.Await.Retract.Actively(m_Climber));
-      NamedCommands.registerCommand("AwaitClimberExtend", new ClimberCommands.Await.Extend.Actively(m_Climber));
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Climber)) {
+      NamedCommands.registerCommand("AwaitClimberRetract", ClimberCommands.Await.Retract.Actively(m_Climber));
+      NamedCommands.registerCommand("AwaitClimberExtend", ClimberCommands.Await.Extend.Actively(m_Climber));
+    } else {
+      NamedCommands.registerCommand("AwaitClimberRetract", Commands.none());
+      NamedCommands.registerCommand("AwaitClimberExtend", Commands.none());
     }
 
-    NamedCommands.registerCommand("AimAtHub", new HubCommands.AimAt.Indefinitely(m_robotDrive));
-    NamedCommands.registerCommand("AimAtHubIndefinitely", new HubCommands.AimAt.Indefinitely(m_robotDrive));
-    NamedCommands.registerCommand("AwaitAimAtHub", new HubCommands.AimAt.Await.Passively(m_robotDrive));
+    NamedCommands.registerCommand("AimAtHub", HubCommands.AimAt.Indefinitely(m_robotDrive));
+    NamedCommands.registerCommand("AimAtHubIndefinitely", HubCommands.AimAt.Indefinitely(m_robotDrive));
+    NamedCommands.registerCommand("AwaitAimAtHub", HubCommands.AimAt.Await.Passively(m_robotDrive));
 
-    if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Intake)) {
-      NamedCommands.registerCommand("AwaitIntakeInit", new IntakeCommands.Driver.Run.Await.Actively(m_Intake));
-      NamedCommands.registerCommand("RunIntakeIndefinitely", new IntakeCommands.Driver.Run.Indefinitely(m_Intake));
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) {
+      NamedCommands.registerCommand("AwaitIntakeInit", IntakeCommands.Driver.Run.Await.Actively(m_Intake));
+      NamedCommands.registerCommand("RunIntakeIndefinitely", IntakeCommands.Driver.Run.Indefinitely(m_Intake));
+      NamedCommands.registerCommand("DeactivateIntake", Commands.none());
+    } else {
+      NamedCommands.registerCommand("AwaitIntakeInit", Commands.none());
+      NamedCommands.registerCommand("RunIntakeIndefinitely", Commands.none());
       NamedCommands.registerCommand("DeactivateIntake", Commands.none());
     }
 
-    if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.IntakeDeployment)) {
-      NamedCommands.registerCommand("AwaitIntakeDeploy", new IntakeCommands.Deployment.Await.Deploy.Actively(m_IntakeDeployment));
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.IntakeDeployment)) {
+      NamedCommands.registerCommand("AwaitIntakeDeploy", IntakeCommands.Deployment.Await.Deploy.Actively(m_IntakeDeployment));
+    } else {
+      NamedCommands.registerCommand("AwaitIntakeDeploy", Commands.none());
     }
   }
 
@@ -188,8 +208,30 @@ public class RobotContainer {
     m_driverJoystick.button(5).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
     m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
-    if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Shooter)) {
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
       m_driverJoystick.button(7).whileTrue(new ShooterCommands.Run.Indefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
+    }
+
+    if (enableCopilotController) {
+      if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter, Feature.Indexer)) {
+        m_copilotController.a().whileTrue(ShooterCommands.ShooterDependant.Parallel(
+          m_shooter,
+          Commands.repeatingSequence(IndexerCommands.Abstracts.StepAndPause(m_indexer))
+        ));
+      }
+
+      if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) {
+        m_copilotController.b().whileTrue(IntakeCommands.Driver.Run.Indefinitely(m_Intake));
+      }
+
+      if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) {
+        m_copilotController.x().whileTrue(FeederCommands.Run(m_Feeder));
+      }
+
+      if (Constants.isFeatureEnabled(enabledFeatures, Feature.IntakeDeployment)) {
+        m_copilotController.povUp().onTrue(IntakeCommands.Deployment.Await.Deploy.Actively(m_IntakeDeployment));
+        m_copilotController.povDown().onTrue(IntakeCommands.Deployment.Await.Retract.Actively(m_IntakeDeployment));
+      }
     }
   }
 

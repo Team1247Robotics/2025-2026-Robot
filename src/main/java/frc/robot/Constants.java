@@ -38,7 +38,7 @@ import frc.robot.subsystems.motors.SDSSwerveModule.SDSSwerveModuleConfig;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static enum MotorFeatures {
+  public static enum Feature {
     Shooter,
     Indexer,
     Feeder,
@@ -47,12 +47,19 @@ public final class Constants {
     IntakeDeployment
   }
 
-  public static boolean isFeatureEnabled(MotorFeatures[] features, MotorFeatures featureToTest) {
+  public static boolean isFeatureEnabled(Feature[] features, Feature featureToTest) {
     for (int i = 0; i < features.length; i++) {
       var feat = features[i];
       if (feat.equals(featureToTest)) return true;
     }
     return false;
+  }
+
+  public static boolean isFeatureEnabled(Feature[] features, Feature... featuresToTest) {
+    for (int i = 0; i < featuresToTest.length; i++) {
+      if (!isFeatureEnabled(features, featuresToTest[i])) return false;
+    }
+    return true;
   }
 
   public static final boolean UseTestBot = true;

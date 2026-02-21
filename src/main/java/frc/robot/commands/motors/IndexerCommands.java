@@ -2,6 +2,7 @@ package frc.robot.commands.motors;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.IndexerConstants;
@@ -48,20 +49,28 @@ public interface IndexerCommands {
     /**
      * Steps the indexer by the indexer step size constant.
      */
-    class Step extends IndexerCommands.Position.Await.Actively {
+    public static class Step extends IndexerCommands.Position.Await.Actively {
       public Step(Indexer indexer) {
         super(indexer, () -> indexer.getPosition() + IndexerConstants.Control.indexerStdStepSize);
         setUseStaticTarget(true);
       }
     }
 
-    public class StepAndPause extends SequentialCommandGroup {
+    static Command Step(Indexer indexer) {
+      return new Step(indexer);
+    }
+
+    public static class StepAndPause extends SequentialCommandGroup {
       public StepAndPause(Indexer indexer) {
         addCommands(
           new IndexerCommands.Abstracts.Step(indexer),
           Commands.waitSeconds(IndexerConstants.Control.stepWaitTime)
         );
       }
+    }
+
+    static Command StepAndPause(Indexer indexer) {
+      return new StepAndPause(indexer);
     }
 
     public class StepNTimes extends DoXNTimes {
@@ -72,6 +81,10 @@ public interface IndexerCommands {
         );
       }
       
+    }
+
+    static Command StepNTimes(Indexer indexer, int n) {
+      return new StepNTimes(indexer, n);
     }
   }
 }
