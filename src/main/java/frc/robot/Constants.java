@@ -43,10 +43,10 @@ public final class Constants {
 
     /** Wheel configs specific for the main robot */
     public static final class MainBotConfigs {
-      public static final boolean kFrontLeftDriveInverted =  true;
-      public static final boolean kFrontRightDriveInverted = true; 
-      public static final boolean kBackLeftDriveInverted =   true;
-      public static final boolean kBackRightDriveInverted =  true;
+      public static final boolean kFrontLeftDriveInverted =  !false;
+      public static final boolean kFrontRightDriveInverted = !false; 
+      public static final boolean kBackLeftDriveInverted =   !false;
+      public static final boolean kBackRightDriveInverted =  !false;
 
       public static final double kFrontLeftChassisAngularOffset  = 0.0;
       public static final double kFrontRightChassisAngularOffset = 0.0;
@@ -83,10 +83,10 @@ public final class Constants {
 
     /** Wheel configs specific for the test swerve bot */
     public static final class TestBotConfigs {
-      public static final boolean kFrontLeftDriveInverted  = false;
-      public static final boolean kFrontRightDriveInverted = false; 
-      public static final boolean kBackLeftDriveInverted   = false;
-      public static final boolean kBackRightDriveInverted  = false;
+      public static final boolean kFrontLeftDriveInverted  = !false;
+      public static final boolean kFrontRightDriveInverted = !false; 
+      public static final boolean kBackLeftDriveInverted   = !false;
+      public static final boolean kBackRightDriveInverted  = !false;
 
       public static final double kFrontLeftChassisAngularOffset  = 0.7006581;
       public static final double kFrontRightChassisAngularOffset = 0.4643519;
