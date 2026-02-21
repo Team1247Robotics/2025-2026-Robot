@@ -82,8 +82,9 @@ public class RobotContainer {
 
   // private final Intake m_intake = new Intake();
 
-  CommandJoystick m_driverJoystick = new CommandJoystick(OIConstants.kDriverControllerPort);
-  CommandXboxController m_copilotController = new CommandXboxController(OIConstants.kCopilotControllerPort);
+  // CommandJoystick m_driverJoystick = new CommandJoystick(OIConstants.kDriverControllerPort);
+  CommandXboxController m_driverJoystick = new CommandXboxController(OIConstants.kDriverControllerPort);
+  // CommandXboxController m_copilotController = new CommandXboxController(OIConstants.kCopilotControllerPort);
   
   CommandJoystick m_Joystick = new CommandJoystick(OIConstants.kSimulationJoystickPort);
 
@@ -174,8 +175,8 @@ public class RobotContainer {
       Commands.parallel(
         new HubCommands.AimAt.Indefinitely(
           m_robotDrive,
-          m_driverJoystick::getY,
-          m_driverJoystick::getX,
+          m_driverJoystick::getLeftY,
+          m_driverJoystick::getLeftX,
           true).applyControllerFilters(true),
         new LedStripSetGreen(m_ledStrip)
       )

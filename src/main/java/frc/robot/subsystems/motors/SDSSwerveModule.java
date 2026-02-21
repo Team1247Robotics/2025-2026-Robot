@@ -16,6 +16,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Configs;
 import frc.robot.Constants.DriveConstants;
 
@@ -31,7 +32,7 @@ public class SDSSwerveModule {
 
   private final SparkClosedLoopController m_driveClosedLoopController;
   private final SparkClosedLoopController m_turningClosedLoopController;
-
+  
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
   
   /**
@@ -49,6 +50,11 @@ public class SDSSwerveModule {
     ) {
     m_driveMotor = DriveConstants.createMotorController(DriveConstants.DriveControllerType, driveMotorChannel);
     m_turningMotor = DriveConstants.createMotorController(DriveConstants.TurningControllerType, turningMotorChannel);
+
+    SmartDashboard.setDefaultNumber("Drive Motor " + driveMotorChannel + " Target Velocity", 0);
+    SmartDashboard.setDefaultNumber("Drive Motor " + driveMotorChannel + " Velocity", 0);
+    SmartDashboard.setDefaultNumber("Turning Motor " + turningMotorChannel + " Target Theta", 0);
+    SmartDashboard.setDefaultNumber("Turning Motor " + turningMotorChannel + " Theta", 0);
 
     m_driveEncoder = m_driveMotor.getEncoder();
     m_turningEncoder = m_turningMotor.getAbsoluteEncoder();
@@ -109,6 +115,11 @@ public class SDSSwerveModule {
 
     correctedDesiredState.optimize(currentRotation);
     correctedDesiredState.cosineScale(currentRotation);
+
+    SmartDashboard.putNumber("Drive Motor " + m_driveMotor.getDeviceId() + " Target Velocity", correctedDesiredState.speedMetersPerSecond);
+    SmartDashboard.putNumber("Drive Motor " + m_driveMotor.getDeviceId() + " Velocity", m_driveEncoder.getVelocity());
+    SmartDashboard.putNumber("Turning Motor " + m_turningMotor.getDeviceId() + " Target Theta", correctedDesiredState.angle.getDegrees());
+    SmartDashboard.putNumber("Turning Motor " + m_turningMotor.getDeviceId() + " Theta", m_turningEncoder.getPosition() / (Math.PI * 2));
 
     m_driveClosedLoopController.setSetpoint(
       Math.max(

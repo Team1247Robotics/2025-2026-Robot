@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /** This class represents the robot's drive subsystem. */
 public class DriveSubsystem extends SubsystemBase {
@@ -283,6 +284,15 @@ public class DriveSubsystem extends SubsystemBase {
       Controller.applyDriveYFilters(controller::getY),
       Controller.applyDriveXFilters(controller::getX),
       Controller.applyDriveRotationFilters(controller::getTwist),
+      false
+    ), this);
+  }
+
+  public Command defaultControllerCommand(CommandXboxController controller) {
+    return new RunCommand(() -> this.drive(
+      Controller.applyDriveYFilters(controller::getLeftY),
+      Controller.applyDriveXFilters(controller::getLeftX),
+      Controller.applyDriveRotationFilters(controller::getRightX),
       false
     ), this);
   }
