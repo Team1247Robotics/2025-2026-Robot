@@ -256,5 +256,5 @@ public class FaceHeading extends Command {
     if (offset < -Math.PI) offset += Math.PI * 2;
 
     return offset;
-}
+  }
 }
