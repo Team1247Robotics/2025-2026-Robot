@@ -15,7 +15,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "BumpS_To_ShootN"
+                        "pathName": "TrenchN_To_ShootN"
                       }
                     },
                     {
@@ -25,120 +25,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "AwaitShooterWarmup"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "RunShooterIndefinitely"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AimAtHubIndefinitely"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "RunShooterIndefinitely"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "RunFeederIndefinitely"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "AwaitAimAtHub"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "RunIndexerNTimes"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "ShootN_To_DepotEnter"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AwaitIntakeInit"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Depot_PassThru"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "RunIntakeIndefinitely"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "DepotExit_To_ShootN"
                 }
               },
               {
