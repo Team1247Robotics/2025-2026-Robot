@@ -17,6 +17,7 @@ import frc.robot.commands.ledstrip.LedStripSetAlianceColor;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.commands.motors.drivetrain.AlwaysFaceHub;
 import frc.robot.commands.motors.drivetrain.ResetHeading;
+import frc.robot.commands.motors.feeder.RunFeeder;
 import frc.robot.commands.motors.indexer.StepIndexer;
 import frc.robot.commands.motors.indexer.StepIndexerNTimes;
 import frc.robot.commands.motors.shooter.AwaitShooterReady;
@@ -24,10 +25,11 @@ import frc.robot.commands.motors.shooter.RunShooterIndefinitely;
 import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.AutoBuilder2;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.LedStrip;
-import frc.robot.subsystems.LonelyTalonFx;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.motors.Feeder;
+import frc.robot.subsystems.motors.Indexer;
+import frc.robot.subsystems.motors.LonelyTalonFx;
+import frc.robot.subsystems.motors.Shooter;
 import frc.robot.sensors.ColorSensor;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -60,6 +62,7 @@ public class RobotContainer {
 
   private final Shooter m_shooter = new Shooter();
   private final Indexer m_indexer = new Indexer();
+  private final Feeder  m_Feeder  = new Feeder();
 
   // private final Intake m_intake = new Intake();
 
@@ -112,7 +115,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ActivateIndex", new StepIndexer(m_indexer));
     NamedCommands.registerCommand("RunIndexerNTimes", new StepIndexerNTimes(m_indexer, 10));
 
-    NamedCommands.registerCommand("RunFeederIndefinitely", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("RunFeederIndefinitely", new RunFeeder(m_Feeder));
 
     NamedCommands.registerCommand("AwaitClimberRetract", new WaitCommand(1)); // TODO: replace with actual command
     NamedCommands.registerCommand("AwaitClimberExtend", new WaitCommand(1)); // TODO: replace with actual command

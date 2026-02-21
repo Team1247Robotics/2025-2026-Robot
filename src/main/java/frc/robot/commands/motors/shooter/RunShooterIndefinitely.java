@@ -3,7 +3,7 @@ package frc.robot.commands.motors.shooter;
 import java.util.function.DoubleSupplier;
 
 import frc.robot.commands.generics.GenericSetMotorSpeed;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.motors.Shooter;
 
 /**
  * Indefinitely holds the speed of the shooter until forcefully interrupted. Intended to be used after {@link AwaitShooterReady} in parallel with indexer and intake.

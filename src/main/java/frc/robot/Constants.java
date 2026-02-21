@@ -6,8 +6,6 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.Radians;
 
-import java.lang.ModuleLayer.Controller;
-
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
@@ -29,7 +27,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.LedStrip.LedStripConfig;
-import frc.robot.subsystems.SDSSwerveModule.SDSSwerveModuleConfig;
+import frc.robot.subsystems.motors.SDSSwerveModule.SDSSwerveModuleConfig;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -46,6 +44,7 @@ public final class Constants {
     public static final double MotorPositionControlAllowableError = Math.PI / 2;
     public static final double MotorVelocityControlAllowableError = 20;
   }
+
   public static final class DriveConstants {
     public static enum ControllerType { kSparkMax, kSparkFlex }
 
@@ -181,6 +180,14 @@ public final class Constants {
 
     public static final double kMaxSpeedMetersPerSecond = 0.5; // 4.8;
     public static final double kMaxAngularSpeed = 1; // 2 * Math.PI; // radians per second
+  }
+
+  public static final class FeederConstants {
+    public static final int kMotorCanId = 13;
+
+    public static final class Control {
+      public static final double TargetSpeed = 1000;
+    }
   }
 
   public static final class IndexerConstants {

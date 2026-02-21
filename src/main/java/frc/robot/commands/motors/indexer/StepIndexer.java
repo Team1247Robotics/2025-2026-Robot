@@ -1,7 +1,7 @@
 package frc.robot.commands.motors.indexer;
 
 import frc.robot.Constants.IndexerConstants;
-import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.motors.Indexer;
 
 /**
  * Steps the indexer by the indexer step size constant.

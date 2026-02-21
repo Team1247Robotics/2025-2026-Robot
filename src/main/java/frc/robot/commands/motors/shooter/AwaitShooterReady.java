@@ -3,7 +3,7 @@ package frc.robot.commands.motors.shooter;
 import java.util.function.DoubleSupplier;
 
 import frc.robot.commands.generics.GenericActiveAwaitMotorSpeed;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.motors.Shooter;
 
 /**
  * Command that spins shooter to set velocity until reaching velocity. Will finish when the target has been reached.

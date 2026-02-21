@@ -3,7 +3,7 @@ package frc.robot.commands.motors.indexer;
 import java.util.function.DoubleSupplier;
 
 import frc.robot.commands.generics.GenericSetMotorPosition;
-import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.motors.Indexer;
 
 public class SetIndexerPosition extends GenericSetMotorPosition {
   
