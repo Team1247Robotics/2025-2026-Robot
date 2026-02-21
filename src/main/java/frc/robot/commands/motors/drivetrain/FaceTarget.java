@@ -112,6 +112,11 @@ public interface FaceTarget {
         protected Passively(DriveSubsystem drivetrain) {
           super(drivetrain);
         }
+
+        @Override
+        public void execute() {
+          // does nothing
+        }
       }
     }
 

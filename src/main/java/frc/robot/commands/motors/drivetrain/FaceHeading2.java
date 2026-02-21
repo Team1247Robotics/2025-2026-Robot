@@ -282,6 +282,11 @@ public interface FaceHeading2 {
       protected Passively(DriveSubsystem drivetrain) {
         super(drivetrain);
       }
+
+      @Override
+      public void execute() {
+        // do nothing
+      }
     }
   }
 
