@@ -16,17 +16,13 @@ import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripScrollYellow;
 import frc.robot.commands.ledstrip.LedStripSetAlianceColor;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
-import frc.robot.commands.motors.climber.ExtendClimber;
-import frc.robot.commands.motors.climber.RetractClimber;
+import frc.robot.commands.motors.ClimberCommands;
+import frc.robot.commands.motors.FeederCommands;
+import frc.robot.commands.motors.IndexerCommands;
+import frc.robot.commands.motors.IntakeCommands;
+import frc.robot.commands.motors.ShooterCommands;
 import frc.robot.commands.motors.drivetrain.HubCommands;
 import frc.robot.commands.motors.drivetrain.ResetHeading;
-import frc.robot.commands.motors.feeder.RunFeeder;
-import frc.robot.commands.motors.indexer.StepIndexer;
-import frc.robot.commands.motors.indexer.StepIndexerNTimes;
-import frc.robot.commands.motors.intake.AwaitIntakeDeployment;
-import frc.robot.commands.motors.intake.IntakeCommands;
-import frc.robot.commands.motors.shooter.AwaitShooterReady;
-import frc.robot.commands.motors.shooter.RunShooterIndefinitely;
 import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.AutoBuilder2;
 import frc.robot.subsystems.DriveSubsystem;
@@ -121,24 +117,24 @@ public class RobotContainer {
    */
   private void registerPathplannerCommands() {
     if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Shooter)) {
-      NamedCommands.registerCommand("AwaitShooterWarmup", new AwaitShooterReady(m_shooter, () -> ShooterConstants.targetSpeed));
-      NamedCommands.registerCommand("RunShooterIndefinitely", new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
-      NamedCommands.registerCommand("Shoot", new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
+      NamedCommands.registerCommand("AwaitShooterWarmup", new ShooterCommands.Run.Await.Actively(m_shooter, () -> ShooterConstants.targetSpeed));
+      NamedCommands.registerCommand("RunShooterIndefinitely", new ShooterCommands.Run.Indefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
+      NamedCommands.registerCommand("Shoot", new ShooterCommands.Run.Indefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
 
     }
 
     if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Indexer)) {
-      NamedCommands.registerCommand("ActivateIndex", new StepIndexer(m_indexer));
-      NamedCommands.registerCommand("RunIndexerNTimes", new StepIndexerNTimes(m_indexer, 10));
+      NamedCommands.registerCommand("ActivateIndex", new IndexerCommands.Abstracts.Step(m_indexer));
+      NamedCommands.registerCommand("RunIndexerNTimes", new IndexerCommands.Abstracts.StepNTimes(m_indexer, 10));
     }
 
     if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Feeder)) {
-      NamedCommands.registerCommand("RunFeederIndefinitely", new RunFeeder(m_Feeder));
+      NamedCommands.registerCommand("RunFeederIndefinitely", new FeederCommands.Run(m_Feeder));
     }
 
     if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Climber)) {
-      NamedCommands.registerCommand("AwaitClimberRetract", new RetractClimber(m_Climber));
-      NamedCommands.registerCommand("AwaitClimberExtend", new ExtendClimber(m_Climber));
+      NamedCommands.registerCommand("AwaitClimberRetract", new ClimberCommands.Await.Retract.Actively(m_Climber));
+      NamedCommands.registerCommand("AwaitClimberExtend", new ClimberCommands.Await.Extend.Actively(m_Climber));
     }
 
     NamedCommands.registerCommand("AimAtHub", new HubCommands.AimAt.Indefinitely(m_robotDrive));
@@ -146,13 +142,13 @@ public class RobotContainer {
     NamedCommands.registerCommand("AwaitAimAtHub", new HubCommands.AimAt.Await.Passively(m_robotDrive));
 
     if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Intake)) {
-      NamedCommands.registerCommand("AwaitIntakeInit", new IntakeCommands.Run.Await.Actively(m_Intake));
-      NamedCommands.registerCommand("RunIntakeIndefinitely", new IntakeCommands.Run.Indefinitely(m_Intake));
+      NamedCommands.registerCommand("AwaitIntakeInit", new IntakeCommands.Driver.Run.Await.Actively(m_Intake));
+      NamedCommands.registerCommand("RunIntakeIndefinitely", new IntakeCommands.Driver.Run.Indefinitely(m_Intake));
       NamedCommands.registerCommand("DeactivateIntake", Commands.none());
     }
 
     if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.IntakeDeployment)) {
-      NamedCommands.registerCommand("AwaitIntakeDeploy", new AwaitIntakeDeployment.Deploy.Actively(m_IntakeDeployment));
+      NamedCommands.registerCommand("AwaitIntakeDeploy", new IntakeCommands.Deployment.Await.Deploy.Actively(m_IntakeDeployment));
     }
   }
 
@@ -192,7 +188,7 @@ public class RobotContainer {
     m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
     if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Shooter)) {
-      m_driverJoystick.button(7).whileTrue(new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
+      m_driverJoystick.button(7).whileTrue(new ShooterCommands.Run.Indefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
     }
   }
 
