@@ -22,6 +22,7 @@ import frc.robot.commands.motors.drivetrain.ResetHeading;
 import frc.robot.commands.motors.feeder.RunFeeder;
 import frc.robot.commands.motors.indexer.StepIndexer;
 import frc.robot.commands.motors.indexer.StepIndexerNTimes;
+import frc.robot.commands.motors.intake.AwaitIntakeDeployment;
 import frc.robot.commands.motors.intake.AwaitIntakeInit;
 import frc.robot.commands.motors.intake.RunIntakeIndefinitely;
 import frc.robot.commands.motors.shooter.AwaitShooterReady;
@@ -34,6 +35,7 @@ import frc.robot.subsystems.motors.Climber;
 import frc.robot.subsystems.motors.Feeder;
 import frc.robot.subsystems.motors.Indexer;
 import frc.robot.subsystems.motors.Intake;
+import frc.robot.subsystems.motors.IntakeDeployment;
 import frc.robot.subsystems.motors.LonelyTalonFx;
 import frc.robot.subsystems.motors.Shooter;
 import frc.robot.sensors.ColorSensor;
@@ -71,6 +73,7 @@ public class RobotContainer {
   private final Feeder  m_Feeder  = new Feeder();
   private final Climber m_Climber = new Climber();
   private final Intake  m_Intake  = new Intake();
+  private final IntakeDeployment m_IntakeDeployment = new IntakeDeployment();
 
   // private final Intake m_intake = new Intake();
 
@@ -135,7 +138,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("AwaitIntakeInit", new AwaitIntakeInit.Actively(m_Intake));
     NamedCommands.registerCommand("RunIntakeIndefinitely", new RunIntakeIndefinitely(m_Intake));
     NamedCommands.registerCommand("DeactivateIntake", Commands.none()); // dont tell the motor to run and it wont run idk what you expect me to do here.
-    NamedCommands.registerCommand("AwaitIntakeDeploy", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("AwaitIntakeDeploy", new AwaitIntakeDeployment.Deploy.Actively(m_IntakeDeployment));
   }
 
   /**
