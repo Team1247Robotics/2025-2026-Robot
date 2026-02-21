@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 2.6615905494821637,
-        "y": 1.9976095008630617
+        "y": 1.9976095008630619
       },
       "isLocked": false,
       "linkedName": "Blue_Shoot_South"
@@ -24,8 +24,8 @@
         "y": 0.7954313014885033
       },
       "nextControl": {
-        "x": 3.8445874521253023,
-        "y": 0.540461555654355
+        "x": 3.8445874521253027,
+        "y": 0.5404615556543548
       },
       "isLocked": false,
       "linkedName": "Blue_Trench_South"
