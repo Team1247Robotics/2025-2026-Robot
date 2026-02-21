@@ -55,6 +55,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  /**
+   * Comment out features from this array to disabled them.
+   */
   private final MotorFeatures[] enabledFeatures = new MotorFeatures[] {
     MotorFeatures.Shooter,
     MotorFeatures.Indexer,
@@ -74,12 +77,12 @@ public class RobotContainer {
 
   private final ColorSensor m_indexerSensor = new ColorSensor(0);
 
-  // private final Shooter m_shooter = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Shooter) ?  new Shooter() : null;
-  // private final Indexer m_indexer = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Indexer) ? new Indexer() : null;
-  // private final Feeder  m_Feeder  = new Feeder();
-  // private final Climber m_Climber = new Climber();
-  // private final Intake  m_Intake  = new Intake();
-  // private final IntakeDeployment m_IntakeDeployment = new IntakeDeployment();
+  private final Shooter m_shooter = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Shooter) ?  new Shooter() : null;
+  private final Indexer m_indexer = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Indexer) ? new Indexer() : null;
+  private final Feeder  m_Feeder  = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Feeder) ? new Feeder() : null;
+  private final Climber m_Climber = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Climber) ? new Climber() : null;
+  private final Intake  m_Intake  = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Intake) ? new Intake() : null;
+  private final IntakeDeployment m_IntakeDeployment = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.IntakeDeployment) ? new IntakeDeployment() : null;
 
   // private final Intake m_intake = new Intake();
 
@@ -117,27 +120,40 @@ public class RobotContainer {
    * Register all named commands in Pathplanner
    */
   private void registerPathplannerCommands() {
+    if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Shooter)) {
+      NamedCommands.registerCommand("AwaitShooterWarmup", new AwaitShooterReady(m_shooter, () -> ShooterConstants.targetSpeed));
+      NamedCommands.registerCommand("RunShooterIndefinitely", new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
+      NamedCommands.registerCommand("Shoot", new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
 
-    // NamedCommands.registerCommand("AwaitShooterWarmup", new AwaitShooterReady(m_shooter, () -> ShooterConstants.targetSpeed));
-    // NamedCommands.registerCommand("RunShooterIndefinitely", new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
-    // NamedCommands.registerCommand("Shoot", new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
+    }
 
-    // NamedCommands.registerCommand("ActivateIndex", new StepIndexer(m_indexer));
-    // NamedCommands.registerCommand("RunIndexerNTimes", new StepIndexerNTimes(m_indexer, 10));
+    if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Indexer)) {
+      NamedCommands.registerCommand("ActivateIndex", new StepIndexer(m_indexer));
+      NamedCommands.registerCommand("RunIndexerNTimes", new StepIndexerNTimes(m_indexer, 10));
+    }
 
-    // NamedCommands.registerCommand("RunFeederIndefinitely", new RunFeeder(m_Feeder));
+    if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Feeder)) {
+      NamedCommands.registerCommand("RunFeederIndefinitely", new RunFeeder(m_Feeder));
+    }
 
-    // NamedCommands.registerCommand("AwaitClimberRetract", new RetractClimber(m_Climber));
-    // NamedCommands.registerCommand("AwaitClimberExtend", new ExtendClimber(m_Climber));
+    if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Climber)) {
+      NamedCommands.registerCommand("AwaitClimberRetract", new RetractClimber(m_Climber));
+      NamedCommands.registerCommand("AwaitClimberExtend", new ExtendClimber(m_Climber));
+    }
 
     NamedCommands.registerCommand("AimAtHub", new HubCommands.AimAt.Indefinitely(m_robotDrive));
     NamedCommands.registerCommand("AimAtHubIndefinitely", new HubCommands.AimAt.Indefinitely(m_robotDrive));
     NamedCommands.registerCommand("AwaitAimAtHub", new HubCommands.AimAt.Await.Passively(m_robotDrive));
 
-    // NamedCommands.registerCommand("AwaitIntakeInit", new IntakeCommands.Run.Await.Actively(m_Intake));
-    // NamedCommands.registerCommand("RunIntakeIndefinitely", new IntakeCommands.Run.Indefinitely(m_Intake));
-    // NamedCommands.registerCommand("DeactivateIntake", Commands.none()); // dont tell the motor to run and it wont run idk what you expect me to do here.
-    // NamedCommands.registerCommand("AwaitIntakeDeploy", new AwaitIntakeDeployment.Deploy.Actively(m_IntakeDeployment));
+    if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Intake)) {
+      NamedCommands.registerCommand("AwaitIntakeInit", new IntakeCommands.Run.Await.Actively(m_Intake));
+      NamedCommands.registerCommand("RunIntakeIndefinitely", new IntakeCommands.Run.Indefinitely(m_Intake));
+      NamedCommands.registerCommand("DeactivateIntake", Commands.none());
+    }
+
+    if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.IntakeDeployment)) {
+      NamedCommands.registerCommand("AwaitIntakeDeploy", new AwaitIntakeDeployment.Deploy.Actively(m_IntakeDeployment));
+    }
   }
 
   /**
@@ -175,7 +191,9 @@ public class RobotContainer {
     m_driverJoystick.button(5).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
     m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
-    // m_driverJoystick.button(7).whileTrue(new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
+    if (Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Shooter)) {
+      m_driverJoystick.button(7).whileTrue(new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
+    }
   }
 
   /**
