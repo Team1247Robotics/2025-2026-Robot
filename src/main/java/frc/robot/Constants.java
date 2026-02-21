@@ -199,6 +199,15 @@ public final class Constants {
     }
   }
 
+  public static final class IntakeConstants {
+    public static final int kMotorCanId = 10;
+
+    public static final class Control {
+      public static final double IntakeSpeed   = 2000;
+      public static final double DispenseSpeed = -2000;
+    }
+  }
+
   public static final class IndexerConstants {
     public static final int kMotorCanId = 12;
 
