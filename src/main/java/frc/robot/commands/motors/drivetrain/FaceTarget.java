@@ -11,7 +11,7 @@ import frc.robot.utils.Targeting;
 public interface FaceTarget {
   interface Pose2d {
     interface Await {
-      public class Actively extends FaceHeading2.Await.Actively {
+      public class Actively extends FaceHeading.Await.Actively {
         protected static Supplier<Rotation2d> createPoseToRotationFunction(Supplier<edu.wpi.first.math.geometry.Pose2d> poseA, Supplier<edu.wpi.first.math.geometry.Pose2d> poseB) {
           return () -> Targeting.convertFieldRelativeToRobotRelativeTranslation(poseA.get(), poseB.get(), Translation2d.kZero).getAngle();
         }

@@ -17,7 +17,6 @@ import frc.robot.commands.ledstrip.LedStripSetAlianceColor;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.commands.motors.climber.ExtendClimber;
 import frc.robot.commands.motors.climber.RetractClimber;
-import frc.robot.commands.motors.drivetrain.AlwaysFaceHub;
 import frc.robot.commands.motors.drivetrain.HubCommands;
 import frc.robot.commands.motors.drivetrain.ResetHeading;
 import frc.robot.commands.motors.feeder.RunFeeder;
@@ -160,7 +159,7 @@ public class RobotContainer {
     m_driverController.b().
     whileTrue(
       Commands.parallel(
-        new AlwaysFaceHub(
+        new HubCommands.AimAt.Indefinitely(
           m_robotDrive,
           m_driverController::getLeftY,
           m_driverController::getLeftX,
