@@ -18,6 +18,7 @@ import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.commands.motors.climber.ExtendClimber;
 import frc.robot.commands.motors.climber.RetractClimber;
 import frc.robot.commands.motors.drivetrain.AlwaysFaceHub;
+import frc.robot.commands.motors.drivetrain.FaceHub;
 import frc.robot.commands.motors.drivetrain.ResetHeading;
 import frc.robot.commands.motors.feeder.RunFeeder;
 import frc.robot.commands.motors.indexer.StepIndexer;
@@ -131,9 +132,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("AwaitClimberRetract", new RetractClimber(m_Climber));
     NamedCommands.registerCommand("AwaitClimberExtend", new ExtendClimber(m_Climber));
 
-    NamedCommands.registerCommand("AimAtHub", new AlwaysFaceHub(m_robotDrive, () -> 0, () -> 0, true));
-    NamedCommands.registerCommand("AimAtHubIndefinitely", new AlwaysFaceHub(m_robotDrive, () -> 0, () -> 0, true));
-    NamedCommands.registerCommand("AwaitAimAtHub", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("AimAtHub", new FaceHub.Indefinitely(m_robotDrive));
+    NamedCommands.registerCommand("AimAtHubIndefinitely", new FaceHub.Indefinitely(m_robotDrive));
+    NamedCommands.registerCommand("AwaitAimAtHub", new FaceHub.Await.Passively(m_robotDrive));
 
     NamedCommands.registerCommand("AwaitIntakeInit", new AwaitIntakeInit.Actively(m_Intake));
     NamedCommands.registerCommand("RunIntakeIndefinitely", new RunIntakeIndefinitely(m_Intake));
