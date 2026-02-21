@@ -190,6 +190,15 @@ public final class Constants {
     }
   }
 
+  public static final class ClimberConstants {
+    public static final int kMotorCanId = 14;
+
+    public static final class Control {
+      public static final double RetractedPosition = 100;
+      public static final double ExtendedPosition = 0;
+    }
+  }
+
   public static final class IndexerConstants {
     public static final int kMotorCanId = 12;
 

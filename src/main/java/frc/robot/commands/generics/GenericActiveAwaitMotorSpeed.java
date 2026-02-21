@@ -5,7 +5,7 @@ import java.util.function.DoubleSupplier;
 import frc.robot.subsystems.generics.GenericSparkMaxMotor;
 
 /**
- * Command that spins shooter to set velocity until reaching velocity. Will finish when the target has been reached.
+ * Command that spins motor to set velocity until reaching velocity. Will finish when the target has been reached.
  */
 public class GenericActiveAwaitMotorSpeed extends GenericPassiveAwaitMotorSpeed {
   

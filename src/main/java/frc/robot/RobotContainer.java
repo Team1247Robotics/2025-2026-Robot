@@ -15,6 +15,8 @@ import frc.robot.commands.ledstrip.LedStripScrollRainbow;
 import frc.robot.commands.ledstrip.LedStripScrollYellow;
 import frc.robot.commands.ledstrip.LedStripSetAlianceColor;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
+import frc.robot.commands.motors.climber.ExtendClimber;
+import frc.robot.commands.motors.climber.RetractClimber;
 import frc.robot.commands.motors.drivetrain.AlwaysFaceHub;
 import frc.robot.commands.motors.drivetrain.ResetHeading;
 import frc.robot.commands.motors.feeder.RunFeeder;
@@ -26,6 +28,7 @@ import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.AutoBuilder2;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LedStrip;
+import frc.robot.subsystems.motors.Climber;
 import frc.robot.subsystems.motors.Feeder;
 import frc.robot.subsystems.motors.Indexer;
 import frc.robot.subsystems.motors.LonelyTalonFx;
@@ -63,6 +66,7 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter();
   private final Indexer m_indexer = new Indexer();
   private final Feeder  m_Feeder  = new Feeder();
+  private final Climber m_Climber = new Climber();
 
   // private final Intake m_intake = new Intake();
 
@@ -117,12 +121,12 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("RunFeederIndefinitely", new RunFeeder(m_Feeder));
 
-    NamedCommands.registerCommand("AwaitClimberRetract", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("AwaitClimberExtend", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("AwaitClimberRetract", new RetractClimber(m_Climber));
+    NamedCommands.registerCommand("AwaitClimberExtend", new ExtendClimber(m_Climber));
 
     NamedCommands.registerCommand("AimAtHub", new AlwaysFaceHub(m_robotDrive, () -> 0, () -> 0, true));
+    NamedCommands.registerCommand("AimAtHubIndefinitely", new AlwaysFaceHub(m_robotDrive, () -> 0, () -> 0, true));
     NamedCommands.registerCommand("AwaitAimAtHub", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("AimAtHubIndefinitely", new WaitCommand(1)); // TODO: replace with actual command
 
     NamedCommands.registerCommand("AwaitIntakeInit", new WaitCommand(1)); // TODO: replace with actual command
     NamedCommands.registerCommand("RunIntakeIndefinitely", new WaitCommand(1)); // TODO: replace with actual command
