@@ -38,7 +38,7 @@ import frc.robot.subsystems.motors.SDSSwerveModule.SDSSwerveModuleConfig;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static final boolean UseTestBot = true;
+  public static final boolean UseTestBot = false;
 
   public static final class GenericConstants {
     public static final double MotorPositionControlAllowableError = Math.PI / 2;
@@ -50,7 +50,7 @@ public final class Constants {
 
     /** Wheel configs specific for the main robot */
     public static final class MainBotConfigs {
-      public static final ControllerType DriveType = ControllerType.kSparkFlex;
+      public static final ControllerType DriveType = ControllerType.kSparkMax;
       public static final ControllerType TurningType = ControllerType.kSparkMax;
 
       public static final boolean kFrontLeftDriveInverted =  true;

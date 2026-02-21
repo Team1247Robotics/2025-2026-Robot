@@ -142,13 +142,13 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    m_driverJoystick.button(0).whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
-    m_driverJoystick.button(1).onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
+    m_driverJoystick.button(1).whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
+    m_driverJoystick.button(2).onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
 
     // new JoystickButton(m_driverController,
     // XboxController.Button.kA.value).whileTrue(new LedStripSetGreen(m_ledStrip));
 
-    m_driverJoystick.button(2).
+    m_driverJoystick.button(3).
     whileTrue(
       Commands.parallel(
         new HubCommands.AimAt.Indefinitely(
@@ -160,13 +160,13 @@ public class RobotContainer {
       )
     );
 
-    m_Joystick.button(2)
+    m_Joystick.button(4)
         .whileTrue(new LedStripScrollYellow(m_ledStrip));
 
-    m_driverJoystick.button(3).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
-    m_driverJoystick.button(4).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
+    m_driverJoystick.button(5).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
+    m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
-    m_driverJoystick.button(5).whileTrue(new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
+    m_driverJoystick.button(7).whileTrue(new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
   }
 
   /**
