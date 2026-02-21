@@ -51,12 +51,6 @@ public final class Constants {
 
     /** Wheel configs specific for the main robot */
     public static final class MainBotConfigs {
-<<<<<<< HEAD
-      public static final boolean kFrontLeftDriveInverted =  !false;
-      public static final boolean kFrontRightDriveInverted = !false; 
-      public static final boolean kBackLeftDriveInverted =   !false;
-      public static final boolean kBackRightDriveInverted =  !false;
-=======
       public static final ControllerType DriveType = ControllerType.kSparkFlex;
       public static final ControllerType TurningType = ControllerType.kSparkMax;
 
@@ -64,7 +58,6 @@ public final class Constants {
       public static final boolean kFrontRightDriveInverted = true; 
       public static final boolean kBackLeftDriveInverted =   true;
       public static final boolean kBackRightDriveInverted =  true;
->>>>>>> 1385748beeb8fa7063da1268e9ee2a7abf271cd2
 
       public static final double kFrontLeftChassisAngularOffset  = 0.0;
       public static final double kFrontRightChassisAngularOffset = 0.0;
