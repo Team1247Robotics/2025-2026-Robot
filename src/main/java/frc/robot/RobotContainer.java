@@ -46,7 +46,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -75,8 +74,8 @@ public class RobotContainer {
 
   // private final Intake m_intake = new Intake();
 
-  // The driver's controller
-  CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
+  CommandJoystick m_driverJoystick = new CommandJoystick(OIConstants.kDriverControllerPort);
+  CommandXboxController m_copilotController = new CommandXboxController(OIConstants.kCopilotControllerPort);
   
   CommandJoystick m_Joystick = new CommandJoystick(OIConstants.kSimulationJoystickPort);
 
@@ -92,7 +91,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_robotDrive.setDefaultCommand(m_robotDrive.defaultControllerCommand(m_driverController));
+    m_robotDrive.setDefaultCommand(m_robotDrive.defaultControllerCommand(m_driverJoystick));
 
     m_ledStrip.setDefaultCommand(
         new ConditionalCommand(
@@ -101,15 +100,8 @@ public class RobotContainer {
           DriverStation::isDisabled)
       );
 
-
-    // m_intake.setDefaultCommand(new RunCommand(() -> {m_intake.aspire();},
-    // m_intake));
-
-    Trigger dpad_up = m_driverController.povUp();
-    Trigger dpad_down = m_driverController.povDown();
-
-    dpad_up.onTrue(new ResetHeading.ResetHeadingForward(m_robotDrive));
-    dpad_down.onTrue(new ResetHeading.ResetHeadingBackward(m_robotDrive));
+    m_driverJoystick.povUp().onTrue(new ResetHeading.ResetHeadingForward(m_robotDrive));
+    m_driverJoystick.povDown().onTrue(new ResetHeading.ResetHeadingBackward(m_robotDrive));
   }
 
   /**
@@ -150,19 +142,19 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    m_driverController.rightBumper().whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
-    m_driverController.start().onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
+    m_driverJoystick.button(0).whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
+    m_driverJoystick.button(1).onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
 
     // new JoystickButton(m_driverController,
     // XboxController.Button.kA.value).whileTrue(new LedStripSetGreen(m_ledStrip));
 
-    m_driverController.b().
+    m_driverJoystick.button(2).
     whileTrue(
       Commands.parallel(
         new HubCommands.AimAt.Indefinitely(
           m_robotDrive,
-          m_driverController::getLeftY,
-          m_driverController::getLeftX,
+          m_driverJoystick::getY,
+          m_driverJoystick::getX,
           true).applyControllerFilters(true),
         new LedStripSetGreen(m_ledStrip)
       )
@@ -171,10 +163,10 @@ public class RobotContainer {
     m_Joystick.button(2)
         .whileTrue(new LedStripScrollYellow(m_ledStrip));
 
-    m_driverController.y().onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
-    m_driverController.x().onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
+    m_driverJoystick.button(3).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
+    m_driverJoystick.button(4).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
-    m_driverController.a().whileTrue(new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
+    m_driverJoystick.button(5).whileTrue(new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
   }
 
   /**

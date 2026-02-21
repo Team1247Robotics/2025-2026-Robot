@@ -2,7 +2,7 @@ package frc.robot.commands.motors.intake;
 
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.commands.generics.GenericActiveAwaitMotorPosition;
-import frc.robot.commands.generics.GenericPassiveAwaitMotorPosition;
+import frc.robot.commands.generics.GenericMotorPosition;
 import frc.robot.subsystems.motors.IntakeDeployment;
 
 public interface AwaitIntakeDeployment {
@@ -14,7 +14,7 @@ public interface AwaitIntakeDeployment {
       }
     }
 
-    public static class Passively extends GenericPassiveAwaitMotorPosition {
+    public static class Passively extends GenericMotorPosition.Await.Passive {
       public Passively(IntakeDeployment intakeDeployment) {
         super(intakeDeployment, IntakeConstants.Control.DeployedPosition);
       }
@@ -28,7 +28,7 @@ public interface AwaitIntakeDeployment {
       }
     }
 
-    public static class Passively extends GenericPassiveAwaitMotorPosition {
+    public static class Passively extends GenericMotorPosition.Await.Passive {
       public Passively(IntakeDeployment intakeDeployment) {
         super(intakeDeployment, IntakeConstants.Control.RetractedPosition);
       }

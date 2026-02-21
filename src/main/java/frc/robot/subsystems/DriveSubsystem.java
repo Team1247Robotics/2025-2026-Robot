@@ -25,7 +25,7 @@ import frc.robot.utils.GetAlliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 
 /** This class represents the robot's drive subsystem. */
 public class DriveSubsystem extends SubsystemBase {
@@ -278,11 +278,11 @@ public class DriveSubsystem extends SubsystemBase {
     setModuleStates(swerveModuleStates);
   }
 
-  public Command defaultControllerCommand(CommandXboxController controller) {
+  public Command defaultControllerCommand(CommandJoystick controller) {
     return new RunCommand(() -> this.drive(
-      Controller.applyDriveYFilters(controller::getLeftY),
-      Controller.applyDriveXFilters(controller::getLeftX),
-      Controller.applyDriveRotationFilters(controller::getRightX),
+      Controller.applyDriveYFilters(controller::getY),
+      Controller.applyDriveXFilters(controller::getX),
+      Controller.applyDriveRotationFilters(controller::getTwist),
       false
     ), this);
   }
