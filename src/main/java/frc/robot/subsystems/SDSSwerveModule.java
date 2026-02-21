@@ -10,16 +10,13 @@ import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Configs;
-import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
 /** This class represents a single swerve module with a drive and turning motor. */
@@ -27,7 +24,7 @@ public class SDSSwerveModule {
   public static record SDSSwerveModuleConfig(int driveCanId, int pivotCanId, double zeroOffset, boolean invertDrive) {}
   
   private final SparkBase m_driveMotor;
-  private final SparkMax m_turningMotor;
+  private final SparkBase m_turningMotor;
 
   private final RelativeEncoder m_driveEncoder;
   private final SparkAbsoluteEncoder m_turningEncoder;
@@ -50,8 +47,8 @@ public class SDSSwerveModule {
       double chassisAngularOffset,
       boolean invertDrive
     ) {
-    m_driveMotor = Constants.UseTestBot ? new SparkMax(driveMotorChannel, MotorType.kBrushless) : new SparkMax(driveMotorChannel, MotorType.kBrushless);
-    m_turningMotor = new SparkMax(turningMotorChannel, MotorType.kBrushless);
+    m_driveMotor = DriveConstants.createMotorController(DriveConstants.DriveControllerType, driveMotorChannel);
+    m_turningMotor = DriveConstants.createMotorController(DriveConstants.TurningControllerType, turningMotorChannel);
 
     m_driveEncoder = m_driveMotor.getEncoder();
     m_turningEncoder = m_turningMotor.getAbsoluteEncoder();
