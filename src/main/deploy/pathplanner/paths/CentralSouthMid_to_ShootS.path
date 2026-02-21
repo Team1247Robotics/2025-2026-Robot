@@ -1,0 +1,95 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.270000000000001,
+        "y": 2.782142857142858
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 8.270000000000001,
+        "y": 0.7425607123799218
+      },
+      "isLocked": false,
+      "linkedName": "Central_South_Mid_Exit"
+    },
+    {
+      "anchor": {
+        "x": 5.203110119047619,
+        "y": 0.6679464285714289
+      },
+      "prevControl": {
+        "x": 8.117130281324574,
+        "y": 0.624100044819766
+      },
+      "nextControl": {
+        "x": 3.436767982631533,
+        "y": 0.6945240467199306
+      },
+      "isLocked": false,
+      "linkedName": "Central_Trench_South_Blue"
+    },
+    {
+      "anchor": {
+        "x": 3.62953488372093,
+        "y": 0.6679464285714289
+      },
+      "prevControl": {
+        "x": 3.8685024913889134,
+        "y": 0.7413935693288511
+      },
+      "nextControl": {
+        "x": 3.2803507334350686,
+        "y": 0.5606240274870967
+      },
+      "isLocked": false,
+      "linkedName": "Blue_Trench_South"
+    },
+    {
+      "anchor": {
+        "x": 2.6712946428571427,
+        "y": 3.069255952380953
+      },
+      "prevControl": {
+        "x": 2.737137745974955,
+        "y": 1.8364579606440063
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Blue_Shoot_South"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 2,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 2.0,
+    "maxAcceleration": 1.0,
+    "maxAngularVelocity": 180.0,
+    "maxAngularAcceleration": 180.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0.0,
+    "rotation": 32.90524292298791
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 3.0,
+    "rotation": 88.71888116185094
+  },
+  "useDefaultConstraints": true
+}

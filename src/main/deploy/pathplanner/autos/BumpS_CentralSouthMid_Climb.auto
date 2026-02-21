@@ -15,7 +15,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "TrenchN_To_ShootN"
+                        "pathName": "BumpS_To_ShootS"
                       }
                     },
                     {
@@ -100,7 +100,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "ShootN_To_CentralNorthLeft"
+                  "pathName": "ShootS_To_CentralSouthMid"
                 }
               },
               {
@@ -119,7 +119,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "CentralNorthLeft_PassThru"
+                  "pathName": "CentralSouthMid_PassThru"
                 }
               },
               {
@@ -138,7 +138,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "CentralNorthLeft_to_ShootN"
+                  "pathName": "CentralSouthMid_to_ShootS"
                 }
               },
               {
@@ -214,7 +214,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "ShootN_To_ClimbS"
+                  "pathName": "ShootS_To_ClimbS"
                 }
               },
               {
