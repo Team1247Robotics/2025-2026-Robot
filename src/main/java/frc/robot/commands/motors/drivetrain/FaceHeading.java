@@ -231,4 +231,30 @@ public class FaceHeading extends Command {
   public void execute() {
     pointToSetpoint(m_target);
   }
+
+  /**
+   * Get the current signed angular offset from the target heading, accounting for angle wraparound.
+   * <p>
+   * The result is in the range (-π, π], where a positive value means the robot must
+   * turn counter-clockwise and a negative value means clockwise to reach the target.
+   *
+   * @return Signed angular offset in radians from the current heading to the target.
+   */
+  public double getAngularOffset() {
+    double robotHeading = m_drivetrain.getPose().getRotation().getRadians() % (Math.PI * 2);
+    double targetHeading = (m_target.plus(m_offset).getRadians()) % (Math.PI * 2);
+
+    // Normalize both angles to [0, 2π)
+    if (robotHeading < 0) robotHeading += Math.PI * 2;
+    if (targetHeading < 0) targetHeading += Math.PI * 2;
+
+    // Raw difference
+    double offset = targetHeading - robotHeading;
+
+    // Wrap to (-π, π] — shortest path
+    if (offset > Math.PI)  offset -= Math.PI * 2;
+    if (offset < -Math.PI) offset += Math.PI * 2;
+
+    return offset;
+}
 }
