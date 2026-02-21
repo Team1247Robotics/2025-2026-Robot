@@ -55,12 +55,12 @@ public class RobotContainer {
    * Comment out features from this array to disabled them.
    */
   private final MotorFeatures[] enabledFeatures = new MotorFeatures[] {
-    MotorFeatures.Shooter,
-    MotorFeatures.Indexer,
-    MotorFeatures.Feeder,
-    MotorFeatures.Climber,
-    MotorFeatures.Intake,
-    MotorFeatures.IntakeDeployment
+    // MotorFeatures.Shooter,
+    // MotorFeatures.Indexer,
+    // MotorFeatures.Feeder,
+    // MotorFeatures.Climber,
+    // MotorFeatures.Intake,
+    // MotorFeatures.IntakeDeployment
   };
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();

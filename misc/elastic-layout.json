@@ -287,6 +287,326 @@
           }
         ]
       }
+    },
+    {
+      "name": "Drivetrain Debug",
+      "grid_layout": {
+        "layouts": [],
+        "containers": [
+          {
+            "title": "1",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 90.0,
+            "height": 300.0,
+            "type": "Number Bar",
+            "properties": {
+              "topic": "/SmartDashboard/Drive Motor 1 Target Velocity",
+              "period": 0.06,
+              "data_type": "double",
+              "min_value": -4.0,
+              "max_value": 4.0,
+              "divisions": 3,
+              "inverted": false,
+              "orientation": "vertical"
+            }
+          },
+          {
+            "title": "1V",
+            "x": 90.0,
+            "y": 0.0,
+            "width": 90.0,
+            "height": 300.0,
+            "type": "Number Bar",
+            "properties": {
+              "topic": "/SmartDashboard/Drive Motor 1 Velocity",
+              "period": 0.06,
+              "data_type": "double",
+              "min_value": -4.0,
+              "max_value": 4.0,
+              "divisions": 3,
+              "inverted": false,
+              "orientation": "vertical"
+            }
+          },
+          {
+            "title": "3",
+            "x": 180.0,
+            "y": 0.0,
+            "width": 90.0,
+            "height": 300.0,
+            "type": "Number Bar",
+            "properties": {
+              "topic": "/SmartDashboard/Drive Motor 3 Target Velocity",
+              "period": 0.06,
+              "data_type": "double",
+              "min_value": -4.0,
+              "max_value": 4.0,
+              "divisions": 3,
+              "inverted": false,
+              "orientation": "vertical"
+            }
+          },
+          {
+            "title": "3V",
+            "x": 270.0,
+            "y": 0.0,
+            "width": 90.0,
+            "height": 300.0,
+            "type": "Number Bar",
+            "properties": {
+              "topic": "/SmartDashboard/Drive Motor 3 Velocity",
+              "period": 0.06,
+              "data_type": "double",
+              "min_value": -4.0,
+              "max_value": 4.0,
+              "divisions": 3,
+              "inverted": false,
+              "orientation": "vertical"
+            }
+          },
+          {
+            "title": "5",
+            "x": 180.0,
+            "y": 300.0,
+            "width": 90.0,
+            "height": 300.0,
+            "type": "Number Bar",
+            "properties": {
+              "topic": "/SmartDashboard/Drive Motor 5 Target Velocity",
+              "period": 0.06,
+              "data_type": "double",
+              "min_value": -4.0,
+              "max_value": 4.0,
+              "divisions": 3,
+              "inverted": false,
+              "orientation": "vertical"
+            }
+          },
+          {
+            "title": "5V",
+            "x": 270.0,
+            "y": 300.0,
+            "width": 90.0,
+            "height": 300.0,
+            "type": "Number Bar",
+            "properties": {
+              "topic": "/SmartDashboard/Drive Motor 5 Velocity",
+              "period": 0.06,
+              "data_type": "double",
+              "min_value": -4.0,
+              "max_value": 4.0,
+              "divisions": 3,
+              "inverted": false,
+              "orientation": "vertical"
+            }
+          },
+          {
+            "title": "7V",
+            "x": 90.0,
+            "y": 300.0,
+            "width": 90.0,
+            "height": 300.0,
+            "type": "Number Bar",
+            "properties": {
+              "topic": "/SmartDashboard/Drive Motor 7 Velocity",
+              "period": 0.06,
+              "data_type": "double",
+              "min_value": -4.0,
+              "max_value": 4.0,
+              "divisions": 3,
+              "inverted": false,
+              "orientation": "vertical"
+            }
+          },
+          {
+            "title": "7",
+            "x": 0.0,
+            "y": 300.0,
+            "width": 90.0,
+            "height": 300.0,
+            "type": "Number Bar",
+            "properties": {
+              "topic": "/SmartDashboard/Drive Motor 7 Target Velocity",
+              "period": 0.06,
+              "data_type": "double",
+              "min_value": -4.0,
+              "max_value": 4.0,
+              "divisions": 3,
+              "inverted": false,
+              "orientation": "vertical"
+            }
+          },
+          {
+            "title": "Turning Motor 2 Target Theta",
+            "x": 360.0,
+            "y": 0.0,
+            "width": 270.0,
+            "height": 300.0,
+            "type": "Radial Gauge",
+            "properties": {
+              "topic": "/SmartDashboard/Turning Motor 2 Target Theta",
+              "period": 0.06,
+              "data_type": "double",
+              "start_angle": 0.0,
+              "end_angle": 360.0,
+              "min_value": 0.0,
+              "max_value": 360.0,
+              "number_of_labels": 8,
+              "wrap_value": true,
+              "show_pointer": true,
+              "show_ticks": true
+            }
+          },
+          {
+            "title": "Turning Motor 2 Theta",
+            "x": 630.0,
+            "y": 0.0,
+            "width": 300.0,
+            "height": 300.0,
+            "type": "Radial Gauge",
+            "properties": {
+              "topic": "/SmartDashboard/Turning Motor 2 Theta",
+              "period": 0.06,
+              "data_type": "double",
+              "start_angle": 0.0,
+              "end_angle": 360.0,
+              "min_value": 0.0,
+              "max_value": 360.0,
+              "number_of_labels": 8,
+              "wrap_value": false,
+              "show_pointer": true,
+              "show_ticks": true
+            }
+          },
+          {
+            "title": "Turning Motor 4 Target Theta",
+            "x": 930.0,
+            "y": 0.0,
+            "width": 270.0,
+            "height": 300.0,
+            "type": "Radial Gauge",
+            "properties": {
+              "topic": "/SmartDashboard/Turning Motor 4 Target Theta",
+              "period": 0.06,
+              "data_type": "double",
+              "start_angle": 0.0,
+              "end_angle": 360.0,
+              "min_value": 0.0,
+              "max_value": 360.0,
+              "number_of_labels": 8,
+              "wrap_value": false,
+              "show_pointer": true,
+              "show_ticks": true
+            }
+          },
+          {
+            "title": "Turning Motor 4 Theta",
+            "x": 1200.0,
+            "y": 0.0,
+            "width": 300.0,
+            "height": 300.0,
+            "type": "Radial Gauge",
+            "properties": {
+              "topic": "/SmartDashboard/Turning Motor 4 Theta",
+              "period": 0.06,
+              "data_type": "double",
+              "start_angle": 0.0,
+              "end_angle": 360.0,
+              "min_value": 0.0,
+              "max_value": 360.0,
+              "number_of_labels": 8,
+              "wrap_value": false,
+              "show_pointer": true,
+              "show_ticks": true
+            }
+          },
+          {
+            "title": "Turning Motor 6 Target Theta",
+            "x": 930.0,
+            "y": 300.0,
+            "width": 270.0,
+            "height": 300.0,
+            "type": "Radial Gauge",
+            "properties": {
+              "topic": "/SmartDashboard/Turning Motor 6 Target Theta",
+              "period": 0.06,
+              "data_type": "double",
+              "start_angle": 0.0,
+              "end_angle": 360.0,
+              "min_value": 0.0,
+              "max_value": 360.0,
+              "number_of_labels": 8,
+              "wrap_value": false,
+              "show_pointer": true,
+              "show_ticks": true
+            }
+          },
+          {
+            "title": "Turning Motor 6 Theta",
+            "x": 1200.0,
+            "y": 300.0,
+            "width": 300.0,
+            "height": 300.0,
+            "type": "Radial Gauge",
+            "properties": {
+              "topic": "/SmartDashboard/Turning Motor 6 Theta",
+              "period": 0.06,
+              "data_type": "double",
+              "start_angle": 0.0,
+              "end_angle": 360.0,
+              "min_value": 0.0,
+              "max_value": 360.0,
+              "number_of_labels": 8,
+              "wrap_value": false,
+              "show_pointer": true,
+              "show_ticks": true
+            }
+          },
+          {
+            "title": "Turning Motor 8 Target Theta",
+            "x": 360.0,
+            "y": 300.0,
+            "width": 270.0,
+            "height": 300.0,
+            "type": "Radial Gauge",
+            "properties": {
+              "topic": "/SmartDashboard/Turning Motor 8 Target Theta",
+              "period": 0.06,
+              "data_type": "double",
+              "start_angle": 0.0,
+              "end_angle": 360.0,
+              "min_value": 0.0,
+              "max_value": 360.0,
+              "number_of_labels": 8,
+              "wrap_value": true,
+              "show_pointer": true,
+              "show_ticks": true
+            }
+          },
+          {
+            "title": "Turning Motor 8 Theta",
+            "x": 630.0,
+            "y": 300.0,
+            "width": 300.0,
+            "height": 300.0,
+            "type": "Radial Gauge",
+            "properties": {
+              "topic": "/SmartDashboard/Turning Motor 8 Theta",
+              "period": 0.06,
+              "data_type": "double",
+              "start_angle": 0.0,
+              "end_angle": 360.0,
+              "min_value": 0.0,
+              "max_value": 360.0,
+              "number_of_labels": 8,
+              "wrap_value": true,
+              "show_pointer": true,
+              "show_ticks": true
+            }
+          }
+        ]
+      }
     }
   ]
 }

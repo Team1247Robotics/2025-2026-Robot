@@ -55,7 +55,7 @@ public final class Constants {
     return false;
   }
 
-  public static final boolean UseTestBot = false;
+  public static final boolean UseTestBot = true;
 
   public static final class GenericConstants {
     public static final double MotorPositionControlAllowableError = Math.PI / 2;

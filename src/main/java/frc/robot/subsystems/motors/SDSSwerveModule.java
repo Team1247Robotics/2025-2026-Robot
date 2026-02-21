@@ -116,10 +116,10 @@ public class SDSSwerveModule {
     correctedDesiredState.optimize(currentRotation);
     correctedDesiredState.cosineScale(currentRotation);
 
-    SmartDashboard.putNumber("Drive Motor " + m_driveMotor.getDeviceId() + " Target Velocity", correctedDesiredState.speedMetersPerSecond);
+    SmartDashboard.putNumber("Drive Motor " + m_driveMotor.getDeviceId() + " Target Velocity", desiredState.speedMetersPerSecond);
     SmartDashboard.putNumber("Drive Motor " + m_driveMotor.getDeviceId() + " Velocity", m_driveEncoder.getVelocity());
-    SmartDashboard.putNumber("Turning Motor " + m_turningMotor.getDeviceId() + " Target Theta", correctedDesiredState.angle.getDegrees());
-    SmartDashboard.putNumber("Turning Motor " + m_turningMotor.getDeviceId() + " Theta", m_turningEncoder.getPosition() / (Math.PI * 2));
+    SmartDashboard.putNumber("Turning Motor " + m_turningMotor.getDeviceId() + " Target Theta", desiredState.angle.getDegrees());
+    SmartDashboard.putNumber("Turning Motor " + m_turningMotor.getDeviceId() + " Theta", (m_turningEncoder.getPosition() / (Math.PI * 2)) * 360);
 
     m_driveClosedLoopController.setSetpoint(
       Math.max(

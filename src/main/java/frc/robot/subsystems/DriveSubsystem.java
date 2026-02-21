@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.motors.SDSSwerveModule;
 // import frc.robot.sensors.LimelightHelpers; // this is causing an incomprehensible build error that i am not dealing with rn
@@ -51,7 +52,7 @@ public class DriveSubsystem extends SubsystemBase {
   //#endregion
 
   // private final AHRS m_gyro = new AHRS(NavXComType.kUSB1);
-  private final Pigeon2 m_gyro = new Pigeon2(21);
+  private final Pigeon2 m_gyro = new Pigeon2(Constants.UseTestBot ? 10 : 21);
 
   private final Field2d m_field = new Field2d();
 
