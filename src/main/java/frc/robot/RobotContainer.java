@@ -103,14 +103,27 @@ public class RobotContainer {
    * Register all named commands in Pathplanner
    */
   private void registerPathplannerCommands() {
-    NamedCommands.registerCommand("RampUpShooter", new AwaitShooterReady(m_shooter, () -> ShooterConstants.targetSpeed));
-    NamedCommands.registerCommand("ActivateIndex", new StepIndexer(m_indexer));
+
+    NamedCommands.registerCommand("AwaitShooterWarmup", new AwaitShooterReady(m_shooter, () -> ShooterConstants.targetSpeed));
+    NamedCommands.registerCommand("RunShooterIndefinitely", new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
     NamedCommands.registerCommand("Shoot", new RunShooterIndefinitely(m_shooter, () -> ShooterConstants.targetSpeed));
-    NamedCommands.registerCommand("Climb", new WaitCommand(1)); // TODO: replace with actual command
+
+    NamedCommands.registerCommand("ActivateIndex", new StepIndexer(m_indexer));
+    NamedCommands.registerCommand("RunIndexerNTimes", new WaitCommand(1)); // TODO: replace with actual command
+
+    NamedCommands.registerCommand("RunFeederIndefinitely", new WaitCommand(1)); // TODO: replace with actual command
+
+    NamedCommands.registerCommand("AwaitClimberRetract", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("AwaitClimberExtend", new WaitCommand(1)); // TODO: replace with actual command
+
     NamedCommands.registerCommand("AimAtHub", new AlwaysFaceHub(m_robotDrive, () -> 0, () -> 0, true));
-    NamedCommands.registerCommand("ActivateIntake", new WaitCommand(1)); // TODO: replace with actual command
-    NamedCommands.registerCommand("CollectIntake", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("AwaitAimAtHub", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("AimAtHubIndefinitely", new WaitCommand(1)); // TODO: replace with actual command
+
+    NamedCommands.registerCommand("AwaitIntakeInit", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("RunIntakeIndefinitely", new WaitCommand(1)); // TODO: replace with actual command
     NamedCommands.registerCommand("DeactivateIntake", new WaitCommand(1)); // TODO: replace with actual command
+    NamedCommands.registerCommand("AwaitIntakeDeploy", new WaitCommand(1)); // TODO: replace with actual command
   }
 
   /**
