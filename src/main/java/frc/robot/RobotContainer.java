@@ -18,14 +18,13 @@ import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.commands.motors.climber.ExtendClimber;
 import frc.robot.commands.motors.climber.RetractClimber;
 import frc.robot.commands.motors.drivetrain.AlwaysFaceHub;
-import frc.robot.commands.motors.drivetrain.FaceHub;
+import frc.robot.commands.motors.drivetrain.HubCommands;
 import frc.robot.commands.motors.drivetrain.ResetHeading;
 import frc.robot.commands.motors.feeder.RunFeeder;
 import frc.robot.commands.motors.indexer.StepIndexer;
 import frc.robot.commands.motors.indexer.StepIndexerNTimes;
 import frc.robot.commands.motors.intake.AwaitIntakeDeployment;
-import frc.robot.commands.motors.intake.AwaitIntakeInit;
-import frc.robot.commands.motors.intake.RunIntakeIndefinitely;
+import frc.robot.commands.motors.intake.IntakeCommands;
 import frc.robot.commands.motors.shooter.AwaitShooterReady;
 import frc.robot.commands.motors.shooter.RunShooterIndefinitely;
 import frc.robot.sensors.PhotonVision;
@@ -45,7 +44,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -132,12 +130,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("AwaitClimberRetract", new RetractClimber(m_Climber));
     NamedCommands.registerCommand("AwaitClimberExtend", new ExtendClimber(m_Climber));
 
-    NamedCommands.registerCommand("AimAtHub", new FaceHub.Indefinitely(m_robotDrive));
-    NamedCommands.registerCommand("AimAtHubIndefinitely", new FaceHub.Indefinitely(m_robotDrive));
-    NamedCommands.registerCommand("AwaitAimAtHub", new FaceHub.Await.Passively(m_robotDrive));
+    NamedCommands.registerCommand("AimAtHub", new HubCommands.AimAt.Indefinitely(m_robotDrive));
+    NamedCommands.registerCommand("AimAtHubIndefinitely", new HubCommands.AimAt.Indefinitely(m_robotDrive));
+    NamedCommands.registerCommand("AwaitAimAtHub", new HubCommands.AimAt.Await.Passively(m_robotDrive));
 
-    NamedCommands.registerCommand("AwaitIntakeInit", new AwaitIntakeInit.Actively(m_Intake));
-    NamedCommands.registerCommand("RunIntakeIndefinitely", new RunIntakeIndefinitely(m_Intake));
+    NamedCommands.registerCommand("AwaitIntakeInit", new IntakeCommands.Run.Await.Actively(m_Intake));
+    NamedCommands.registerCommand("RunIntakeIndefinitely", new IntakeCommands.Run.Indefinitely(m_Intake));
     NamedCommands.registerCommand("DeactivateIntake", Commands.none()); // dont tell the motor to run and it wont run idk what you expect me to do here.
     NamedCommands.registerCommand("AwaitIntakeDeploy", new AwaitIntakeDeployment.Deploy.Actively(m_IntakeDeployment));
   }
