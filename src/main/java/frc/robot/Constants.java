@@ -101,20 +101,13 @@ public final class Constants {
 
     /** Wheel configs specific for the test swerve bot */
     public static final class TestBotConfigs {
-<<<<<<< HEAD
+      public static final ControllerType DriveType = ControllerType.kSparkMax;
+      public static final ControllerType TurningType = ControllerType.kSparkMax;
+
       public static final boolean kFrontLeftDriveInverted  = !false;
       public static final boolean kFrontRightDriveInverted = !false; 
       public static final boolean kBackLeftDriveInverted   = !false;
       public static final boolean kBackRightDriveInverted  = !false;
-=======
-      public static final ControllerType DriveType = ControllerType.kSparkMax;
-      public static final ControllerType TurningType = ControllerType.kSparkMax;
-
-      public static final boolean kFrontLeftDriveInverted  = false;
-      public static final boolean kFrontRightDriveInverted = false; 
-      public static final boolean kBackLeftDriveInverted   = false;
-      public static final boolean kBackRightDriveInverted  = false;
->>>>>>> 1385748beeb8fa7063da1268e9ee2a7abf271cd2
 
       public static final double kFrontLeftChassisAngularOffset  = 0.7006581;
       public static final double kFrontRightChassisAngularOffset = 0.4643519;
