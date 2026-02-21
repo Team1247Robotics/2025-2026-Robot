@@ -9,6 +9,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.LedConfigs;
+import frc.robot.Constants.MotorFeatures;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.ledstrip.LedStripScrollRainbow;
@@ -54,6 +55,14 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private final MotorFeatures[] enabledFeatures = new MotorFeatures[] {
+    MotorFeatures.Shooter,
+    MotorFeatures.Indexer,
+    MotorFeatures.Feeder,
+    MotorFeatures.Climber,
+    MotorFeatures.Intake,
+    MotorFeatures.IntakeDeployment
+  };
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
@@ -65,8 +74,8 @@ public class RobotContainer {
 
   private final ColorSensor m_indexerSensor = new ColorSensor(0);
 
-  // private final Shooter m_shooter = new Shooter();
-  // private final Indexer m_indexer = new Indexer();
+  // private final Shooter m_shooter = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Shooter) ?  new Shooter() : null;
+  // private final Indexer m_indexer = Constants.isFeatureEnabled(enabledFeatures, MotorFeatures.Indexer) ? new Indexer() : null;
   // private final Feeder  m_Feeder  = new Feeder();
   // private final Climber m_Climber = new Climber();
   // private final Intake  m_Intake  = new Intake();

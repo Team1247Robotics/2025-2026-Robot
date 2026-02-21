@@ -38,6 +38,23 @@ import frc.robot.subsystems.motors.SDSSwerveModule.SDSSwerveModuleConfig;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static enum MotorFeatures {
+    Shooter,
+    Indexer,
+    Feeder,
+    Climber,
+    Intake,
+    IntakeDeployment
+  }
+
+  public static boolean isFeatureEnabled(MotorFeatures[] features, MotorFeatures featureToTest) {
+    for (int i = 0; i < features.length; i++) {
+      var feat = features[i];
+      if (feat.equals(featureToTest)) return true;
+    }
+    return false;
+  }
+
   public static final boolean UseTestBot = false;
 
   public static final class GenericConstants {
@@ -53,10 +70,10 @@ public final class Constants {
       public static final ControllerType DriveType = ControllerType.kSparkMax;
       public static final ControllerType TurningType = ControllerType.kSparkMax;
 
-      public static final boolean kFrontLeftDriveInverted =  true;
-      public static final boolean kFrontRightDriveInverted = true; 
-      public static final boolean kBackLeftDriveInverted =   true;
-      public static final boolean kBackRightDriveInverted =  true;
+      public static final boolean kFrontLeftDriveInverted =  false;
+      public static final boolean kFrontRightDriveInverted = false; 
+      public static final boolean kBackLeftDriveInverted =   false;
+      public static final boolean kBackRightDriveInverted =  false;
 
       public static final double kFrontLeftChassisAngularOffset  = 0.7789029;
       public static final double kFrontRightChassisAngularOffset = 0.3413826;
