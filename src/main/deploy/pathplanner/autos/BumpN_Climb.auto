@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "EnableShooter"
+          }
+        },
+        {
           "type": "deadline",
           "data": {
             "commands": [
@@ -23,30 +29,23 @@
                       "data": {
                         "name": "AwaitIntakeDeploy"
                       }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "AwaitShooterWarmup"
-                      }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "RunShooterIndefinitely"
+                        "name": "AwaitShooter"
                       }
                     }
                   ]
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "EnableFeeder"
           }
         },
         {
@@ -57,18 +56,6 @@
                 "type": "named",
                 "data": {
                   "name": "AimAtHubIndefinitely"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "RunShooterIndefinitely"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "RunFeederIndefinitely"
                 }
               },
               {
@@ -91,6 +78,18 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DisableFeeder"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DisableShooter"
           }
         },
         {

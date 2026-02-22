@@ -65,12 +65,13 @@ public interface FaceHeading {
           DoubleSupplier xSupplier,
           DoubleSupplier ySupplier
       ) {
-        super(() -> Targeting.getAngularOffset(Rotation2d.fromDegrees(drivetrain.getHeading()), target.get()), 0, GyroConstants.TargetAngleAllowableError.abs(Radians));
+        super(() -> Targeting.getAngularOffset(drivetrain.getPose().getRotation(), target.get()), 0, GyroConstants.TargetAngleAllowableError.abs(Radians));
         this.m_drivetrain = drivetrain;
         this.m_headingTargetSupplier = target;
         this.m_xSupplier = xSupplier;
         this.m_ySupplier = ySupplier;
         m_pid.enableContinuousInput(0, Math.PI * 2);
+        setUseRadianWraparound(true);
       }
   
       /**
@@ -142,7 +143,7 @@ public interface FaceHeading {
        */
       public void updateHeading(Supplier<Rotation2d> target) {
         m_headingTargetSupplier = target;
-        this.m_base = () -> Targeting.getAngularOffset(Rotation2d.fromDegrees(m_drivetrain.getHeading()), m_headingTargetSupplier.get());
+        this.m_base = () -> Targeting.getAngularOffset(m_drivetrain.getHeading(), m_headingTargetSupplier.get());
       }
 
       /**
@@ -221,7 +222,8 @@ public interface FaceHeading {
         double robotHeading = (m_drivetrain.getPose().getRotation().getRadians() % (Math.PI * 2));
   
         double direct = ((target.plus(m_offset).getRadians()) % (Math.PI * 2));
-        SmartDashboard.putNumber("Heading Target Offset", -(direct - robotHeading - m_offset.getRadians()));
+        // SmartDashboard.putNumber("Heading Target Offset", -(direct - robotHeading - m_offset.getRadians()));
+        SmartDashboard.putNumber("Heading Target Offset", Targeting.getAngularOffset(robotHeading, direct));
   
         return m_pid.calculate(robotHeading - m_offset.getRadians(), target.getRadians());
       }

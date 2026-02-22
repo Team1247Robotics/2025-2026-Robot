@@ -5,8 +5,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.utils.HubActiveState;
 
 /**
@@ -45,6 +49,8 @@ private HubActiveState m_hubInstance = HubActiveState.getInstance();
     
     m_robotContainer.periodic();
     m_hubInstance.periodic();
+
+     SmartDashboard.putString("Running Commands", m_robotContainer.runningCommands.toString());
 
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,

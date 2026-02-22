@@ -10,6 +10,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class GenericSparkMaxMotor extends SubsystemBase {
@@ -57,11 +58,20 @@ public class GenericSparkMaxMotor extends SubsystemBase {
     m_clController.setSetpoint(target, ControlType.kPosition, ClosedLoopSlot.kSlot0);
   }
 
+  public void setEffort(double target) {
+    m_motor.set(target);
+  }
+
 
   /**
    * Stop the shooter motor
    */
   public void stop() {
-    setVelocity(0.0);
+    m_motor.set(0.0);
+  }
+
+  protected void sendStatsToDash(String name) {
+    SmartDashboard.putNumber(name + " Velocity", getVelocity());
+    SmartDashboard.putNumber(name + " Position", getPosition());
   }
 }

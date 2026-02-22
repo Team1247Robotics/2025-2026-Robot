@@ -10,6 +10,15 @@ import frc.robot.commands.generics.GenericMotorControl;
 import frc.robot.subsystems.motors.Shooter;
 
 public interface ShooterCommands {
+  public static class Stop extends GenericMotorControl.Stop {
+    public Stop(Shooter shooter) {
+      super(shooter);
+    }
+  }
+  static Command Stop(Shooter shooter) {
+    return new Stop(shooter);
+  }
+
   interface ShooterDependant {
     public class Sequence extends SequentialCommandGroup {
       public Sequence(Shooter shooter, DoubleSupplier speed, Command... commands) {

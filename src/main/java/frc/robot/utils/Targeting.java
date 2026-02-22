@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 // import frc.robot.sensors.LimelightHelpers;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Utils to handle conversions between robot and field relative spaces.
@@ -159,6 +160,36 @@ public class Targeting {
   public static double getAngularOffset(Rotation2d rotationA, Rotation2d rotationB) {
     double aHeading = rotationA.getRadians() % (Math.PI * 2);
     double bHeading = rotationB.getRadians() % (Math.PI * 2);
+    SmartDashboard.putNumber("Angle A", aHeading);
+    SmartDashboard.putNumber("Angle B", bHeading);
+
+    return bHeading - aHeading;
+
+    // Normalize both angles to [0, 2π)
+    // if (aHeading < 0) aHeading += Math.PI * 2;
+    // if (bHeading < 0) bHeading += Math.PI * 2;
+
+    // // Raw difference
+    // double offset = bHeading - aHeading;
+
+    // // Wrap to (-π, π] — shortest path
+    // if (offset > Math.PI)  offset -= Math.PI * 2;
+    // if (offset < -Math.PI) offset += Math.PI * 2;
+
+    // return offset;
+  }
+
+  /**
+   * Get the current signed angular offset between the A and B headings, accounting for angle wraparound.
+   * <p>
+   * The result is in the range (-π, π], where a positive value means A must
+   * turn counter-clockwise and a negative value means clockwise to reach B.
+   *
+   * @return Signed angular offset in radians from A to B.
+   */
+  public static double getAngularOffset(double rotationA, double rotationB) {
+    double aHeading = rotationA % (Math.PI * 2);
+    double bHeading = rotationB % (Math.PI * 2);
 
     // Normalize both angles to [0, 2π)
     if (aHeading < 0) aHeading += Math.PI * 2;

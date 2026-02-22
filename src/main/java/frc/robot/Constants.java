@@ -47,6 +47,8 @@ public final class Constants {
     IntakeDeployment
   }
 
+  public static final boolean InvertGravity = true;
+
   public static boolean isFeatureEnabled(Feature[] features, Feature featureToTest) {
     for (int i = 0; i < features.length; i++) {
       var feat = features[i];
@@ -226,10 +228,11 @@ public final class Constants {
   public static final class IntakeConstants {
     public static final int kMotorCanId = 10;
     public static final int kDeploymentMotorCanId = 15;
+    public static final double kMotorFreeSpeed = 4600;
 
     public static final class Control {
-      public static final double IntakeSpeed   = 2000;
-      public static final double DispenseSpeed = -2000;
+      public static final double IntakeSpeed   = 3000;
+      public static final double DispenseSpeed = -3000;
 
       public static final double DeployedPosition  = Math.PI / 2;
       public static final double RetractedPosition = 0;
@@ -251,11 +254,13 @@ public final class Constants {
   public static final class ShooterConstants {
      public static final int kMotorCanId = 9;
 
+     public static final double kFreeSpeedRpm = 5600;
+
      public static final class Control {
       public static final double allowableError = 10; // RPM
      }
 
-     public static final double targetSpeed = 1000;
+     public static final double targetSpeed = 5000;
   }
 
   public static final class ColorSensorConstants {
@@ -277,7 +282,7 @@ public final class Constants {
   public static final class GyroConstants {
     public static final Angle flatThreshold = Radians.of(Math.PI / 8);
 
-    public static final Angle TargetAngleAllowableError = Radians.of(Math.PI / 16);
+    public static final Angle TargetAngleAllowableError = Radians.of(Math.PI / 8);
   }
 
   public static final class ModuleConstants {

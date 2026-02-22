@@ -2,10 +2,30 @@ package frc.robot.commands.generics;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants.GenericConstants;
 import frc.robot.subsystems.generics.GenericSparkMaxMotor;
 
 public interface GenericMotorControl {
+  class Stop extends Command {
+    protected final GenericSparkMaxMotor m_motor;
+    public Stop(GenericSparkMaxMotor motor) {
+      m_motor = motor;
+      addRequirements(motor);
+    }
+
+    @Override
+    public void execute() {
+      m_motor.stop();
+    }
+
+    @Override
+    public boolean isFinished() {
+      return false;
+    }
+  }
   interface Position {
     interface Await {
       /**
@@ -93,6 +113,7 @@ public interface GenericMotorControl {
         public Passively(GenericSparkMaxMotor motor, DoubleSupplier targetSupplier) {
           super(motor::getVelocity, targetSupplier, GenericConstants.MotorVelocityControlAllowableError);
           m_motor = motor;
+          addRequirements(new Subsystem[0]);
         }
 
         public Passively(GenericSparkMaxMotor motor, double target) {

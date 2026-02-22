@@ -6,6 +6,15 @@ import frc.robot.commands.generics.GenericMotorControl;
 import frc.robot.subsystems.motors.Feeder;
 
 public interface FeederCommands {
+  public class Stop extends GenericMotorControl.Stop {
+    public Stop(Feeder feeder) {
+      super(feeder);
+    }
+  }
+  static Command Stop(Feeder feeder) {
+    return new Stop(feeder);
+  }
+
   interface Await {
     class Actively extends GenericMotorControl.Velocity.Await.Actively {
       public Actively(Feeder feeder) {

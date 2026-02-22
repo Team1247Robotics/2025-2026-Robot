@@ -7,4 +7,9 @@ public class Shooter extends GenericNeo {
   public Shooter() {
     super(ShooterConstants.kMotorCanId, Configs.ShooterMotor.config);
   }
+
+  @Override
+  public void periodic() {
+    sendStatsToDash("Shooter");
+  }
 }

@@ -8,6 +8,15 @@ import frc.robot.subsystems.motors.IntakeDeployment;
 
 public interface IntakeCommands {
   interface Driver {
+    static class Stop extends GenericMotorControl.Stop {
+      public Stop(Intake intake) {
+        super(intake);
+      }
+    }
+    static Command Stop(Intake intake) {
+      return new Stop(intake);
+    }
+
     public interface Run {
       public interface Await {
         public static class Actively extends GenericMotorControl.Velocity.Await.Actively {
@@ -32,9 +41,17 @@ public interface IntakeCommands {
       }
 
       public class Indefinitely extends GenericMotorControl.Velocity.Set {
-        public Indefinitely(Intake intake) {
-          super(intake, IntakeConstants.Control.IntakeSpeed);
+        public Indefinitely(Intake intake, double speed) {
+          super(intake, speed);
         }
+
+        public Indefinitely(Intake intake) {
+          this(intake, IntakeConstants.Control.IntakeSpeed);
+        }
+      }
+
+      public static Command Indefinitely(Intake intake, double speed) {
+        return new Indefinitely(intake, speed);
       }
 
       public static Command Indefinitely(Intake intake) {

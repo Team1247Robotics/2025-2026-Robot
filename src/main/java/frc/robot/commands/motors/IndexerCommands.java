@@ -11,6 +11,15 @@ import frc.robot.commands.generics.GenericMotorControl;
 import frc.robot.subsystems.motors.Indexer;
 
 public interface IndexerCommands {
+  static class Stop extends GenericMotorControl.Stop {
+    public Stop(Indexer indexer) {
+      super(indexer);
+    }
+  }
+  static Command Stop(Indexer indexer) {
+    return new Stop(indexer);
+  }
+  
   interface Position {
     interface Await {
       class Actively extends GenericMotorControl.Position.Await.Actively {

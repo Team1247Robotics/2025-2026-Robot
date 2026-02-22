@@ -4,8 +4,10 @@ import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.NeoMotorContants;
+import frc.robot.Constants.ShooterConstants;
 
 public final class Configs {
   public static final class SDSSwerveModule {
@@ -63,7 +65,7 @@ public final class Configs {
       double feedForward = nominalVoltage / NeoMotorContants.kNeoFreeSpeedRpm;
 
       config
-        .idleMode(IdleMode.kBrake)
+        .idleMode(IdleMode.kCoast)
         .smartCurrentLimit(50);
 
       config.encoder
@@ -73,7 +75,7 @@ public final class Configs {
       config.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
         .pid(0.12, 0.0, 0, ClosedLoopSlot.kSlot0) // Position
-        .pid(0.12, 0.0, 0, ClosedLoopSlot.kSlot1) // Velocity
+        .pid(0, 0.0, 0, ClosedLoopSlot.kSlot1) // Velocity
         .outputRange(-1, 1)
         .feedForward.kV(feedForward, ClosedLoopSlot.kSlot1);
     }
@@ -132,11 +134,12 @@ public final class Configs {
 
     static {
       double nominalVoltage = 12;
-      double feedForward = nominalVoltage / NeoMotorContants.kNeoFreeSpeedRpm;
+      double feedForward = nominalVoltage / (IntakeConstants.kMotorFreeSpeed);
 
       config
-        .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(50);
+        .idleMode(IdleMode.kCoast)
+        .smartCurrentLimit(50)
+        .inverted(true);
 
       config.encoder
         .positionConversionFactor(1)
@@ -145,9 +148,9 @@ public final class Configs {
       config.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
         .pid(0.12, 0.0, 0, ClosedLoopSlot.kSlot0) // Position
-        .pid(0.12, 0.0, 0, ClosedLoopSlot.kSlot1) // Velocity
+        .pid(0.0, 0.0, 0, ClosedLoopSlot.kSlot1) // Velocity
         .outputRange(-1, 1)
-        .feedForward.kV(feedForward, ClosedLoopSlot.kSlot1);
+        .feedForward.kV(feedForward * 0.085, ClosedLoopSlot.kSlot1);
     }
   }
   
@@ -180,11 +183,12 @@ public final class Configs {
 
     static {
       double nominalVoltage = 12;
-      double feedForward = nominalVoltage / NeoMotorContants.kNeoFreeSpeedRpm;
+      double feedForward = nominalVoltage / ShooterConstants.kFreeSpeedRpm;
 
       config
         .idleMode(IdleMode.kCoast)
-        .smartCurrentLimit(50);
+        .smartCurrentLimit(50)
+        .inverted(false);
 
       config.encoder
         .positionConversionFactor(1)
@@ -193,7 +197,7 @@ public final class Configs {
       config.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
         .pid(0.12, 0.0, 0, ClosedLoopSlot.kSlot0) // Position
-        .pid(0.12, 0.0, 0, ClosedLoopSlot.kSlot1) // Velocity
+        .pid(0.0, 0.0, 0.0, ClosedLoopSlot.kSlot1) // Velocity
         .outputRange(-1, 1)
         .feedForward.kV(feedForward, ClosedLoopSlot.kSlot1);
     }
