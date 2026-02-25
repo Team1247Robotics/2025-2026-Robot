@@ -15,9 +15,6 @@ public final class Configs {
     public static final SparkMaxConfig drivingConfig = new SparkMaxConfig();
 
     static {
-      double drivingFactor = ModuleConstants.kWheelDiameterMeters * Math.PI / ModuleConstants.kDrivingMotorReduction;
-
-      double turningFactor = 2 * Math.PI;
       double nominalVoltage = 12;
       double drivingVelocityFeedForward = nominalVoltage / ModuleConstants.kDriveWheelFreeSpeedRps;
 
@@ -26,8 +23,8 @@ public final class Configs {
         .smartCurrentLimit(50);
 
       drivingConfig.encoder
-        .positionConversionFactor(drivingFactor)
-        .velocityConversionFactor(drivingFactor / 60.0);
+        .positionConversionFactor(ModuleConstants.kDriveFactor)
+        .velocityConversionFactor(ModuleConstants.kDriveFactor / 60.0);
 
       drivingConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -42,8 +39,8 @@ public final class Configs {
       
       turningConfig.absoluteEncoder
         .inverted(true)
-        .positionConversionFactor(turningFactor)
-        .velocityConversionFactor(turningFactor / 60.0)
+        .positionConversionFactor(ModuleConstants.kTurnFactor)
+        .velocityConversionFactor(ModuleConstants.kTurnFactor / 60.0)
         .averageDepth(128)
         .startPulseUs(0)
         .endPulseUs(0);
@@ -53,7 +50,7 @@ public final class Configs {
         .pid(0.9, 0, 0)
         .outputRange(-1, 1)
         .positionWrappingEnabled(true)
-        .positionWrappingInputRange(0, turningFactor);
+        .positionWrappingInputRange(0, ModuleConstants.kTurnFactor);
     }
   }
 

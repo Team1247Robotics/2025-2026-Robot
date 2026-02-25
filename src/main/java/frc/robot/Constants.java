@@ -174,11 +174,14 @@ public final class Constants {
       }
     }
 
+    //#region Configs
     public static final SDSSwerveModuleConfig frontLeftConfig  = UseTestBot ? TestBotConfigs.frontLeftSwerveConfig  : MainBotConfigs.frontLeftSwerveConfig;
     public static final SDSSwerveModuleConfig frontRightConfig = UseTestBot ? TestBotConfigs.frontRightSwerveConfig : MainBotConfigs.frontRightSwerveConfig;
     public static final SDSSwerveModuleConfig rearLeftConfig   = UseTestBot ? TestBotConfigs.rearLeftSwerveConfig   : MainBotConfigs.rearLeftSwerveConfig;
     public static final SDSSwerveModuleConfig rearRightConfig  = UseTestBot ? TestBotConfigs.rearRightSwerveConfig  : MainBotConfigs.rearRightSwerveConfig;
+    //#endregion
 
+    //#region CAN Ids
     public static final int kFrontLeftDriveMotorPort  = 5;
     public static final int kFrontRightDriveMotorPort = 3;
     public static final int kBackLeftDriveMotorPort   = 7;
@@ -188,13 +191,13 @@ public final class Constants {
     public static final int kFrontRightTurningMotorPort = 4;
     public static final int kBackLeftTurningMotorPort   = 8;
     public static final int kBackRightTurningMotorPort  = 2;
+    //#endregion
 
     public static final double kDrivePeriod = TimedRobot.kDefaultPeriod;
 
     public static final double kTrackWidthMeters = Units.inchesToMeters(22); // Distance between centers of right and left wheels on robot - Was .5
     public static final double kWheelBaseMeters  = Units.inchesToMeters(21.875); // Distance between front and back wheels on robot - Was .7
   
-
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
         new Translation2d(kWheelBaseMeters / 2, kTrackWidthMeters / 2),
         new Translation2d(kWheelBaseMeters / 2, -kTrackWidthMeters / 2),
@@ -204,8 +207,8 @@ public final class Constants {
 
     public static final boolean kGyroReversed = false;
 
-    public static final double kMaxSpeedMetersPerSecond = 0.5; // 4.8;
-    public static final double kMaxAngularSpeed = 1; // 2 * Math.PI; // radians per second
+    public static final double kMaxSpeedMetersPerSecond = 4.8;
+    public static final double kMaxAngularSpeedRadPerSecond = 2 * Math.PI;
   }
 
   public static final class FeederConstants {
@@ -293,6 +296,12 @@ public final class Constants {
     public static final int kDrivingMotorPinionTeeth = 14;
     public static final double kDrivingMotorReduction = (45.0 * 16.0 * 50.0) / (kDrivingMotorPinionTeeth * 15.0 * 28.0); // L3, see https://www.swervedrivespecialties.com/products/mk4-swerve-module
     public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters) / kDrivingMotorReduction;
+
+    public static final double kDriveFactor = ModuleConstants.kWheelDiameterMeters * Math.PI / ModuleConstants.kDrivingMotorReduction;
+    public static final double kTurnFactor  = 2 * Math.PI;
+
+    public static final double kDriveMOI = 0.025;
+    public static final double kTurnMOI  = 0.004;
   }
 
   public static final class OIConstants {

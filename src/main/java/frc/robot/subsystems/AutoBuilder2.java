@@ -40,8 +40,8 @@ public class AutoBuilder2 {
           drivetrain.drive(speeds.vxMetersPerSecond, -speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false);
         },
         new PPHolonomicDriveController(
-          new PIDConstants(2.3, 0, 0),
-          new PIDConstants(1.4, 0, 0)
+          new PIDConstants(3, 0, 0),
+          new PIDConstants(2, 0, 0)
         ),
         config, // The robot configuration
         GetAlliance::isRedAlliance, // Boolean supplier that controls when the path will be mirrored for the red alliance

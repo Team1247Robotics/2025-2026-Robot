@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.sim.Pigeon2SimState;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -18,6 +19,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.motors.SDSSwerveModule;
 // import frc.robot.sensors.LimelightHelpers; // this is causing an incomprehensible build error that i am not dealing with rn
@@ -74,7 +77,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-
   }
 
   public ChassisSpeeds getChassisSpeeds() {
@@ -267,17 +269,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     final ChassisSpeeds speeds = createChassisSpeeds(xSpeed, ySpeed, rot, fieldRelative);
-
-    var swerveModuleStates = DriveConstants
-      .kDriveKinematics
-      .toSwerveModuleStates(
-        ChassisSpeeds.discretize(
-          speeds,
-          DriveConstants.kDrivePeriod
-        )
-      );
-    
-    setModuleStates(swerveModuleStates);
+    drive(speeds);
   }
 
   public Command defaultControllerCommand(CommandJoystick controller) {
@@ -308,6 +300,7 @@ public class DriveSubsystem extends SubsystemBase {
         )
       );
     setModuleStates(swerveModuleStates);
+    m_gyro.getSimState().addYaw(speeds.omegaRadiansPerSecond);
   }
 
   /**
@@ -379,6 +372,5 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void adjustGyro(double angle) {
     m_gyro.setYaw(angle);
-  
   }
 }

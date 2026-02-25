@@ -37,6 +37,7 @@ import frc.robot.subsystems.motors.Intake;
 import frc.robot.subsystems.motors.IntakeDeployment;
 import frc.robot.subsystems.motors.LonelyTalonFx;
 import frc.robot.subsystems.motors.Shooter;
+import frc.robot.utils.SimulatedBattery;
 import frc.robot.sensors.ColorSensor;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -86,6 +87,7 @@ public class RobotContainer {
 
   private final IntakeDeployment m_IntakeDeployment = Constants.isFeatureEnabled(enabledFeatures, Feature.IntakeDeployment) ? new IntakeDeployment() : null;
 
+  public static final SimulatedBattery GLOBAL_SIMULATED_BATTERY = new SimulatedBattery();
   // private final Intake m_intake = new Intake();
 
   // CommandJoystick m_driverJoystick = new CommandJoystick(OIConstants.kDriverControllerPort);

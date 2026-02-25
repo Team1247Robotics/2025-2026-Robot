@@ -24,7 +24,7 @@ public class Controller {
   }
 
   public static double applyDriveRotationFilters(double controllerInput) {
-    return -MathUtil.applyDeadband(controllerInput, OIConstants.kDriveDeadband) * DriveConstants.kMaxAngularSpeed;
+    return -MathUtil.applyDeadband(controllerInput, OIConstants.kDriveDeadband) * DriveConstants.kMaxAngularSpeedRadPerSecond;
   }
 
   public static double applyDriveRotationFilters(DoubleSupplier supplier) {
