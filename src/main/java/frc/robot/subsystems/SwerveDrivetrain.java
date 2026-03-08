@@ -32,7 +32,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /** This class represents the robot's drive subsystem. */
-public class DriveSubsystem extends SubsystemBase {
+public class SwerveDrivetrain extends SubsystemBase {
 
 
   //#region Construct swerve modules
@@ -74,8 +74,8 @@ public class DriveSubsystem extends SubsystemBase {
           Pose2d.kZero
           );
 
-  /** Creates a new DriveSubsystem. */
-  public DriveSubsystem() {
+  /** Creates a new SwerveDrivetrain. */
+  public SwerveDrivetrain() {
   }
 
   public ChassisSpeeds getChassisSpeeds() {

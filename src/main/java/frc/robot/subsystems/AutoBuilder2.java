@@ -19,7 +19,7 @@ import frc.robot.utils.GetAlliance;
 public class AutoBuilder2 {
   private final SendableChooser<Command> autoChooser;
 
-  public AutoBuilder2(DriveSubsystem drivetrain) {
+  public AutoBuilder2(SwerveDrivetrain drivetrain) {
     RobotConfig config;
     try {
       config = RobotConfig.fromGUISettings();

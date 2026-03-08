@@ -10,14 +10,14 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.GyroConstants;
 import frc.robot.commands.generics.GenericAwaitBaseTargetWithinError;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.SwerveDrivetrain;
 import frc.robot.utils.Controller;
 import frc.robot.utils.Targeting;
 
 public interface FaceHeading {
   interface Await {
     class Actively extends GenericAwaitBaseTargetWithinError {
-      protected final DriveSubsystem m_drivetrain;
+      protected final SwerveDrivetrain m_drivetrain;
   
       /**
        * Offset in radians to face from the target. This is applied immeditely before calculating velocities and cannot be avoided.
@@ -60,7 +60,7 @@ public interface FaceHeading {
        * @param ySupplier - Function that when called returns the target y velocity or effort.
        */
       public Actively(
-          DriveSubsystem drivetrain,
+          SwerveDrivetrain drivetrain,
           Supplier<Rotation2d> target,
           DoubleSupplier xSupplier,
           DoubleSupplier ySupplier
@@ -81,7 +81,7 @@ public interface FaceHeading {
        * @param ySupplier - Function that when called returns the target y velocity or effort.
        */
       public Actively(
-          DriveSubsystem drivetrain,
+          SwerveDrivetrain drivetrain,
           Rotation2d target,
           DoubleSupplier xSupplier,
           DoubleSupplier ySupplier
@@ -95,7 +95,7 @@ public interface FaceHeading {
        * @param xSupplier - Function that when called returns the target x velocity or effort.
        * @param ySupplier - Function that when called returns the target y velocity or effort.
        */
-      public Actively(DriveSubsystem drivetrain, double target, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+      public Actively(SwerveDrivetrain drivetrain, double target, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
         this(drivetrain, new Rotation2d(target), xSupplier, ySupplier);
       }
   
@@ -104,7 +104,7 @@ public interface FaceHeading {
        * @param drivetrain - The drivetrain.
        * @param target - Target heading.
        */
-      public Actively(DriveSubsystem drivetrain, Rotation2d target) {
+      public Actively(SwerveDrivetrain drivetrain, Rotation2d target) {
         this(drivetrain, target, () -> 0.0, () -> 0.0);
       }
   
@@ -113,7 +113,7 @@ public interface FaceHeading {
        * @param drivetrain - The drivetrain.
        * @param target - Double representing the target heading in radians.
        */
-      public Actively(DriveSubsystem drivetrain, double target) {
+      public Actively(SwerveDrivetrain drivetrain, double target) {
         this(drivetrain, new Rotation2d(target));
       }
   
@@ -121,7 +121,7 @@ public interface FaceHeading {
        * Protected constructor that does not require anything except a drivetrain.
        * Only call this if you intend to use {@link #pointToSetpoint(double, double, Rotation2d)} or intend to stand still and use {@link #pointToSetpoint(Rotation2d)}.
        */
-      protected Actively(DriveSubsystem drivetrain) {
+      protected Actively(SwerveDrivetrain drivetrain) {
         this(drivetrain, 0);
       }
   
@@ -132,7 +132,7 @@ public interface FaceHeading {
        * @param xSupplier - Function that when called returns the target x velocity or effort.
        * @param ySupplier - Function that when called returns the target y velocity or effort.
        */
-      protected Actively(DriveSubsystem drivetrain, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+      protected Actively(SwerveDrivetrain drivetrain, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
         this(drivetrain, 0, xSupplier, ySupplier);
       }
   
@@ -264,7 +264,7 @@ public interface FaceHeading {
        * @param drivetrain - The drivetrain.
        * @param target - Target heading.
        */
-      public Passively(DriveSubsystem drivetrain, Rotation2d target) {
+      public Passively(SwerveDrivetrain drivetrain, Rotation2d target) {
         super(drivetrain, target);
       }
   
@@ -273,7 +273,7 @@ public interface FaceHeading {
        * @param drivetrain - The drivetrain.
        * @param target - Double representing the target heading in radians.
        */
-      public Passively(DriveSubsystem drivetrain, double target) {
+      public Passively(SwerveDrivetrain drivetrain, double target) {
         super(drivetrain, target);
       }
   
@@ -281,7 +281,7 @@ public interface FaceHeading {
        * Protected constructor that does not require anything except a drivetrain.
        * Only call this if you intend to use {@link #pointToSetpoint(double, double, Rotation2d)} or intend to stand still and use {@link #pointToSetpoint(Rotation2d)}.
        */
-      protected Passively(DriveSubsystem drivetrain) {
+      protected Passively(SwerveDrivetrain drivetrain) {
         super(drivetrain);
       }
 
@@ -294,7 +294,7 @@ public interface FaceHeading {
 
   class Indefinitely extends Await.Actively {
     public Indefinitely(
-        DriveSubsystem drivetrain,
+        SwerveDrivetrain drivetrain,
         Rotation2d target,
         DoubleSupplier xSupplier,
         DoubleSupplier ySupplier
@@ -308,7 +308,7 @@ public interface FaceHeading {
      * @param xSupplier - Function that when called returns the target x velocity or effort.
      * @param ySupplier - Function that when called returns the target y velocity or effort.
      */
-    public Indefinitely(DriveSubsystem drivetrain, double target, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+    public Indefinitely(SwerveDrivetrain drivetrain, double target, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
       super(drivetrain, target, xSupplier, ySupplier);
     }
 
@@ -317,7 +317,7 @@ public interface FaceHeading {
      * @param drivetrain - The drivetrain.
      * @param target - Target heading.
      */
-    public Indefinitely(DriveSubsystem drivetrain, Rotation2d target) {
+    public Indefinitely(SwerveDrivetrain drivetrain, Rotation2d target) {
       super(drivetrain, target);
     }
 
@@ -326,7 +326,7 @@ public interface FaceHeading {
      * @param drivetrain - The drivetrain.
      * @param target - Double representing the target heading in radians.
      */
-    public Indefinitely(DriveSubsystem drivetrain, double target) {
+    public Indefinitely(SwerveDrivetrain drivetrain, double target) {
       super(drivetrain, target);
     }
 
@@ -334,7 +334,7 @@ public interface FaceHeading {
      * Protected constructor that does not require anything except a drivetrain.
      * Only call this if you intend to use {@link #pointToSetpoint(double, double, Rotation2d)} or intend to stand still and use {@link #pointToSetpoint(Rotation2d)}.
      */
-    protected Indefinitely(DriveSubsystem drivetrain) {
+    protected Indefinitely(SwerveDrivetrain drivetrain) {
       super(drivetrain);
     }
   
@@ -345,7 +345,7 @@ public interface FaceHeading {
      * @param xSupplier - Function that when called returns the target x velocity or effort.
      * @param ySupplier - Function that when called returns the target y velocity or effort.
      */
-    protected Indefinitely(DriveSubsystem drivetrain, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+    protected Indefinitely(SwerveDrivetrain drivetrain, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
       super(drivetrain, xSupplier, ySupplier);
     }
   }

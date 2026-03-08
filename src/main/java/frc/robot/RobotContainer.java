@@ -30,7 +30,7 @@ import frc.robot.commands.motors.drivetrain.HubCommands;
 import frc.robot.commands.motors.drivetrain.ResetHeading;
 import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.AutoBuilder2;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.SwerveDrivetrain;
 import frc.robot.subsystems.LedStrip;
 import frc.robot.subsystems.motors.Climber;
 import frc.robot.subsystems.motors.Feeder;
@@ -63,15 +63,15 @@ public class RobotContainer {
    * Comment out features from this array to disabled them.
    */
   private final Feature[] enabledFeatures = new Feature[] {
-    // Feature.Shooter,
-    // Feature.Indexer,
-    // Feature.Feeder,
+    Feature.Shooter,
+    Feature.Indexer,
+    Feature.Feeder,
     // Feature.Climber,
-    // Feature.Intake,
+    Feature.Intake,
     // Feature.IntakeDeployment
   };
 
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final SwerveDrivetrain m_robotDrive = new SwerveDrivetrain();
 
   private final LedStrip m_ledStrip = new LedStrip(LedConfigs.strip1);
 

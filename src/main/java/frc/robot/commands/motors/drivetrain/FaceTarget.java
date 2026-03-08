@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.SwerveDrivetrain;
 import frc.robot.utils.Targeting;
 
 public interface FaceTarget {
@@ -16,7 +16,7 @@ public interface FaceTarget {
           return () -> Targeting.convertFieldRelativeToRobotRelativeTranslation(poseA.get(), poseB.get(), Translation2d.kZero).getAngle();
         }
 
-        protected final DriveSubsystem m_drivetrain;
+        protected final SwerveDrivetrain m_drivetrain;
 
         /**
          * @param drivetrain - The drivetrain
@@ -24,7 +24,7 @@ public interface FaceTarget {
          * @param xSupplier - Function that when called returns the target x velocity or effort.
          * @param ySupplier - Function that when called returns the target y velocity or effort.
          */
-        public Actively(DriveSubsystem drivetrain, Supplier<edu.wpi.first.math.geometry.Pose2d> targetSupplier, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+        public Actively(SwerveDrivetrain drivetrain, Supplier<edu.wpi.first.math.geometry.Pose2d> targetSupplier, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
           super(drivetrain, createPoseToRotationFunction(drivetrain::getPose, targetSupplier::get), xSupplier, ySupplier);
           m_drivetrain = drivetrain;
         }
@@ -35,7 +35,7 @@ public interface FaceTarget {
          * @param xSupplier - Function that when called returns the target x velocity or effort.
          * @param ySupplier - Function that when called returns the target y velocity or effort.
          */
-        public Actively(DriveSubsystem drivetrain, edu.wpi.first.math.geometry.Pose2d target, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+        public Actively(SwerveDrivetrain drivetrain, edu.wpi.first.math.geometry.Pose2d target, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
           this(drivetrain, () -> target, xSupplier, ySupplier);
         }
 
@@ -45,7 +45,7 @@ public interface FaceTarget {
          * @param xSupplier - Function that when called returns the target x velocity or effort.
          * @param ySupplier - Function that when called returns the target y velocity or effort.
          */
-        protected Actively(DriveSubsystem drivetrain, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+        protected Actively(SwerveDrivetrain drivetrain, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
           this(drivetrain, () -> edu.wpi.first.math.geometry.Pose2d.kZero, xSupplier, ySupplier);
         }
 
@@ -53,7 +53,7 @@ public interface FaceTarget {
          * Protected constructor intended to be used when manually calling {@link #pointToTarget(double, double, Pose2d)}
          * @param drivetrain - The drivetrain
          */
-        protected Actively(DriveSubsystem drivetrain) {
+        protected Actively(SwerveDrivetrain drivetrain) {
           this(drivetrain, () -> edu.wpi.first.math.geometry.Pose2d.kZero, () -> 0.0, () -> 0.0);
         }
 
@@ -81,7 +81,7 @@ public interface FaceTarget {
          * @param xSupplier - Function that when called returns the target x velocity or effort.
          * @param ySupplier - Function that when called returns the target y velocity or effort.
          */
-        public Passively(DriveSubsystem drivetrain, Supplier<edu.wpi.first.math.geometry.Pose2d> targetSupplier, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+        public Passively(SwerveDrivetrain drivetrain, Supplier<edu.wpi.first.math.geometry.Pose2d> targetSupplier, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
           super(drivetrain, targetSupplier, xSupplier, ySupplier);
         }
 
@@ -91,7 +91,7 @@ public interface FaceTarget {
          * @param xSupplier - Function that when called returns the target x velocity or effort.
          * @param ySupplier - Function that when called returns the target y velocity or effort.
          */
-        public Passively(DriveSubsystem drivetrain, edu.wpi.first.math.geometry.Pose2d target, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+        public Passively(SwerveDrivetrain drivetrain, edu.wpi.first.math.geometry.Pose2d target, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
           super(drivetrain, target, xSupplier, ySupplier);
         }
 
@@ -101,7 +101,7 @@ public interface FaceTarget {
          * @param xSupplier - Function that when called returns the target x velocity or effort.
          * @param ySupplier - Function that when called returns the target y velocity or effort.
          */
-        protected Passively(DriveSubsystem drivetrain, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+        protected Passively(SwerveDrivetrain drivetrain, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
           super(drivetrain, xSupplier, ySupplier);
         }
 
@@ -109,7 +109,7 @@ public interface FaceTarget {
          * Protected constructor intended to be used when manually calling {@link #pointToTarget(double, double, Pose2d)}
          * @param drivetrain - The drivetrain
          */
-        protected Passively(DriveSubsystem drivetrain) {
+        protected Passively(SwerveDrivetrain drivetrain) {
           super(drivetrain);
         }
 
@@ -127,7 +127,7 @@ public interface FaceTarget {
        * @param xSupplier - Function that when called returns the target x velocity or effort.
        * @param ySupplier - Function that when called returns the target y velocity or effort.
        */
-      public Indefinitely(DriveSubsystem drivetrain, Supplier<edu.wpi.first.math.geometry.Pose2d> targetSupplier, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+      public Indefinitely(SwerveDrivetrain drivetrain, Supplier<edu.wpi.first.math.geometry.Pose2d> targetSupplier, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
         super(drivetrain, targetSupplier, xSupplier, ySupplier);
       }
 
@@ -137,7 +137,7 @@ public interface FaceTarget {
        * @param xSupplier - Function that when called returns the target x velocity or effort.
        * @param ySupplier - Function that when called returns the target y velocity or effort.
        */
-      public Indefinitely(DriveSubsystem drivetrain, edu.wpi.first.math.geometry.Pose2d target, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+      public Indefinitely(SwerveDrivetrain drivetrain, edu.wpi.first.math.geometry.Pose2d target, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
         super(drivetrain, target, xSupplier, ySupplier);
       }
 
@@ -147,7 +147,7 @@ public interface FaceTarget {
        * @param xSupplier - Function that when called returns the target x velocity or effort.
        * @param ySupplier - Function that when called returns the target y velocity or effort.
        */
-      protected Indefinitely(DriveSubsystem drivetrain, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+      protected Indefinitely(SwerveDrivetrain drivetrain, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
         super(drivetrain, xSupplier, ySupplier);
       }
 
@@ -155,7 +155,7 @@ public interface FaceTarget {
        * Protected constructor intended to be used when manually calling {@link #pointToTarget(double, double, Pose2d)}
        * @param drivetrain - The drivetrain
        */
-      protected Indefinitely(DriveSubsystem drivetrain) {
+      protected Indefinitely(SwerveDrivetrain drivetrain) {
         super(drivetrain);
       }
     }

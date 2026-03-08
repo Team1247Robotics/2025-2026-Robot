@@ -3,14 +3,14 @@ package frc.robot.commands.motors.drivetrain;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.SwerveDrivetrain;
 
 public class ResetHeading {
   public static class ResetHeadingArbitrary extends Command {
-    private final DriveSubsystem m_drivetrain;
+    private final SwerveDrivetrain m_drivetrain;
     private final Double m_direction;
 
-    public ResetHeadingArbitrary(DriveSubsystem drivetrain, double direction) {
+    public ResetHeadingArbitrary(SwerveDrivetrain drivetrain, double direction) {
       m_drivetrain = drivetrain;
       m_direction = direction;
       addRequirements(drivetrain);
@@ -27,13 +27,13 @@ public class ResetHeading {
   }
 
   public static class ResetHeadingForward extends ResetHeadingArbitrary {
-    public ResetHeadingForward(DriveSubsystem drivetrain) {
+    public ResetHeadingForward(SwerveDrivetrain drivetrain) {
       super(drivetrain, 0);
     }
   }
 
   public static class ResetHeadingBackward extends ResetHeadingArbitrary {
-    public ResetHeadingBackward(DriveSubsystem drivetrain) {
+    public ResetHeadingBackward(SwerveDrivetrain drivetrain) {
       super(drivetrain, Math.PI);
     }
   }
