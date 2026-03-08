@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.commands.generics.GenericMotorControl;
+import frc.robot.commands.generics.GenericFlexMotorControl;
 import frc.robot.subsystems.motors.Shooter;
 
 public interface ShooterCommands {
-  public static class Stop extends GenericMotorControl.Stop {
+  public static class Stop extends GenericFlexMotorControl.Stop {
     public Stop(Shooter shooter) {
       super(shooter);
     }
@@ -92,7 +92,7 @@ public interface ShooterCommands {
       /**
        * Command that spins shooter to set velocity until reaching velocity. Will finish when the target has been reached.
        */
-      public class Actively extends GenericMotorControl.Velocity.Await.Actively {
+      public class Actively extends GenericFlexMotorControl.Velocity.Await.Actively {
         
         /**
          * Instantiate with a dynamically updating value.
@@ -146,7 +146,7 @@ public interface ShooterCommands {
       /**
        * Command that waits for shooter to reach velocity. Will finish when the target has been reached.
        */
-      public class Passively extends GenericMotorControl.Velocity.Await.Passively {
+      public class Passively extends GenericFlexMotorControl.Velocity.Await.Passively {
         
         /**
          * Instantiate with a dynamically updating value.
@@ -205,7 +205,7 @@ public interface ShooterCommands {
     /**
      * Indefinitely holds the speed of the shooter until forcefully interrupted.
      */
-    class Indefinitely extends GenericMotorControl.Velocity.Set {
+    class Indefinitely extends GenericFlexMotorControl.Velocity.Set {
       /**
        * Instantiate with a dynamically updating value.
        * @param shooter - The shooter object
