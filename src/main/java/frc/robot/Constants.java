@@ -299,6 +299,8 @@ public final class Constants {
     public static final Angle kFlatThreshold = Radians.of(Math.PI / 8);
 
     public static final Angle kTargetAngleAllowableError = Radians.of(Math.PI / 8);
+
+    public static final int kPigeonPort = 10;
   }
 
   public static final class ModuleConstants {
