@@ -208,8 +208,8 @@ public final class Constants {
 
     public static final Time kDrivePeriod = Seconds.of(TimedRobot.kDefaultPeriod);
 
-    public static final Distance kTrackWidth = Inches.of(22); // Distance between centers of right and left wheels on robot - Was .5
-    public static final Distance kWheelBase  = Inches.of(21.875); // Distance between front and back wheels on robot - Was .7
+    public static final Distance kTrackWidth = Inches.of(24.5); //Inches.of(22); // Distance between centers of right and left wheels on robot - Was .5
+    public static final Distance kWheelBase  = Inches.of(18.5); //Inches.of(21.875); // Distance between front and back wheels on robot - Was .7
   
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
         new Translation2d(kWheelBase.div(2), kTrackWidth.div(2)),
