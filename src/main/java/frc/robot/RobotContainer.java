@@ -255,6 +255,7 @@ public class RobotContainer {
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
       m_copilotController.leftBumper().whileTrue(Commands.run(() -> m_indexer.setEffort(1), m_indexer));
+      m_copilotController.rightBumper().whileTrue(Commands.run(() -> m_indexer.setEffort(-1), m_indexer));
     }
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {

@@ -138,7 +138,7 @@ public final class Configs {
       config
         .idleMode(IdleMode.kCoast)
         .smartCurrentLimit(50)
-        .inverted(true);
+        .inverted(false); // true
 
       config.encoder
         .positionConversionFactor(1)
