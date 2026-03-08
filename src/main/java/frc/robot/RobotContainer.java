@@ -65,7 +65,7 @@ public class RobotContainer {
   private final Feature[] enabledFeatures = new Feature[] {
     Feature.Shooter,
     Feature.Indexer,
-    Feature.Feeder,
+    //Feature.Feeder,
     // Feature.Climber,
     Feature.Intake,
     // Feature.IntakeDeployment
