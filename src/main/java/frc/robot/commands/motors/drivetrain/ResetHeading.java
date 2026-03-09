@@ -2,11 +2,11 @@ package frc.robot.commands.motors.drivetrain;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.SwerveDrivetrain;
 
 public class ResetHeading {
-  public static class ResetHeadingArbitrary extends Command {
+  public static class ResetHeadingArbitrary extends InstantCommand {
     private final SwerveDrivetrain m_drivetrain;
     private final Double m_direction;
 
@@ -16,8 +16,14 @@ public class ResetHeading {
       addRequirements(drivetrain);
     }
 
+    // This instant command can run disabled
     @Override
-    public void execute() {
+    public boolean runsWhenDisabled() {
+      return true;
+    }
+
+    @Override
+    public void initialize() {
       double angle = m_drivetrain.isBlueAlliance() ? m_direction : (m_direction + Math.PI) % (2 * Math.PI);
       m_drivetrain.adjustGyro(angle);
       Pose2d current_pose = m_drivetrain.getPose();
