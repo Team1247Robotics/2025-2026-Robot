@@ -3,8 +3,9 @@ import static edu.wpi.first.units.Units.RPM;
 
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.FeedbackSensor;
-import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkFlexConfig;
 
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ModuleConstants;
@@ -80,7 +81,7 @@ public final class Configs {
     }
   }
 
-  public static final class FeederMotor {
+  public static final class BeltFeederConfig {
     public static final SparkMaxConfig config = new SparkMaxConfig();
 
     static {
@@ -103,6 +104,56 @@ public final class Configs {
         .feedForward.kV(feedForward, ClosedLoopSlot.kSlot1);
     }
   }
+
+
+  public static final class UpperShooterFeederConfig {
+    public static final SparkMaxConfig config = new SparkMaxConfig();
+
+    static {
+      double nominalVoltage = 12;
+      double feedForward = nominalVoltage / NeoMotorContants.kNeoFreeSpeed.in(RPM);
+
+      config
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(50);
+
+      config.encoder
+        .positionConversionFactor(1)
+        .velocityConversionFactor(1);
+
+      config.closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .pid(0.12, 0.0, 0, ClosedLoopSlot.kSlot0) // Position
+        .pid(0.12, 0.0, 0, ClosedLoopSlot.kSlot1) // Velocity
+        .outputRange(-1, 1)
+        .feedForward.kV(feedForward, ClosedLoopSlot.kSlot1);
+    }
+  }
+
+public static final class LowerShooterFeederConfig {
+    public static final SparkFlexConfig config = new SparkFlexConfig();
+
+    static {
+      double nominalVoltage = 12;
+      double feedForward = nominalVoltage / NeoMotorContants.kNeoFreeSpeed.in(RPM);
+
+      config
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(50);
+
+      config.encoder
+        .positionConversionFactor(1)
+        .velocityConversionFactor(1);
+
+      config.closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .pid(0.12, 0.0, 0, ClosedLoopSlot.kSlot0) // Position
+        .pid(0.12, 0.0, 0, ClosedLoopSlot.kSlot1) // Velocity
+        .outputRange(-1, 1)
+        .feedForward.kV(feedForward, ClosedLoopSlot.kSlot1);
+    }
+  }
+
 
   public static final class ClimberMotor {
     public static final SparkMaxConfig config = new SparkMaxConfig();

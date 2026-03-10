@@ -225,7 +225,9 @@ public final class Constants {
   }
 
   public static final class FeederConstants {
-    public static final int kMotorCanId = 13;
+    public static final int BeltFeederCanID = 15;
+    public static final int UpperShooterFeederCanID = 13;
+    public static final int LowerShooterFeederCanID = 12;
 
     public static final class Control {
       public static final AngularVelocity kTargetSpeed = RPM.of(1000);
@@ -233,7 +235,7 @@ public final class Constants {
   }
 
   public static final class ClimberConstants {
-    public static final int kMotorCanId = 14;
+    public static final int kMotorCanId = 25;
 
     public static final class Control {
       public static final Angle kRetractedPosition = Rotations.of(100);

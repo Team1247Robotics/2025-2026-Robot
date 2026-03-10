@@ -33,7 +33,7 @@ import frc.robot.subsystems.AutoBuilder2;
 import frc.robot.subsystems.SwerveDrivetrain;
 import frc.robot.subsystems.LedStrip;
 import frc.robot.subsystems.motors.Climber;
-import frc.robot.subsystems.motors.Feeder;
+import frc.robot.subsystems.motors.UpperShooterFeeder;
 import frc.robot.subsystems.motors.Indexer;
 import frc.robot.subsystems.motors.Intake;
 import frc.robot.subsystems.motors.IntakeDeployment;
@@ -84,7 +84,7 @@ public class RobotContainer {
   private final Shooter m_shooter = Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)  ? new Shooter() : null;
   private final Indexer m_indexer = Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)  ? new Indexer() : null;
   
-  private final Feeder  m_Feeder  = Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)   ? new Feeder()  : null;
+  private final UpperShooterFeeder  m_Feeder  = Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)   ? new UpperShooterFeeder()  : null;
   private final Intake  m_Intake  = Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)   ? new Intake()  : null;
   private final IntakeDeployment m_IntakeDeployment = Constants.isFeatureEnabled(enabledFeatures, Feature.IntakeDeployment) ? new IntakeDeployment() : null;
 
