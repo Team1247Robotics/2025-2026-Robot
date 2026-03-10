@@ -226,8 +226,7 @@ public final class Constants {
 
   public static final class FeederConstants {
     public static final int BeltFeederCanID = 15;
-    public static final int UpperShooterFeederCanID = 13;
-    public static final int LowerShooterFeederCanID = 12;
+
 
     public static final class Control {
       public static final AngularVelocity kTargetSpeed = RPM.of(1000);
@@ -258,7 +257,8 @@ public final class Constants {
   }
 
   public static final class IndexerConstants {
-    public static final int kMotorCanId = 12;
+  public static final int UpperIndexerCanID = 13;
+  public static final int LowerIndexerCanID = 12;
 
     public static final class Control {
       public static final Angle kAllowableError = Radians.of(Math.PI / 8);

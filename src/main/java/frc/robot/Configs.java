@@ -106,7 +106,7 @@ public final class Configs {
   }
 
 
-  public static final class UpperShooterFeederConfig {
+  public static final class UpperIndexerConfig {
     public static final SparkMaxConfig config = new SparkMaxConfig();
 
     static {
@@ -130,7 +130,7 @@ public final class Configs {
     }
   }
 
-public static final class LowerShooterFeederConfig {
+public static final class LowerIndexerConfig {
     public static final SparkFlexConfig config = new SparkFlexConfig();
 
     static {
