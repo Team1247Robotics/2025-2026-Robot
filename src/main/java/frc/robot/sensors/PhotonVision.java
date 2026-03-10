@@ -11,6 +11,7 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.simulation.PhotonCameraSim;
 import org.photonvision.simulation.SimCameraProperties;
 import org.photonvision.simulation.VisionSystemSim;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.VecBuilder;
@@ -45,6 +46,7 @@ public class PhotonVision {
         private final PhotonPoseEstimator m_poseEstimator;
         private final Supplier<VisionSystemSim> m_visionSimSupplier;
         private final EstimateConsumer estConsumer;
+        private PhotonPipelineResult cachedLatestResult; // Cached latest result for use in getLatestAngleToTarget
 
         public PhotonVisionSingleCameraPoseEstimator(Transform3d robotToCam, PhotonCamera camera, Supplier<VisionSystemSim> visionSimSupplier, EstimateConsumer estimateConsumer) {
             estConsumer = estimateConsumer;
@@ -56,6 +58,7 @@ public class PhotonVision {
         private void update() {
             Optional<EstimatedRobotPose> visionEst = Optional.empty();
             for (var result : m_camera.getAllUnreadResults()) {
+                cachedLatestResult = result; // Updates the cached latest result with the most recent unread result
                 visionEst = m_poseEstimator.estimateCoprocMultiTagPose(result);
                 if (visionEst.isEmpty()) {
                     visionEst = m_poseEstimator.estimateLowestAmbiguityPose(result);
@@ -107,6 +110,20 @@ public class PhotonVision {
             if (!Robot.isSimulation()) return null;
             return m_visionSimSupplier.get().getDebugField();
         }
+
+        /**
+         * Returns the angle in degrees to the target from the latest result of this camera (with left being the positive direction).
+         * 
+         * Returns 0 if there is no target detected in the latest result.
+         */
+        public double getLatestAngleToTarget() {
+            var result = cachedLatestResult;
+
+            if (result != null && result.hasTargets()) { // Checks if there is a valid cached result with targets
+                return result.getBestTarget().getYaw(); // Returns the yaw of the target in degrees, with left being the positive direction.
+            }
+            return 0;
+        }
     }
 
     
@@ -155,6 +172,18 @@ public class PhotonVision {
             for (var cam : m_cameraEstimationsSubs) {
                 cam.update();
             }
+        }
+
+        /**
+         * Returns the angle in degrees to the target from the latest result of the first camera (with left being the positive direction).
+         * 
+         * Returns 0 if there is no target detected in the latest result.
+         */
+        public double getLatestAngleToTarget() {
+            if (!m_cameraEstimationsSubs.isEmpty()) { // Checks if there is at least one camera estimation subsystem
+                return m_cameraEstimationsSubs.get(0).getLatestAngleToTarget();
+            }
+            return 0;
         }
     }
 

@@ -376,4 +376,13 @@ public class SwerveDrivetrain extends SubsystemBase {
   public void adjustGyro(double angle) {
     m_gyro.setYaw(angle);
   }
+
+  /**
+   * Stops the drivetrain by setting all speeds to zero.
+   */
+	public void stop()
+	{
+		drive(0, 0, 0, false);
+	}
+
 }
