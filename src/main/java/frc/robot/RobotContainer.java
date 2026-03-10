@@ -67,7 +67,7 @@ public class RobotContainer {
     Feature.Indexer,
     //Feature.Feeder,
     // Feature.Climber,
-    Feature.Intake,
+    Feature.Intake
     // Feature.IntakeDeployment
   };
 
@@ -254,38 +254,39 @@ public class RobotContainer {
     m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
-      m_copilotController.leftBumper().whileTrue(Commands.run(() -> m_indexer.setEffort(1), m_indexer));
-      m_copilotController.rightBumper().whileTrue(Commands.run(() -> m_indexer.setEffort(-1), m_indexer));
-    }
+      m_copilotController.button(1).whileTrue(Commands.run(() -> m_indexer.setEffort(1), m_indexer));
+      m_copilotController.button(2).whileTrue(Commands.run(() -> m_indexer.setEffort(-1), m_indexer));
+    } 
 
-    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
+    /*if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
       m_driverJoystick.button(7).whileTrue(new ShooterCommands.Run.Indefinitely(m_shooter, () -> ShooterConstants.kTargetSpeed.abs(RPM)));
-    }
+    } */
 
     if (enableCopilotController) {
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
-        m_copilotController.y().whileTrue(ShooterCommands.Run.Indefinitely(m_shooter));
+        m_copilotController.button(5).whileTrue(ShooterCommands.Run.Indefinitely(m_shooter));
       }
 
+      /* Command runs both shooter with stepped indexer to allow shooter to catch up */
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter, Feature.Indexer)) {
-        m_copilotController.a().whileTrue(ShooterCommands.ShooterDependant.Parallel(
+        m_copilotController.button(6).whileTrue(ShooterCommands.ShooterDependant.Parallel(
           m_shooter,
           Commands.repeatingSequence(IndexerCommands.Abstracts.StepAndPause(m_indexer))
         ));
       }
 
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) {
-        m_copilotController.b().whileTrue(IntakeCommands.Driver.Run.Indefinitely(m_Intake));
+        m_copilotController.button(1).whileTrue(IntakeCommands.Driver.Run.Indefinitely(m_Intake));
       }
 
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) {
-        m_copilotController.x().whileTrue(FeederCommands.Run(m_Feeder));
+        m_copilotController.button(4).whileTrue(FeederCommands.Run(m_Feeder));
       }
 
-      if (Constants.isFeatureEnabled(enabledFeatures, Feature.IntakeDeployment)) {
+     /* if (Constants.isFeatureEnabled(enabledFeatures, Feature.IntakeDeployment)) {
         m_copilotController.povUp().onTrue(IntakeCommands.Deployment.Await.Deploy.Actively(m_IntakeDeployment));
         m_copilotController.povDown().onTrue(IntakeCommands.Deployment.Await.Retract.Actively(m_IntakeDeployment));
-      }
+      }*/
     }
   }
 

@@ -299,7 +299,7 @@ public final class Constants {
     public static final Angle kFlatThreshold = Radians.of(Math.PI / 8);
 
     public static final Angle kTargetAngleAllowableError = Radians.of(Math.PI / 8);
-
+// TODO Need to doublecheck this is used all over, references for ID 10 and 21 are 
     public static final int kPigeonPort = 10;
   }
 
@@ -385,7 +385,7 @@ public final class Constants {
       // kRobotToCam1,
     };
 
-    public static final String kCamera0Name = "idk";
+    public static final String kCamera0Name = "ShooterCam";
     // public static final String kCamera1Name = "rio pov";
 
     public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
