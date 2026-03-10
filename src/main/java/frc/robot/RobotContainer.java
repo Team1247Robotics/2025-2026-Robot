@@ -229,6 +229,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
+    /* Driver Controller bindings */
     m_driverJoystick.button(1).whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
     m_driverJoystick.button(2).onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
 
@@ -247,22 +248,24 @@ public class RobotContainer {
       )
     );
 
-    m_Joystick.button(4)
+    m_driverJoystick.button(4)
         .whileTrue(new LedStripScrollYellow(m_ledStrip));
 
     m_driverJoystick.button(5).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
     m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
-    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
-      m_copilotController.button(1).whileTrue(Commands.run(() -> m_indexer.setEffort(1), m_indexer));
-      m_copilotController.button(2).whileTrue(Commands.run(() -> m_indexer.setEffort(-1), m_indexer));
-    } 
+    /* Copilot Bindings */
+
 
     /*if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
       m_driverJoystick.button(7).whileTrue(new ShooterCommands.Run.Indefinitely(m_shooter, () -> ShooterConstants.kTargetSpeed.abs(RPM)));
     } */
 
     if (enableCopilotController) {
+      if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
+        m_copilotController.button(3).whileTrue(Commands.run(() -> m_indexer.setEffort(1), m_indexer));
+        m_copilotController.button(4).whileTrue(Commands.run(() -> m_indexer.setEffort(-1), m_indexer));
+      } 
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
         m_copilotController.button(5).whileTrue(ShooterCommands.Run.Indefinitely(m_shooter));
       }
@@ -274,16 +277,18 @@ public class RobotContainer {
           Commands.repeatingSequence(IndexerCommands.Abstracts.StepAndPause(m_indexer))
         ));
       }
-
+// TODO Need to add parallelize to intake to run indexer at the same time for hopper
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) {
         m_copilotController.button(1).whileTrue(IntakeCommands.Driver.Run.Indefinitely(m_Intake));
+        m_copilotController.button(2).whileTrue(Commands.run(() -> m_Intake.setEffort(-1), m_Intake));
+
       }
 
-      if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) {
+     /* if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) {
         m_copilotController.button(4).whileTrue(FeederCommands.Run(m_Feeder));
       }
 
-     /* if (Constants.isFeatureEnabled(enabledFeatures, Feature.IntakeDeployment)) {
+      if (Constants.isFeatureEnabled(enabledFeatures, Feature.IntakeDeployment)) {
         m_copilotController.povUp().onTrue(IntakeCommands.Deployment.Await.Deploy.Actively(m_IntakeDeployment));
         m_copilotController.povDown().onTrue(IntakeCommands.Deployment.Await.Retract.Actively(m_IntakeDeployment));
       }*/
