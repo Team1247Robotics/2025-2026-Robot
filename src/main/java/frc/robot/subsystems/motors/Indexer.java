@@ -8,4 +8,9 @@ public class Indexer extends GenericNeo {
   public Indexer() {
     super(IndexerConstants.kMotorCanId, IndexerMotor.config);
   }
+
+  @Override
+  public void periodic() {
+    sendStatsToDash("Indexer");
+  }
 }
