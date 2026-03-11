@@ -23,7 +23,8 @@ import frc.robot.commands.ledstrip.LedStripSetAlianceColor;
 import frc.robot.commands.ledstrip.LedStripSetGreen;
 import frc.robot.commands.motors.ClimberCommands;
 import frc.robot.commands.motors.FeederCommands;
-import frc.robot.commands.motors.IndexerCommands;
+import frc.robot.commands.motors.Indexer.UpperIndexerCommands;
+import frc.robot.commands.motors.Indexer.LowerIndexerCommands;
 import frc.robot.commands.motors.IntakeCommands;
 import frc.robot.commands.motors.ShooterCommands;
 import frc.robot.commands.motors.drivetrain.HubCommands;
@@ -39,6 +40,7 @@ import frc.robot.subsystems.motors.IntakeDeployment;
 import frc.robot.subsystems.motors.LonelyTalonFx;
 import frc.robot.subsystems.motors.Shooter;
 import frc.robot.subsystems.motors.UpperIndexer;
+import frc.robot.subsystems.motors.LowerIndexer;
 import frc.robot.utils.SimulatedBattery;
 import frc.robot.sensors.ColorSensor;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -46,6 +48,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -82,7 +85,9 @@ public class RobotContainer {
   private final ColorSensor m_indexerSensor = new ColorSensor(0);
 
   private final Shooter m_shooter = Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)  ? new Shooter() : null;
-  private final UpperIndexer m_indexer = Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)  ? new UpperIndexer() : null;
+  private final UpperIndexer m_UpperIndexer = Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)  ? new UpperIndexer() : null;
+  private final LowerIndexer m_LowerIndexer = Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)  ? new LowerIndexer() : null;
+
   
   private final BeltFeeder m_Feeder  = Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)   ? new BeltFeeder()  : null;
   private final Intake  m_Intake  = Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)   ? new Intake()  : null;
@@ -134,7 +139,7 @@ public class RobotContainer {
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) m_Intake.setDefaultCommand(IntakeCommands.Driver.Stop(m_Intake));
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) m_shooter.setDefaultCommand(ShooterCommands.Stop(m_shooter));
-    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) m_indexer.setDefaultCommand(IndexerCommands.Stop(m_indexer));
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) m_UpperIndexer.setDefaultCommand(UpperIndexerCommands.Stop(m_UpperIndexer)); m_LowerIndexer.setDefaultCommand(LowerIndexerCommands.Stop(m_LowerIndexer));
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) m_Feeder.setDefaultCommand(FeederCommands.Stop(m_Feeder));
   }
 
@@ -170,8 +175,8 @@ public class RobotContainer {
     }
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
-      NamedCommands.registerCommand("ActivateIndex", IndexerCommands.Abstracts.Step(m_indexer));
-      NamedCommands.registerCommand("RunIndexerNTimes", IndexerCommands.Abstracts.StepNTimes(m_indexer, 10));
+      NamedCommands.registerCommand("ActivateIndex", new ParallelCommandGroup(LowerIndexerCommands.Abstracts.Step(m_LowerIndexer),UpperIndexerCommands.Abstracts.Step(m_UpperIndexer)));
+      NamedCommands.registerCommand("RunIndexerNTimes", new ParallelCommandGroup(LowerIndexerCommands.Abstracts.StepNTimes(m_LowerIndexer, 10), UpperIndexerCommands.Abstracts.StepNTimes(m_UpperIndexer, 0)));
     } else {
       NamedCommands.registerCommand("ActivateIndex", Commands.waitSeconds(2));
       NamedCommands.registerCommand("RunIndexerNTimes", Commands.waitSeconds(5));
@@ -256,8 +261,8 @@ public class RobotContainer {
     m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
-      m_copilotController.leftBumper().whileTrue(Commands.run(() -> m_indexer.setEffort(1), m_indexer));
-      m_copilotController.rightBumper().whileTrue(Commands.run(() -> m_indexer.setEffort(-1), m_indexer));
+      m_copilotController.leftBumper().whileTrue(new ParallelCommandGroup(Commands.run(() -> m_UpperIndexer.setEffort(1), m_UpperIndexer), Commands.run(() -> m_LowerIndexer.setEffort(1), m_LowerIndexer)));
+      m_copilotController.rightBumper().whileTrue(new ParallelCommandGroup(Commands.run(() -> m_UpperIndexer.setEffort(-1), m_UpperIndexer), Commands.run(() -> m_LowerIndexer.setEffort(-1), m_LowerIndexer)));
     }
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
@@ -272,7 +277,7 @@ public class RobotContainer {
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter, Feature.Indexer)) {
         m_copilotController.a().whileTrue(ShooterCommands.ShooterDependant.Parallel(
           m_shooter,
-          Commands.repeatingSequence(IndexerCommands.Abstracts.StepAndPause(m_indexer))
+          Commands.repeatingSequence(new ParallelCommandGroup(LowerIndexerCommands.Abstracts.StepAndPause(m_LowerIndexer), UpperIndexerCommands.Abstracts.StepAndPause(m_UpperIndexer)))
         ));
       }
 
