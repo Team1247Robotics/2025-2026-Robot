@@ -247,8 +247,8 @@ public final class Constants {
     public static final AngularVelocity kMotorFreeSpeed = RPM.of(4600);
 
     public static final class Control {
-      public static final AngularVelocity kIntakeSpeed   = RPM.of(3000);
-      public static final AngularVelocity kDispenseSpeed = RPM.of(-3000);
+      public static final AngularVelocity kIntakeSpeed   = RPM.of(2000);
+      public static final AngularVelocity kDispenseSpeed = RPM.of(-2000);
 
       public static final Angle kDeployedPosition  = Radians.of(Math.PI / 2);
       public static final Angle kRetractedPosition = Radians.zero();
@@ -270,13 +270,13 @@ public final class Constants {
   public static final class ShooterConstants {
      public static final int kMotorCanId = 9;
 
-     public static final AngularVelocity kFreeSpeed = RPM.of(5600);
+     public static final AngularVelocity kFreeSpeed = RPM.of(6200);
 
      public static final class Control {
       public static final AngularVelocity kAllowableError = RPM.of(100);
      }
-
-     public static final AngularVelocity kTargetSpeed = RPM.of(5000);
+    /* Good value of 300 to make ball not super fast */
+     public static final AngularVelocity kTargetSpeed = RPM.of(360);
   }
 
   public static final class ColorSensorConstants {
@@ -385,7 +385,7 @@ public final class Constants {
       // kRobotToCam1,
     };
 
-    public static final String kCamera0Name = "ShooterCam";
+    public static final String kCamera0Name = "idk";
     // public static final String kCamera1Name = "rio pov";
 
     public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
