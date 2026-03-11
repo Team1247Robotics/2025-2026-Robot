@@ -227,6 +227,30 @@ public static final class LowerIndexerConfig {
         .feedForward.kV(feedForward, ClosedLoopSlot.kSlot1);
     }
   }
+  public static final class IDeployFollowConfig {
+    public static final SparkMaxConfig config = new SparkMaxConfig();
+
+    static {
+      double nominalVoltage = 12;
+      double feedForward = nominalVoltage / NeoMotorContants.kNeoFreeSpeed.in(RPM);
+
+      config
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(50);
+
+      config.encoder
+        .positionConversionFactor(1)
+        .velocityConversionFactor(1);
+
+      config.closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .pid(0.12, 0.0, 0, ClosedLoopSlot.kSlot0) // Position
+        .pid(0.12, 0.0, 0, ClosedLoopSlot.kSlot1) // Velocity
+        .outputRange(-1, 1)
+        .feedForward.kV(feedForward, ClosedLoopSlot.kSlot1);
+    }
+  }
+
 
   public static final class ShooterMotor {
     public static final SparkMaxConfig config = new SparkMaxConfig();

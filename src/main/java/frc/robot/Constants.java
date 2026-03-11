@@ -244,7 +244,8 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static final int kMotorCanId = 10;
-    public static final int kDeploymentMotorCanId = 15;
+    public static final int kDeploymentMotorCanId = 16;
+    public static final int kDeployFollowMotorCanId = 17;
     public static final AngularVelocity kMotorFreeSpeed = RPM.of(4600);
 
     public static final class Control {
