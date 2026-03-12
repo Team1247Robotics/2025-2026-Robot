@@ -30,9 +30,9 @@ public final class Configs {
 
       drivingConfig.closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .pid(0.01, 0.0, 0)
+        .pid(0.04, 0.0, 0)
         .outputRange(-1, 1)
-        .feedForward.kV(drivingVelocityFeedForward/* * 0.1025*/);
+        .feedForward.kV(drivingVelocityFeedForward/* * 0.1025*/); //  0.1025 is a "limiter" magic number to adjust the feedforward 
 
       turningConfig
         .idleMode(IdleMode.kBrake)
