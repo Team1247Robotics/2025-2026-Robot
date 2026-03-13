@@ -277,6 +277,7 @@ public final class Constants {
      }
     /* Good value of 300 to make ball not super fast */
      public static final AngularVelocity kTargetSpeed = RPM.of(360);
+     //public static final AngularVelocity kTargetSpeed = RPM.of(6200);
   }
 
   public static final class ColorSensorConstants {
@@ -356,14 +357,14 @@ public final class Constants {
     // and https://docs.photonvision.org/en/latest/docs/apriltag-pipelines/coordinate-systems.html
     public static final Transform3d kRobotToCam0 = new Transform3d(
       new Translation3d(
-        0.5, // x distance offset from the center of the robot (forward) in meters
+        0, // x distance offset from the center of the robot (forward) in meters
         0.0, // y distance offset from the center of the robot (left) in meters
         0.5 // height of the camera from the floor in meters
       ),
       new Rotation3d(
         0, // roll (usually 0 unless you have a special case) in radians
-        0, // tilt angle of the camera (where negative sign is looking up) in radians
-        0  // yaw in radians (0 if the camera is facing forward, Pi if the camera is facing backward)
+        -0.6109, // tilt angle of the camera (where negative sign is looking up) in radians
+        Math.PI  // yaw in radians (0 if the camera is facing forward, Pi if the camera is facing backward)
       )
     );
 

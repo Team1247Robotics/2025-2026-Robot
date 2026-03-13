@@ -26,6 +26,7 @@ import frc.robot.commands.motors.FeederCommands;
 import frc.robot.commands.motors.IndexerCommands;
 import frc.robot.commands.motors.IntakeCommands;
 import frc.robot.commands.motors.ShooterCommands;
+import frc.robot.commands.motors.drivetrain.DriveUsingAprilTagCamera;
 import frc.robot.commands.motors.drivetrain.HubCommands;
 import frc.robot.commands.motors.drivetrain.ResetHeading;
 import frc.robot.sensors.PhotonVision;
@@ -99,6 +100,7 @@ public class RobotContainer {
   CommandXboxController m_copilotController = enableCopilotController ? new CommandXboxController(OIConstants.kCopilotControllerPort) : null;
   
   CommandJoystick m_Joystick = new CommandJoystick(OIConstants.kSimulationJoystickPort);
+  private PhotonVision.PhotonVisionEstimationSubsystem pvision = null;
 
   public ArrayList<String> runningCommands = new ArrayList<String>();
 
@@ -109,7 +111,7 @@ public class RobotContainer {
     CommandScheduler.getInstance().onCommandInitialize(t -> runningCommands.add(t.getName()));
     CommandScheduler.getInstance().onCommandFinish(t -> runningCommands.remove(t.getName()));
 
-    new PhotonVision.PhotonVisionEstimationSubsystem(m_robotDrive::updatePoseWithPhotonVision);
+    pvision = new PhotonVision.PhotonVisionEstimationSubsystem(m_robotDrive::updatePoseWithPhotonVision);
     registerPathplannerCommands();
 
     m_autoBuilder = new AutoBuilder2(m_robotDrive); // Must be initialized after all commands are registered since the auto builder uses the registered commands to populate the auto chooser
@@ -239,18 +241,19 @@ public class RobotContainer {
     m_driverJoystick.button(3).
     whileTrue(
       Commands.parallel(
-        new HubCommands.AimAt.Indefinitely(
+        /*new HubCommands.AimAt.Indefinitely(
           m_robotDrive,
           m_driverJoystick::getLeftY,
           m_driverJoystick::getLeftX,
-          true).applyControllerFilters(true),
+          true).applyControllerFilters(true), */
+        new DriveUsingAprilTagCamera(m_robotDrive, pvision, m_driverJoystick),
         new LedStripSetGreen(m_ledStrip)
       )
     );
 
-    m_driverJoystick.button(4)
+    /* m_driverJoystick.button(4)
         .whileTrue(new LedStripScrollYellow(m_ledStrip));
-
+    */
     m_driverJoystick.button(5).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
     m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
@@ -277,10 +280,22 @@ public class RobotContainer {
           Commands.repeatingSequence(IndexerCommands.Abstracts.StepAndPause(m_indexer))
         ));
       }
-// TODO Need to add parallelize to intake to run indexer at the same time for hopper
+      /* Manual controls of indexer and intake */
+      m_copilotController.povLeft().whileTrue(Commands.run(() -> m_indexer.setEffort(1), m_indexer));
+      m_copilotController.povDown().whileTrue(IntakeCommands.Driver.Run.Indefinitely(m_Intake));
+      m_copilotController.povRight().whileTrue(Commands.run(() -> m_indexer.setEffort(-1), m_indexer));
+      m_copilotController.povUp().whileTrue(Commands.run(() -> m_Intake.setEffort(-1), m_Intake));
+      m_copilotController.povDownLeft().whileTrue(Commands.parallel(IntakeCommands.Driver.Run.Indefinitely(m_Intake),Commands.run(() -> m_indexer.setEffort(1), m_indexer)));
+      m_copilotController.povDownRight().whileTrue(Commands.parallel(IntakeCommands.Driver.Run.Indefinitely(m_Intake),Commands.run(() -> m_indexer.setEffort(-1), m_indexer)));
+      m_copilotController.povUpLeft().whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-1), m_Intake),Commands.run(() -> m_indexer.setEffort(1), m_indexer)));
+      m_copilotController.povUpRight().whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-1), m_Intake),Commands.run(() -> m_indexer.setEffort(-1), m_indexer)));
+
+      
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) {
-        m_copilotController.button(1).whileTrue(IntakeCommands.Driver.Run.Indefinitely(m_Intake));
-        m_copilotController.button(2).whileTrue(Commands.run(() -> m_Intake.setEffort(-1), m_Intake));
+        /* Ingest Balls */
+        m_copilotController.button(1).whileTrue(Commands.parallel(IntakeCommands.Driver.Run.Indefinitely(m_Intake),Commands.run(() -> m_indexer.setEffort(1), m_indexer)));
+        /* Eject Balls */
+        m_copilotController.button(2).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-1), m_Intake), Commands.run(() -> m_indexer.setEffort(-1), m_indexer)));
 
       }
 

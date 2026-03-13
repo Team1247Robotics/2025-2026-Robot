@@ -32,7 +32,7 @@ public final class Configs {
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
         .pid(0.01, 0.0, 0)
         .outputRange(-1, 1)
-        .feedForward.kV(drivingVelocityFeedForward/* * 0.1025*/);
+        .feedForward.kV(drivingVelocityFeedForward * 6/* * 0.1025*/);
 
       turningConfig
         .idleMode(IdleMode.kBrake)
