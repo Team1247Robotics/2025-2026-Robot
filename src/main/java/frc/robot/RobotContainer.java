@@ -26,6 +26,7 @@ import frc.robot.commands.motors.FeederCommands;
 import frc.robot.commands.motors.IndexerCommands;
 import frc.robot.commands.motors.IntakeCommands;
 import frc.robot.commands.motors.ShooterCommands;
+import frc.robot.commands.motors.drivetrain.AbortTurn;
 import frc.robot.commands.motors.drivetrain.DriveUsingAprilTagCamera;
 import frc.robot.commands.motors.drivetrain.HubCommands;
 import frc.robot.commands.motors.drivetrain.ResetHeading;
@@ -266,6 +267,7 @@ public class RobotContainer {
     /*if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
       m_driverJoystick.button(7).whileTrue(new ShooterCommands.Run.Indefinitely(m_shooter, () -> ShooterConstants.kTargetSpeed.abs(RPM)));
     } */
+    m_driverJoystick.button(7).onTrue(new AbortTurn(m_robotDrive)); // AbortTurn command, which is intended to be used to stop the TurnUsingAprilTagCamera command when the driver wants to take control of the robot again
 
 
     /* Copilot Bindings */
