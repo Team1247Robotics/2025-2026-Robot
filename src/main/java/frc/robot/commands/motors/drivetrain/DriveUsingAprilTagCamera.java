@@ -46,7 +46,7 @@ public class DriveUsingAprilTagCamera extends Command {
 		drivetrain.drive(
 			Controller.applyDriveYFilters(controller::getLeftY), // Gets the forward/backward input from the controller and apply filters.
       		Controller.applyDriveXFilters(controller::getLeftX), // Gets the left/right input from the controller and apply filters.
-			-angle/90.00, // Uses the angle to the target to determine the rotation speed, with a maximum of 1 when the angle is 90 degrees.
+			-angle/30.00, // Uses the angle to the target to determine the rotation speed, with a maximum of 1 when the angle is 90 degrees.
 			true); // Field-oriented control is enabled to allow the robot to drive in the direction of the target regardless of its current orientation.
 
 	}
