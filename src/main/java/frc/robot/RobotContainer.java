@@ -29,6 +29,7 @@ import frc.robot.commands.motors.ShooterCommands;
 import frc.robot.commands.motors.drivetrain.DriveUsingAprilTagCamera;
 import frc.robot.commands.motors.drivetrain.HubCommands;
 import frc.robot.commands.motors.drivetrain.ResetHeading;
+import frc.robot.commands.motors.drivetrain.TurnUsingAprilTagCamera;
 import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.AutoBuilder2;
 import frc.robot.subsystems.SwerveDrivetrain;
@@ -100,6 +101,7 @@ public class RobotContainer {
   CommandXboxController m_copilotController = enableCopilotController ? new CommandXboxController(OIConstants.kCopilotControllerPort) : null;
   
   CommandJoystick m_Joystick = new CommandJoystick(OIConstants.kSimulationJoystickPort);
+
   private PhotonVision.PhotonVisionEstimationSubsystem pvision = null;
 
   public ArrayList<String> runningCommands = new ArrayList<String>();
@@ -111,8 +113,9 @@ public class RobotContainer {
     CommandScheduler.getInstance().onCommandInitialize(t -> runningCommands.add(t.getName()));
     CommandScheduler.getInstance().onCommandFinish(t -> runningCommands.remove(t.getName()));
 
-    pvision = new PhotonVision.PhotonVisionEstimationSubsystem(m_robotDrive::updatePoseWithPhotonVision);
-    registerPathplannerCommands();
+    pvision = new PhotonVision.PhotonVisionEstimationSubsystem(m_robotDrive::updatePoseWithPhotonVision); // The photon vision subsystem that estimates the robot's pose using the camera and updates the robot's pose in the drivetrain subsystem.
+
+    registerPathplannerCommands(); // Registers commands with PathPlanner so that they can be used in the auto builder.
 
     m_autoBuilder = new AutoBuilder2(m_robotDrive); // Must be initialized after all commands are registered since the auto builder uses the registered commands to populate the auto chooser
     
@@ -198,6 +201,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("AimAtHub", HubCommands.AimAt.Indefinitely(m_robotDrive));
     NamedCommands.registerCommand("AimAtHubIndefinitely", HubCommands.AimAt.Indefinitely(m_robotDrive));
     NamedCommands.registerCommand("AwaitAimAtHub", HubCommands.AimAt.Await.Passively(m_robotDrive));
+
+    NamedCommands.registerCommand("AwaitAimAtHub2D", new TurnUsingAprilTagCamera(m_robotDrive, pvision)); // This command is intended to be used in auton to turn the robot towards the target before or while shooting
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) {
       autonIntake.getTrigger().whileTrue(IntakeCommands.Driver.Run.Indefinitely(m_Intake));
