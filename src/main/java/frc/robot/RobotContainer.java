@@ -256,18 +256,19 @@ public class RobotContainer {
       )
     );
 
-    /* m_driverJoystick.button(4)
-        .whileTrue(new LedStripScrollYellow(m_ledStrip));
-    */
+    m_driverJoystick.button(4)
+      //.whileTrue(new LedStripScrollYellow(m_ledStrip));
+      .onTrue(new TurnUsingAprilTagCamera(m_robotDrive, pvision));
+    
     m_driverJoystick.button(5).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
     m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
-
-    /* Copilot Bindings */
-
 
     /*if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
       m_driverJoystick.button(7).whileTrue(new ShooterCommands.Run.Indefinitely(m_shooter, () -> ShooterConstants.kTargetSpeed.abs(RPM)));
     } */
+
+
+    /* Copilot Bindings */
 
     if (enableCopilotController) {
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
