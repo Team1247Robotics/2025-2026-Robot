@@ -26,11 +26,7 @@ import frc.robot.commands.motors.FeederCommands;
 import frc.robot.commands.motors.IndexerCommands;
 import frc.robot.commands.motors.IntakeCommands;
 import frc.robot.commands.motors.ShooterCommands;
-import frc.robot.commands.motors.drivetrain.AbortTurn;
-import frc.robot.commands.motors.drivetrain.DriveUsingAprilTagCamera;
-import frc.robot.commands.motors.drivetrain.HubCommands;
-import frc.robot.commands.motors.drivetrain.ResetHeading;
-import frc.robot.commands.motors.drivetrain.TurnUsingAprilTagCamera;
+import frc.robot.commands.motors.drivetrain.*;
 import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.AutoBuilder2;
 import frc.robot.subsystems.SwerveDrivetrain;
@@ -203,7 +199,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("AimAtHubIndefinitely", HubCommands.AimAt.Indefinitely(m_robotDrive));
     NamedCommands.registerCommand("AwaitAimAtHub", HubCommands.AimAt.Await.Passively(m_robotDrive));
 
-    NamedCommands.registerCommand("AwaitAimAtHub2D", new TurnUsingAprilTagCamera(m_robotDrive, pvision)); // This command is intended to be used in auton to turn the robot towards the target before or while shooting
+    NamedCommands.registerCommand("AwaitAimAtHub2D", new TimedTurnUsingAprilTagCamera(m_robotDrive, pvision, 3.0)); // This command is intended to be used in auton to turn the robot towards the target before or while shooting
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) {
       autonIntake.getTrigger().whileTrue(IntakeCommands.Driver.Run.Indefinitely(m_Intake));
@@ -259,8 +255,8 @@ public class RobotContainer {
 
     m_driverJoystick.button(4)
       //.whileTrue(new LedStripScrollYellow(m_ledStrip));
-      .onTrue(new TurnUsingAprilTagCamera(m_robotDrive, pvision));
-    
+      .onTrue(new TimedTurnUsingAprilTagCamera(m_robotDrive, pvision , 20.0));
+
     m_driverJoystick.button(5).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
     m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
