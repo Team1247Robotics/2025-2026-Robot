@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
+import frc.robot.Constants.AprilTags;
 import frc.robot.Constants.PhotonVisionConstants;
 
 /** PhotonVision subsystem for handling multiple cameras and pose estimation */
@@ -120,10 +121,66 @@ public class PhotonVision {
             var result = cachedLatestResult;
 
             if (result != null && result.hasTargets()) { // Checks if there is a valid cached result with targets
-                return result.getBestTarget().getYaw(); // Returns the yaw of the target in degrees, with left being the positive direction.
+                //return result.getBestTarget().getYaw(); // Returns the yaw of the target in degrees, with left being the positive direction.
+
+                PhotonTrackedTarget highValueTarget = getHighValueTarget(result); // Gets the highest value target from the result
+
+                if (highValueTarget != null) { // Checks if a high value target was found
+                    return highValueTarget.getYaw(); // Returns the yaw of the high value target in degrees, with left being the positive direction.
+                }
             }
             return 0;
         }
+
+        /**
+         * Returns the highest value target from the given result, with the order of importance being:
+         * 1. Hubs, directly in front of the alliance stations
+         * 2. Hubs, from the sides of the field 
+         * @param result the result to search through for targets
+         * @return the highest value target, or null if no high value target is found
+         */
+        public PhotonTrackedTarget getHighValueTarget(PhotonPipelineResult result) {
+
+		if (result.hasTargets()) {
+
+			List<PhotonTrackedTarget> targets = result.getTargets();
+
+			for (PhotonTrackedTarget target: targets) 
+			{
+				int targetId = target.getFiducialId();
+
+				if (targetId == AprilTags.RED_HUB_FRONT_RIGHT 
+					|| targetId == AprilTags.BLUE_HUB_FRONT_RIGHT)
+				{
+					return target; // SUPER high value target found - more important than high value only
+				}
+			}
+
+			for (PhotonTrackedTarget target: targets) 
+			{
+				int targetId = target.getFiducialId();
+
+				if (targetId == AprilTags.RED_HUB_RIGHT_RIGHT
+					|| targetId == AprilTags.BLUE_HUB_RIGHT_RIGHT)
+				{
+					return target; // high value target found
+				}
+			}
+
+            for (PhotonTrackedTarget target: targets) 
+			{
+				int targetId = target.getFiducialId();
+
+				if (targetId == AprilTags.RED_HUB_LEFT_RIGHT
+					|| targetId == AprilTags.BLUE_HUB_LEFT_RIGHT)
+				{
+					return target; // high value target found
+				}
+			}
+		}
+
+		return null; // no high value target found
+	}
     }
 
     
