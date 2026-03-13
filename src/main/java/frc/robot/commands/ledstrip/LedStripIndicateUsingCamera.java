@@ -70,6 +70,6 @@ public class LedStripIndicateUsingCamera extends Command {
 	@Override
 	public void end(boolean interrupted) {
 		System.out.println("LedStripIndicateUsingCamera: end");
-		//indicator.stop();
+		indicator.applySolid(Color.kBrown); // Sets to brown to indicate that we are no longer trying to aim at the target
 	}
 }
