@@ -17,10 +17,7 @@ import frc.robot.Constants.Feature;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.ToggleCommand;
-import frc.robot.commands.ledstrip.LedStripScrollRainbow;
-import frc.robot.commands.ledstrip.LedStripScrollYellow;
-import frc.robot.commands.ledstrip.LedStripSetAlianceColor;
-import frc.robot.commands.ledstrip.LedStripSetGreen;
+import frc.robot.commands.ledstrip.*;
 import frc.robot.commands.motors.ClimberCommands;
 import frc.robot.commands.motors.FeederCommands;
 import frc.robot.commands.motors.IndexerCommands;
@@ -241,21 +238,27 @@ public class RobotContainer {
     // XboxController.Button.kA.value).whileTrue(new LedStripSetGreen(m_ledStrip));
 
     m_driverJoystick.button(3).
-    whileTrue(
-      Commands.parallel(
-        /*new HubCommands.AimAt.Indefinitely(
-          m_robotDrive,
-          m_driverJoystick::getLeftY,
-          m_driverJoystick::getLeftX,
-          true).applyControllerFilters(true), */
-        new DriveUsingAprilTagCamera(m_robotDrive, pvision, m_driverJoystick),
-        new LedStripSetGreen(m_ledStrip)
-      )
-    );
+      whileTrue(
+        Commands.parallel(
+          /*new HubCommands.AimAt.Indefinitely(
+            m_robotDrive,
+            m_driverJoystick::getLeftY,
+            m_driverJoystick::getLeftX,
+            true).applyControllerFilters(true), */
+          new DriveUsingAprilTagCamera(m_robotDrive, pvision, m_driverJoystick),
+          //new LedStripSetGreen(m_ledStrip)
+          new LedStripIndicateUsingCamera(m_ledStrip, pvision)
+        )
+      );
 
     m_driverJoystick.button(4)
       //.whileTrue(new LedStripScrollYellow(m_ledStrip));
-      .onTrue(new TimedTurnUsingAprilTagCamera(m_robotDrive, pvision , 20.0));
+      .onTrue(
+        Commands.race(  
+          new TimedTurnUsingAprilTagCamera(m_robotDrive, pvision , 20.0),
+          new LedStripIndicateUsingCamera(m_ledStrip, pvision)
+        )
+      );
 
     m_driverJoystick.button(5).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
     m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));

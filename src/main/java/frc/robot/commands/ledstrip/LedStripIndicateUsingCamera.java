@@ -11,7 +11,7 @@ import frc.robot.subsystems.LedStrip;
  * 
  * If the camera sees a target, it will set the LED strip to green if the target is within 5 degrees of the center,
  * yellow if it's within 15 degrees, and red if it's further than 15 degrees.
- * If the camera does not see a target, it will set the LED strip to blue.
+ * If the camera does not see a target, it will set the LED strip to purple.
  * This command is intended to be used while the robot is trying to aim at the target, so that the driver can get feedback
  * on how close they are to being aimed at the target.
  * It could also be used in auton to provide feedback on whether the robot is aimed at the target or not.
@@ -55,8 +55,8 @@ public class LedStripIndicateUsingCamera extends Command {
 			else { // displays red if far from target 
 				indicator.applySolid(Color.kRed);
 			}
-		} else { // no target, so arbitrarily displays blue 
-			indicator.applySolid(Color.kBlue);
+		} else { // no target, so arbitrarily displays purple
+			indicator.applySolid(Color.kPurple);
 		}
 	}
 
