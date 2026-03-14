@@ -132,6 +132,26 @@ public class PhotonVision {
             return 0;
         }
 
+         /**
+         * Returns The area of the target as a percentage of the camera image from the latest result of this camera
+         * 
+         * Returns 0 if there is no target detected in the latest result.
+         */
+        public double getLatestAreaOfTarget() {
+            var result = cachedLatestResult;
+
+            if (result != null && result.hasTargets()) { // Checks if there is a valid cached result with targets
+                //return result.getBestTarget().getYaw(); // Returns the yaw of the target in degrees, with left being the positive direction.
+
+                PhotonTrackedTarget highValueTarget = getHighValueTarget(result); // Gets the highest value target from the result
+
+                if (highValueTarget != null) { // Checks if a high value target was found
+                    return highValueTarget.getArea(); // Returns the yaw of the high value target in degrees, with left being the positive direction.
+                }
+            }
+            return 0;
+        }
+
         /**
          * Returns the highest value target from the given result, with the order of importance being:
          * 1. Hubs, directly in front of the alliance stations
@@ -239,6 +259,18 @@ public class PhotonVision {
         public double getLatestAngleToTarget() {
             if (!m_cameraEstimationsSubs.isEmpty()) { // Checks if there is at least one camera estimation subsystem
                 return m_cameraEstimationsSubs.get(0).getLatestAngleToTarget();
+            }
+            return 0;
+        }
+
+        /**
+         * Returns The area of the target as a percentage of the camera from the latest result of the first camera
+         * 
+         * Returns 0 if there is no target detected in the latest result.
+         */
+        public double getLatestAreaOfTarget() {
+            if (!m_cameraEstimationsSubs.isEmpty()) { // Checks if there is at least one camera estimation subsystem
+                return m_cameraEstimationsSubs.get(0).getLatestAreaOfTarget();
             }
             return 0;
         }

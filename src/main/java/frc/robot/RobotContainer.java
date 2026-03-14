@@ -12,6 +12,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.LedConfigs;
 import frc.robot.Constants.Feature;
 import frc.robot.Constants.OIConstants;
@@ -334,6 +335,12 @@ public class RobotContainer {
 
   public void periodic() {
     m_indexerSensor.periodic();
+
+    double angle = pvision.getLatestAngleToTarget();
+    double area = pvision.getLatestAreaOfTarget();
+
+    SmartDashboard.putNumber("AngleToTarget", angle);
+    SmartDashboard.putNumber("AreaOfTarget", area);
   }
 
 }

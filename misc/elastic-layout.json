@@ -58,7 +58,7 @@
             "title": "Auto Chooser",
             "x": 480.0,
             "y": 360.0,
-            "width": 240.0,
+            "width": 480.0,
             "height": 120.0,
             "type": "ComboBox Chooser",
             "properties": {
@@ -79,6 +79,44 @@
               "period": 0.06,
               "data_type": "string",
               "show_submit_button": false
+            }
+          },
+          {
+            "title": "AngleToTarget",
+            "x": 480.0,
+            "y": 0.0,
+            "width": 240.0,
+            "height": 210.0,
+            "type": "Radial Gauge",
+            "properties": {
+              "topic": "/SmartDashboard/AngleToTarget",
+              "period": 0.06,
+              "data_type": "double",
+              "start_angle": -90.0,
+              "end_angle": 90.0,
+              "min_value": -90.0,
+              "max_value": 90.0,
+              "number_of_labels": 4,
+              "wrap_value": false,
+              "show_pointer": true,
+              "show_ticks": true
+            }
+          },
+          {
+            "title": "AreaOfTarget",
+            "x": 720.0,
+            "y": 0.0,
+            "width": 240.0,
+            "height": 210.0,
+            "type": "Number Slider",
+            "properties": {
+              "topic": "/SmartDashboard/AreaOfTarget",
+              "period": 0.06,
+              "data_type": "double",
+              "min_value": 0.0,
+              "max_value": 1.0,
+              "divisions": 5,
+              "update_continuously": false
             }
           }
         ]
