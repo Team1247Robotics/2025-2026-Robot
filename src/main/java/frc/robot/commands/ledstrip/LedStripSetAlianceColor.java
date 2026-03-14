@@ -20,6 +20,13 @@ public class LedStripSetAlianceColor extends LedStripBaseCommand {
     super(ledStrip);
   }
 
+  // Called just before this Command runs the first time
+	@Override
+	public void initialize() {
+	  var latestState = composeState();
+    updateState(latestState); // we force an update on initialize because tne prior state is not representative of the actual state of the led strip
+  }
+
   private void updateState(LightStates newState) {
     switch (newState) {
       case HubActive:
@@ -42,13 +49,16 @@ public class LedStripSetAlianceColor extends LedStripBaseCommand {
     if (HubActiveState.getInstance().isOurHubActive()) return LightStates.HubActive;
     if (GetAlliance.isBlueAlliance()) return LightStates.BlueAlliance;
     if (GetAlliance.isRedAlliance()) return LightStates.RedAlliance;
+    
     return LightStates.None;
   }
 
   @Override
   public void execute() {
     var latestState = composeState();
-    if (latestState.equals(m_lastState)) return;
+
+    if (latestState.equals(m_lastState)) return;  // if the state is the same as the last state, we don't need to update the led strip, so we can just return early
+    
     updateState(latestState);
   }
 }
