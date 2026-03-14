@@ -262,7 +262,7 @@ public final class Constants {
     public static final class Control {
       public static final Angle kAllowableError = Radians.of(Math.PI / 8);
 
-      public static final Angle kStepSize = Radians.of(Math.PI / 2);
+      public static final Angle kStepSize = Radians.of(10 * Math.PI / 2);
 
       public static final Time kStepWaitTime = Seconds.of(0.25);
     }
