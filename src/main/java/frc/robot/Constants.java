@@ -277,7 +277,7 @@ public final class Constants {
       public static final AngularVelocity kAllowableError = RPM.of(100);
      }
     /* Good value of 300 to make ball not super fast */
-     public static final AngularVelocity kTargetSpeed = RPM.of(450);
+     public static final AngularVelocity kTargetSpeed = RPM.of(460);
      //public static final AngularVelocity kTargetSpeed = RPM.of(6200);
   }
 
