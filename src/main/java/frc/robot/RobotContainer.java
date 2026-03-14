@@ -188,8 +188,8 @@ public class RobotContainer {
       NamedCommands.registerCommand("AwaitClimberRetract", ClimberCommands.Await.Retract.Actively(m_Climber));
       NamedCommands.registerCommand("AwaitClimberExtend", ClimberCommands.Await.Extend.Actively(m_Climber));
     } else {
-      NamedCommands.registerCommand("AwaitClimberRetract", Commands.waitSeconds(5));
-      NamedCommands.registerCommand("AwaitClimberExtend", Commands.waitSeconds(5));
+      NamedCommands.registerCommand("AwaitClimberRetract", Commands.waitSeconds(1));
+      NamedCommands.registerCommand("AwaitClimberExtend", Commands.waitSeconds(1));
     }
 
     NamedCommands.registerCommand("AimAtHub", HubCommands.AimAt.Indefinitely(m_robotDrive));
@@ -215,7 +215,7 @@ public class RobotContainer {
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.IntakeDeployment)) {
       NamedCommands.registerCommand("AwaitIntakeDeploy", IntakeCommands.Deployment.Await.Deploy.Actively(m_IntakeDeployment));
     } else {
-      NamedCommands.registerCommand("AwaitIntakeDeploy", Commands.waitSeconds(3));
+      NamedCommands.registerCommand("AwaitIntakeDeploy", Commands.waitSeconds(1));
     }
   }
 
