@@ -33,6 +33,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -363,7 +364,7 @@ public final class Constants {
       ),
       new Rotation3d(
         0, // roll (usually 0 unless you have a special case) in radians
-        -0.6109, // tilt angle of the camera (where negative sign is looking up) in radians
+        Units.degreesToRadians(-20), //-0.6109, // tilt angle of the camera (where negative sign is looking up) in radians
         Math.PI  // yaw in radians (0 if the camera is facing forward, Pi if the camera is facing backward)
       )
     );
