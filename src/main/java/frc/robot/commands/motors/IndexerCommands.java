@@ -63,7 +63,7 @@ public interface IndexerCommands {
      */
     public static class Step extends IndexerCommands.Position.Await.Actively {
       public Step(Indexer indexer) {
-        super(indexer, () -> indexer.getPosition() + IndexerConstants.Control.kStepSize.abs(Radians));
+        super(indexer, () -> indexer.getPosition() - IndexerConstants.Control.kStepSize.abs(Radians));
         setUseStaticTarget(true);
       }
     }
