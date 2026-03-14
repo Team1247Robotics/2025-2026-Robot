@@ -114,7 +114,7 @@
               "period": 0.06,
               "data_type": "double",
               "min_value": 0.0,
-              "max_value": 1.0,
+              "max_value": 0.5,
               "divisions": 5,
               "update_continuously": false
             }
