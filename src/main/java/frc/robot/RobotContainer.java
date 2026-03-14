@@ -94,7 +94,7 @@ public class RobotContainer {
   boolean enableCopilotController = true;
   CommandXboxController m_copilotController = enableCopilotController ? new CommandXboxController(OIConstants.kCopilotControllerPort) : null;
   
-  CommandJoystick m_Joystick = new CommandJoystick(OIConstants.kSimulationJoystickPort);
+  //CommandJoystick m_Joystick = new CommandJoystick(OIConstants.kSimulationJoystickPort);
 
   private PhotonVision.PhotonVisionEstimationSubsystem pvision = null;
 
