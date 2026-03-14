@@ -348,7 +348,7 @@ public class RobotContainer {
 
     boolean goodArea = false;
     
-    if (area > 0.2 && area < 0.8) goodArea = true; 
+    if (area > 0.15 && area < 0.22) goodArea = true; 
 
     SmartDashboard.putBoolean("GoodAngleToTarget", goodAngle);
     SmartDashboard.putBoolean("GoodAreaOfTarget", goodArea);
