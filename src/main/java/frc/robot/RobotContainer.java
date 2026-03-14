@@ -71,7 +71,7 @@ public class RobotContainer {
 
   private final LedStrip m_ledStrip = new LedStrip(LedConfigs.strip1);
 
-  private final LonelyTalonFx m_badAppleMachine = new LonelyTalonFx();
+  //private final LonelyTalonFx m_badAppleMachine = new LonelyTalonFx();
 
   private AutoBuilder2 m_autoBuilder = null;
 
@@ -260,8 +260,8 @@ public class RobotContainer {
         )
       );
 
-    m_driverJoystick.button(5).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
-    m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
+    //m_driverJoystick.button(5).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
+    //m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
     /*if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
       m_driverJoystick.button(7).whileTrue(new ShooterCommands.Run.Indefinitely(m_shooter, () -> ShooterConstants.kTargetSpeed.abs(RPM)));
