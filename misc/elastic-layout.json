@@ -118,6 +118,40 @@
               "divisions": 5,
               "update_continuously": false
             }
+          },
+          {
+            "title": "GoodAngleToTarget",
+            "x": 480.0,
+            "y": 210.0,
+            "width": 240.0,
+            "height": 150.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/SmartDashboard/GoodAngleToTarget",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "GoodAreaOfTarget",
+            "x": 720.0,
+            "y": 210.0,
+            "width": 240.0,
+            "height": 150.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/SmartDashboard/GoodAreaOfTarget",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
           }
         ]
       }

@@ -341,6 +341,17 @@ public class RobotContainer {
 
     SmartDashboard.putNumber("AngleToTarget", angle);
     SmartDashboard.putNumber("AreaOfTarget", area);
+
+    boolean goodAngle = false;
+    
+    if (Math.abs(angle) < 5.0) goodAngle = true;
+
+    boolean goodArea = false;
+    
+    if (area > 0.2 && area < 0.8) goodArea = true; 
+
+    SmartDashboard.putBoolean("GoodAngleToTarget", goodAngle);
+    SmartDashboard.putBoolean("GoodAreaOfTarget", goodArea);
   }
 
 }
