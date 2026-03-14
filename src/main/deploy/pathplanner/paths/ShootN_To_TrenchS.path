@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.6303205128205143,
-        "y": 5.0001410256410255
+        "x": 2.071896243291592,
+        "y": 4.757030411449016
       },
       "isLocked": false,
       "linkedName": "Blue_Shoot_North"
@@ -20,8 +20,8 @@
         "y": 0.6679464285714289
       },
       "prevControl": {
-        "x": 2.62953488372093,
-        "y": 0.6679464285714288
+        "x": 0.7900894454382823,
+        "y": 1.6579785330948116
       },
       "nextControl": null,
       "isLocked": false,
@@ -53,7 +53,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -33.58788749245576
+    "rotation": 157.16833920410556
   },
   "useDefaultConstraints": true
 }
