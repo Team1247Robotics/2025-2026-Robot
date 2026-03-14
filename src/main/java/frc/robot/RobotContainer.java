@@ -168,7 +168,8 @@ public class RobotContainer {
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
       NamedCommands.registerCommand("ActivateIndex", IndexerCommands.Abstracts.Step(m_indexer));
-      NamedCommands.registerCommand("RunIndexerNTimes", IndexerCommands.Abstracts.StepNTimes(m_indexer, 10));
+      //NamedCommands.registerCommand("RunIndexerNTimes", IndexerCommands.Abstracts.StepNTimes(m_indexer, 10));
+      NamedCommands.registerCommand("RunIndexerNTimes", Commands.sequence(Commands.deadline(new IndexerCommands.Abstracts.StepNTimes(m_indexer, 10), autonIntake.enable()),autonIntake.disable()));
     } else {
       NamedCommands.registerCommand("ActivateIndex", Commands.waitSeconds(2));
       NamedCommands.registerCommand("RunIndexerNTimes", Commands.waitSeconds(5));
