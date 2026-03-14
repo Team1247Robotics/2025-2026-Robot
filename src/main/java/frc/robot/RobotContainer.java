@@ -192,9 +192,14 @@ public class RobotContainer {
       NamedCommands.registerCommand("AwaitClimberExtend", Commands.waitSeconds(1));
     }
 
-    NamedCommands.registerCommand("AimAtHub", HubCommands.AimAt.Indefinitely(m_robotDrive));
+    /*NamedCommands.registerCommand("AimAtHub", HubCommands.AimAt.Indefinitely(m_robotDrive));
     NamedCommands.registerCommand("AimAtHubIndefinitely", HubCommands.AimAt.Indefinitely(m_robotDrive));
-    NamedCommands.registerCommand("AwaitAimAtHub", HubCommands.AimAt.Await.Passively(m_robotDrive));
+    NamedCommands.registerCommand("AwaitAimAtHub", HubCommands.AimAt.Await.Passively(m_robotDrive));*/
+
+    NamedCommands.registerCommand("AimAtHub", Commands.waitSeconds(1));
+    NamedCommands.registerCommand("AimAtHubIndefinitely", Commands.waitSeconds(1));
+    NamedCommands.registerCommand("AwaitAimAtHub", Commands.waitSeconds(1));
+    
 
     NamedCommands.registerCommand("AwaitAimAtHub2D", new TimedTurnUsingAprilTagCamera(m_robotDrive, pvision, 3.0)); // This command is intended to be used in auton to turn the robot towards the target before or while shooting
 
