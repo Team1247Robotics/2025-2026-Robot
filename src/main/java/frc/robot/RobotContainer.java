@@ -197,9 +197,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("AwaitAimAtHub", HubCommands.AimAt.Await.Passively(m_robotDrive));*/
 
     NamedCommands.registerCommand("AimAtHub", Commands.waitSeconds(1));
-    NamedCommands.registerCommand("AimAtHubIndefinitely", Commands.waitSeconds(1));
+    NamedCommands.registerCommand("AimAtHubIndefinitely", Commands.waitSeconds(5)); // infinity is 5 seconds in auton
     NamedCommands.registerCommand("AwaitAimAtHub", Commands.waitSeconds(1));
-    
+
 
     NamedCommands.registerCommand("AwaitAimAtHub2D", new TimedTurnUsingAprilTagCamera(m_robotDrive, pvision, 3.0)); // This command is intended to be used in auton to turn the robot towards the target before or while shooting
 
