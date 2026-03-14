@@ -149,8 +149,8 @@ public class PhotonVision {
 			{
 				int targetId = target.getFiducialId();
 
-				if (targetId == AprilTags.RED_HUB_FRONT_RIGHT 
-					|| targetId == AprilTags.BLUE_HUB_FRONT_RIGHT)
+				if (targetId == AprilTags.RED_HUB_FRONT_RIGHT_SUPER_TARGET 
+					|| targetId == AprilTags.BLUE_HUB_FRONT_RIGHT_SUPER_TARGET)
 				{
 					return target; // SUPER high value target found - more important than high value only
 				}
@@ -160,8 +160,8 @@ public class PhotonVision {
 			{
 				int targetId = target.getFiducialId();
 
-				if (targetId == AprilTags.RED_HUB_RIGHT_RIGHT
-					|| targetId == AprilTags.BLUE_HUB_RIGHT_RIGHT)
+				if (targetId == AprilTags.RED_HUB_RIGHT_RIGHT_TARGET
+					|| targetId == AprilTags.BLUE_HUB_RIGHT_RIGHT_TARGET)
 				{
 					return target; // high value target found
 				}
@@ -171,8 +171,8 @@ public class PhotonVision {
 			{
 				int targetId = target.getFiducialId();
 
-				if (targetId == AprilTags.RED_HUB_LEFT_RIGHT
-					|| targetId == AprilTags.BLUE_HUB_LEFT_RIGHT)
+				if (targetId == AprilTags.RED_HUB_LEFT_LEFT_TARGET
+					|| targetId == AprilTags.BLUE_HUB_LEFT_LEFT_TARGET)
 				{
 					return target; // high value target found
 				}

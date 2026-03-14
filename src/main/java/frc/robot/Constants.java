@@ -276,7 +276,7 @@ public final class Constants {
       public static final AngularVelocity kAllowableError = RPM.of(100);
      }
     /* Good value of 300 to make ball not super fast */
-     public static final AngularVelocity kTargetSpeed = RPM.of(360);
+     public static final AngularVelocity kTargetSpeed = RPM.of(450);
      //public static final AngularVelocity kTargetSpeed = RPM.of(6200);
   }
 
@@ -415,20 +415,20 @@ public final class Constants {
   	public static class AprilTags {
 
 		// alliance color, then facing the field from the driver station, then facing each element
-    public static final int RED_HUB_RIGHT_RIGHT = 2; // target
+    public static final int RED_HUB_RIGHT_RIGHT_TARGET = 2; // target
     public static final int RED_HUB_RIGHT_LEFT = 11;
-    public static final int RED_HUB_LEFT_RIGHT = 8; // target
-    public static final int RED_HUB_LEFT_LEFT = 5;
-    public static final int RED_HUB_FRONT_RIGHT = 10; // super target
+    public static final int RED_HUB_LEFT_RIGHT = 8;
+    public static final int RED_HUB_LEFT_LEFT_TARGET = 5; // target
+    public static final int RED_HUB_FRONT_RIGHT_SUPER_TARGET = 10; // super target
     public static final int RED_HUB_FRONT_LEFT = 9;
     //public static final int RED_HUB_BACK_RIGHT = 4;
     //public static final int RED_HUB_BACK_LEFT = 3;
 
-    public static final int BLUE_HUB_RIGHT_RIGHT = 18; // target
+    public static final int BLUE_HUB_RIGHT_RIGHT_TARGET = 18; // target
     public static final int BLUE_HUB_RIGHT_LEFT = 27;
-    public static final int BLUE_HUB_LEFT_RIGHT = 24; // target
-    public static final int BLUE_HUB_LEFT_LEFT = 21;
-    public static final int BLUE_HUB_FRONT_RIGHT = 26; // super target
+    public static final int BLUE_HUB_LEFT_RIGHT = 24;
+    public static final int BLUE_HUB_LEFT_LEFT_TARGET = 21; // target
+    public static final int BLUE_HUB_FRONT_RIGHT_SUPER_TARGET = 26; // super target
     public static final int BLUE_HUB_FRONT_LEFT = 25;
     //public static final int BLUE_HUB_BACK_RIGHT = 20;
     //public static final int BLUE_HUB_BACK_LEFT = 19;
