@@ -344,7 +344,7 @@ public class RobotContainer {
 
     boolean goodAngle = false;
     
-    if (Math.abs(angle) < 5.0) goodAngle = true;
+    if (angle != 0.0 && Math.abs(angle) < 5.0) goodAngle = true;
 
     boolean goodArea = false;
     
