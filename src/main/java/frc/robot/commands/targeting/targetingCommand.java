@@ -7,7 +7,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
-import pabeles.concurrency.IntOperatorTask.Min;
 
 
 public class targetingCommand extends Command{
@@ -15,16 +14,17 @@ public class targetingCommand extends Command{
         NetworkTableInstance.getDefault()
             .getTable("vision")
             .getEntry("distanceMeters");
-    final Translation2d HubPosition = new Translation2d(0, 0);
+    
     
 
     public void BroadcastDist(Pose2d m_robotPos, boolean targetIsHub){
         double dist;
+        final Translation2d HubPosition;
         if (targetIsHub){
             if (DriverStation.getAlliance().get() == Alliance.Red){
-                final Translation2d HubPosition = new Translation2d(15.75, 4.10);
+                HubPosition = new Translation2d(15.75, 4.10);
             }else{
-                final Translation2d HubPosition = new Translation2d(8.25, 4.10);
+                HubPosition = new Translation2d(8.25, 4.10);
             }
 
             dist=Math.sqrt(
@@ -50,6 +50,8 @@ public class targetingCommand extends Command{
                 dist = 0;
             }
         }
-        distEntry.setDouble(dist);
+        if (dist>0){
+            distEntry.setDouble(dist);
+        }
     }
 }
