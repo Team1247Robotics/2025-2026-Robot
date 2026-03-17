@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.1265474060822895,
-        "y": 3.2967441860465114
+        "x": 0.8063148479427544,
+        "y": 1.2198926654740603
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.12654740608229,
-        "y": 3.2967441860465114
+        "x": 1.8063148479427549,
+        "y": 1.2198926654740603
       },
       "isLocked": false,
       "linkedName": "Blue_Shoot_South"
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.00000000008805
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": null,

@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5048958333333333,
-        "y": 0.7462500000000001
+        "x": 3.029194991055456,
+        "y": 0.8791592128801426
       },
       "isLocked": false,
       "linkedName": "Blue_Outpost"
     },
     {
       "anchor": {
-        "x": 3.110322003577817,
-        "y": 4.5298747763864045
+        "x": 1.2768515205724504,
+        "y": 7.174615384615384
       },
       "prevControl": {
-        "x": 2.110322003577817,
-        "y": 4.5298747763864045
+        "x": 1.9258676207513414,
+        "y": 6.5418246869409655
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 157.16833920410556
+    "rotation": 133.451842301022
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.00000000008805
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

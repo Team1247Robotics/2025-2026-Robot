@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.110322003577817,
-        "y": 4.5298747763864045
+        "x": 1.2768515205724504,
+        "y": 7.174615384615384
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.653551170238561,
-        "y": 6.088043319348705
+        "x": 1.1632737030411444,
+        "y": 6.882558139534884
       },
       "isLocked": false,
       "linkedName": "Blue_Shoot_North"
     },
     {
       "anchor": {
-        "x": 0.4396428571428571,
-        "y": 6.919181547619048
+        "x": 0.48180679786060143,
+        "y": 7.028586762068637
       },
       "prevControl": {
-        "x": 2.2014732142857145,
-        "y": 7.310699404761905
+        "x": 0.5341890700353401,
+        "y": 7.273037365589699
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 157.16833920410556
+    "rotation": 133.451842301022
   },
   "useDefaultConstraints": true
 }
