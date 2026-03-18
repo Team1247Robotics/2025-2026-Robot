@@ -704,6 +704,20 @@
               "data_type": "double",
               "show_submit_button": false
             }
+          },
+          {
+            "title": "Shooter Velocity",
+            "x": 720.0,
+            "y": 0.0,
+            "width": 150.0,
+            "height": 150.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter Velocity",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
           }
         ]
       }
