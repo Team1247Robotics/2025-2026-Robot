@@ -3,6 +3,7 @@ package frc.robot.commands.motors.drivetrain;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.SwerveDrivetrain;
@@ -19,9 +20,9 @@ public class DriveUsingAprilTagCamera extends Command {
 
 	private SwerveDrivetrain drivetrain;
 	private PhotonVision.PhotonVisionEstimationSubsystem camera;
-	private CommandXboxController controller;
+	private CommandJoystick controller;
 
-	public DriveUsingAprilTagCamera(SwerveDrivetrain drivetrain, PhotonVision.PhotonVisionEstimationSubsystem camera, CommandXboxController controller) {
+	public DriveUsingAprilTagCamera(SwerveDrivetrain drivetrain, PhotonVision.PhotonVisionEstimationSubsystem camera, CommandJoystick controller) {
 		this.drivetrain = drivetrain;
 		this.camera = camera;
 		this.controller = controller;
@@ -42,13 +43,13 @@ public class DriveUsingAprilTagCamera extends Command {
 
 		double angle = camera.getLatestAngleToTarget(); // Gets the angle to the target from the camera in degrees, with left being the positive direction.
 		angle = MathUtil.clamp(angle, -90, 90); // Clamps the angle to the range [-90, 90] degrees to prevent excessive rotation.
-
-		drivetrain.drive(
+		// TODO Fix me
+		/* drivetrain.drive(
 			Controller.applyDriveYFilters(controller::getLeftY), // Gets the forward/backward input from the controller and apply filters.
       		Controller.applyDriveXFilters(controller::getLeftX), // Gets the left/right input from the controller and apply filters.
 			-angle/30.00, // Uses the angle to the target to determine the rotation speed, with a maximum of 1 when the angle is 90 degrees.
 			true); // Field-oriented control is enabled to allow the robot to drive in the direction of the target regardless of its current orientation.
-
+		*/
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

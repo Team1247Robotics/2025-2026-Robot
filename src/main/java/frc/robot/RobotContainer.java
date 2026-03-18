@@ -48,6 +48,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -86,11 +87,47 @@ public class RobotContainer {
 
   private final IntakeDeployment m_IntakeDeployment = Constants.isFeatureEnabled(enabledFeatures, Feature.IntakeDeployment) ? new IntakeDeployment() : null;
 
+  private static final Boolean enablePilotXbox = true;
+
+  private final CommandXboxController m_driverXbox = new CommandXboxController(OIConstants.kDriverControllerPort);
+
+  private final CommandJoystick m_driverJoystick = new CommandJoystick(OIConstants.kDriverControllerPort);
+
+  private Trigger driverButton(int button) {
+  return enablePilotXbox
+      ? m_driverXbox.button(button)
+      : m_driverJoystick.button(button);
+}
+
+private Trigger driverPovUp() {
+  return enablePilotXbox ? m_driverXbox.povUp() : m_driverJoystick.povUp();
+}
+
+private Trigger driverPovDown() {
+  return enablePilotXbox ? m_driverXbox.povDown() : m_driverJoystick.povDown();
+}
+private double getForward() {
+  return enablePilotXbox
+      ? -m_driverXbox.getLeftY()
+      : -m_driverJoystick.getY();
+}
+
+private double getStrafe() {
+  return enablePilotXbox
+      ? -m_driverXbox.getLeftX()
+      : -m_driverJoystick.getX();
+}
+
+private double getTurn() {
+  return enablePilotXbox
+      ? -m_driverXbox.getRightX()
+      : -m_driverJoystick.getZ(); // twist
+}
   public static final SimulatedBattery GLOBAL_SIMULATED_BATTERY = new SimulatedBattery();
   // private final Intake m_intake = new Intake();
 
   // CommandJoystick m_driverJoystick = new CommandJoystick(OIConstants.kDriverControllerPort);
-  CommandXboxController m_driverJoystick = new CommandXboxController(OIConstants.kDriverControllerPort);
+  //CommandXboxController m_driverJoystick = new CommandXboxController(OIConstants.kDriverControllerPort);
 
   boolean enableCopilotController = true;
   CommandXboxController m_copilotController = enableCopilotController ? new CommandXboxController(OIConstants.kCopilotControllerPort) : null;
