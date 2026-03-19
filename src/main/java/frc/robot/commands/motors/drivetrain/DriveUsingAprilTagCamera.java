@@ -20,12 +20,25 @@ public class DriveUsingAprilTagCamera extends Command {
 
 	private SwerveDrivetrain drivetrain;
 	private PhotonVision.PhotonVisionEstimationSubsystem camera;
-	private CommandJoystick controller;
+	private final CommandXboxController xboxController;
+	private final CommandJoystick joystickController;
+	private final boolean useXbox;
+
+	public DriveUsingAprilTagCamera(SwerveDrivetrain drivetrain, PhotonVision.PhotonVisionEstimationSubsystem camera, CommandXboxController controller) {
+		this.drivetrain = drivetrain;
+		this.camera = camera;
+		this.xboxController = controller;
+		this.joystickController = null;
+		this.useXbox = true;
+		addRequirements(drivetrain);
+	}
 
 	public DriveUsingAprilTagCamera(SwerveDrivetrain drivetrain, PhotonVision.PhotonVisionEstimationSubsystem camera, CommandJoystick controller) {
 		this.drivetrain = drivetrain;
 		this.camera = camera;
-		this.controller = controller;
+		this.xboxController = null;
+		this.joystickController = controller;
+		this.useXbox = false;
 
 		addRequirements(drivetrain);
 	}
@@ -43,14 +56,25 @@ public class DriveUsingAprilTagCamera extends Command {
 
 		double angle = camera.getLatestAngleToTarget(); // Gets the angle to the target from the camera in degrees, with left being the positive direction.
 		angle = MathUtil.clamp(angle, -90, 90); // Clamps the angle to the range [-90, 90] degrees to prevent excessive rotation.
-		// TODO Fix me
-		/* drivetrain.drive(
-			Controller.applyDriveYFilters(controller::getLeftY), // Gets the forward/backward input from the controller and apply filters.
-      		Controller.applyDriveXFilters(controller::getLeftX), // Gets the left/right input from the controller and apply filters.
-			-angle/30.00, // Uses the angle to the target to determine the rotation speed, with a maximum of 1 when the angle is 90 degrees.
-			true); // Field-oriented control is enabled to allow the robot to drive in the direction of the target regardless of its current orientation.
-		*/
+
+		double forward;
+		double strafe;
+
+		if (useXbox) {
+			forward = Controller.applyDriveYFilters(xboxController::getLeftY);
+			strafe = Controller.applyDriveXFilters(xboxController::getLeftX);
+		} else {
+			forward = Controller.applyDriveYFilters(joystickController::getY);
+			strafe = Controller.applyDriveXFilters(joystickController::getX);
+		}
+
+		drivetrain.drive(
+				forward,
+				strafe,
+				-angle / 30.0,
+				true);
 	}
+
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
