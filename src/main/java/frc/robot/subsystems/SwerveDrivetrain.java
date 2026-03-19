@@ -276,7 +276,7 @@ public class SwerveDrivetrain extends SubsystemBase {
       Controller.applyDriveYFilters(controller::getY),
       Controller.applyDriveXFilters(controller::getX),
       Controller.applyDriveRotationFilters(controller::getTwist),
-      false
+      true
     ), this);
   }
 
@@ -285,7 +285,7 @@ public class SwerveDrivetrain extends SubsystemBase {
       Controller.applyDriveYFilters(controller::getLeftY),
       Controller.applyDriveXFilters(controller::getLeftX),
       Controller.applyDriveRotationFilters(controller::getRightX),
-      false
+      true
     ), this);
   }
 
