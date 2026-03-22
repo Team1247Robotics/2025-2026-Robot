@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.5008321568100444,
-        "y": 5.126102290376375
+        "x": 0.46574404761904764,
+        "y": 5.000744047619048
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2117051282051294,
-        "y": 6.476923076923077
+        "x": 6.0122470238095245,
+        "y": 4.844136904761905
       },
       "isLocked": false,
       "linkedName": "Blue_Depot_Exit"
@@ -20,8 +20,8 @@
         "y": 1.2198926654740603
       },
       "prevControl": {
-        "x": -0.19368515205724557,
-        "y": 1.2198926654740603
+        "x": 3.0106101190476187,
+        "y": 1.5292857142857144
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -88.58849266533377
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }
