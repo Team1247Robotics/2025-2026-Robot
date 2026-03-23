@@ -36,6 +36,7 @@ import frc.robot.subsystems.motors.Intake;
 import frc.robot.subsystems.motors.IntakeDeployment;
 import frc.robot.subsystems.motors.LonelyTalonFx;
 import frc.robot.subsystems.motors.Shooter;
+import frc.robot.subsystems.motors.ShooterFollower;
 import frc.robot.utils.SimulatedBattery;
 import frc.robot.sensors.ColorSensor;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -80,6 +81,8 @@ public class RobotContainer {
   private final ColorSensor m_indexerSensor = new ColorSensor(0);
 
   private final Shooter m_shooter = Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter) ?  new Shooter() : null;
+  private final ShooterFollower m_shooterFollower = Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter) ?  new ShooterFollower() : null;
+
   private final Indexer m_indexer = Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer) ? new Indexer() : null;
   private final Feeder  m_Feeder  = Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder) ? new Feeder() : null;
   private final Climber m_Climber = Constants.isFeatureEnabled(enabledFeatures, Feature.Climber) ? new Climber() : null;
@@ -87,7 +90,7 @@ public class RobotContainer {
 
   private final IntakeDeployment m_IntakeDeployment = Constants.isFeatureEnabled(enabledFeatures, Feature.IntakeDeployment) ? new IntakeDeployment() : null;
 
-  private static final Boolean enablePilotXbox = true;
+  private static final Boolean enablePilotXbox = false;
 
   private final CommandXboxController m_driverXbox = new CommandXboxController(OIConstants.kDriverControllerPort);
 
@@ -100,11 +103,11 @@ public class RobotContainer {
 }
 
 private Trigger driverPovUp() {
-  return enablePilotXbox ? m_driverXbox.povUp() : m_driverJoystick.povUp();
+  return enablePilotXbox ? m_driverXbox.povUp() : m_driverJoystick.button(19);
 }
 
 private Trigger driverPovDown() {
-  return enablePilotXbox ? m_driverXbox.povDown() : m_driverJoystick.povDown();
+  return enablePilotXbox ? m_driverXbox.povDown() : m_driverJoystick.button(20);
 }
 private double getForward() {
   return enablePilotXbox
@@ -164,15 +167,15 @@ private double getTurn() {
           DriverStation::isDisabled)
       );
 
-    m_driverJoystick.povUp().onTrue(new ResetHeading.ResetHeadingForward(m_robotDrive));
-    m_driverJoystick.povDown().onTrue(new ResetHeading.ResetHeadingBackward(m_robotDrive));
+    driverPovUp().onTrue(new ResetHeading.ResetHeadingForward(m_robotDrive));
+    driverPovDown().onTrue(new ResetHeading.ResetHeadingBackward(m_robotDrive));
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) m_Intake.setDefaultCommand(IntakeCommands.Driver.Stop(m_Intake));
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) m_shooter.setDefaultCommand(ShooterCommands.Stop(m_shooter));
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) m_indexer.setDefaultCommand(IndexerCommands.Stop(m_indexer));
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) m_Feeder.setDefaultCommand(FeederCommands.Stop(m_Feeder));
   }
-
+  //Add gversion to dashboard (BuildConstants.java)
   private ToggleCommand autonShooter = new ToggleCommand();
   private ToggleCommand autonFeeder = new ToggleCommand();
   private ToggleCommand autonIntake = new ToggleCommand();
@@ -273,15 +276,13 @@ private double getTurn() {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
+      boolean singleDriver = false;
 
     /* Driver Controller bindings */
-    m_driverJoystick.button(1).whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
-    m_driverJoystick.button(2).onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
+    m_driverJoystick.button(20).whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
+    m_driverJoystick.button(19).onTrue(new InstantCommand(() -> m_robotDrive.zeroHeading()));
 
-    // new JoystickButton(m_driverController,
-    // XboxController.Button.kA.value).whileTrue(new LedStripSetGreen(m_ledStrip));
-
-    m_driverJoystick.button(3).
+    m_driverJoystick.button(31).
       whileTrue(
         Commands.parallel(
           /*new HubCommands.AimAt.Indefinitely(
@@ -295,7 +296,7 @@ private double getTurn() {
         )
       );
 
-    m_driverJoystick.button(4)
+    m_driverJoystick.button(23)
       //.whileTrue(new LedStripScrollYellow(m_ledStrip));
       .onTrue(
         Commands.race(  
@@ -304,21 +305,35 @@ private double getTurn() {
         )
       );
 
-    //m_driverJoystick.button(5).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
-    //m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
+      m_driverJoystick.button(22).onTrue(new AbortTurn(m_robotDrive)); // AbortTurn command, which is intended to be used to stop the TurnUsingAprilTagCamera command when the driver wants to take control of the robot again
 
-    /*if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
-      m_driverJoystick.button(7).whileTrue(new ShooterCommands.Run.Indefinitely(m_shooter, () -> ShooterConstants.kTargetSpeed.abs(RPM)));
-    } */
-    m_driverJoystick.button(7).onTrue(new AbortTurn(m_robotDrive)); // AbortTurn command, which is intended to be used to stop the TurnUsingAprilTagCamera command when the driver wants to take control of the robot again
+      /* Emergency driver overrides */
+      if (singleDriver) {
+        m_driverJoystick.button(1).onTrue(Commands.parallel(Commands.run(() -> m_shooter.setEffort(1), m_shooter),Commands.run(() -> m_shooterFollower.setEffort(1), m_shooterFollower)));
+        m_driverJoystick.button(2).onTrue(Commands.run(() -> m_shooter.setEffort(-1), m_shooter));
+        /* Ingest Mode - Indexer + Intake at 50-75% */
+                  m_driverJoystick.button(14).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.5), m_Intake),Commands.run(() -> m_indexer.setEffort(.75), m_indexer)));
+
+        /* Spew Mode - Indexer + Intake at -50-75%*/
+          m_driverJoystick.button(16).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-.50), m_Intake), Commands.run(() -> m_indexer.setEffort(-.75), m_indexer)));
+
+        /* Shoot Mode - run indexer at full, intake at -25*/
+          m_driverJoystick.button(15).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.50), m_Intake), Commands.run(() -> m_indexer.setEffort(-.75), m_indexer)));
+
+        
+        if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
+          m_driverJoystick.button(6).whileTrue(ShooterCommands.Run.Indefinitely(m_shooter));
+        }
+
+      }
 
 
     /* Copilot Bindings */
 
     if (enableCopilotController) {
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
-        m_copilotController.button(3).whileTrue(Commands.run(() -> m_indexer.setEffort(1), m_indexer));
-        m_copilotController.button(4).whileTrue(Commands.run(() -> m_indexer.setEffort(-1), m_indexer));
+        m_copilotController.button(3).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.50), m_Intake), Commands.run(() -> m_indexer.setEffort(-.75), m_indexer)));
+        //m_copilotController.button(4).whileTrue(Commands.run(() -> m_indexer.setEffort(-1), m_indexer));
       } 
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
         m_copilotController.button(5).whileTrue(ShooterCommands.Run.Indefinitely(m_shooter));
@@ -333,18 +348,18 @@ private double getTurn() {
       }
       /* Manual controls of indexer and intake */
       m_copilotController.povLeft().whileTrue(Commands.run(() -> m_indexer.setEffort(1), m_indexer));
-      m_copilotController.povDown().whileTrue(IntakeCommands.Driver.Run.Indefinitely(m_Intake));
+      m_copilotController.povDown().whileTrue(Commands.run(() -> m_Intake.setEffort(.5), m_Intake));
       m_copilotController.povRight().whileTrue(Commands.run(() -> m_indexer.setEffort(-1), m_indexer));
-      m_copilotController.povUp().whileTrue(Commands.run(() -> m_Intake.setEffort(-1), m_Intake));
-      m_copilotController.povDownLeft().whileTrue(Commands.parallel(IntakeCommands.Driver.Run.Indefinitely(m_Intake),Commands.run(() -> m_indexer.setEffort(1), m_indexer)));
-      m_copilotController.povDownRight().whileTrue(Commands.parallel(IntakeCommands.Driver.Run.Indefinitely(m_Intake),Commands.run(() -> m_indexer.setEffort(-1), m_indexer)));
-      m_copilotController.povUpLeft().whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-1), m_Intake),Commands.run(() -> m_indexer.setEffort(1), m_indexer)));
-      m_copilotController.povUpRight().whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-1), m_Intake),Commands.run(() -> m_indexer.setEffort(-1), m_indexer)));
+      m_copilotController.povUp().whileTrue(Commands.run(() -> m_Intake.setEffort(-.5), m_Intake));
+      m_copilotController.povDownLeft().whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.5), m_Intake),Commands.run(() -> m_indexer.setEffort(1), m_indexer)));
+      m_copilotController.povDownRight().whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.5), m_Intake),Commands.run(() -> m_indexer.setEffort(-1), m_indexer)));
+      m_copilotController.povUpLeft().whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-.5), m_Intake),Commands.run(() -> m_indexer.setEffort(1), m_indexer)));
+      m_copilotController.povUpRight().whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-.5), m_Intake),Commands.run(() -> m_indexer.setEffort(-1), m_indexer)));
 
       
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) {
         /* Ingest Balls */
-        m_copilotController.button(1).whileTrue(Commands.parallel(IntakeCommands.Driver.Run.Indefinitely(m_Intake),Commands.run(() -> m_indexer.setEffort(1), m_indexer)));
+        m_copilotController.button(1).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.5), m_Intake),Commands.run(() -> m_indexer.setEffort(1), m_indexer)));
         /* Eject Balls */
         m_copilotController.button(2).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-1), m_Intake), Commands.run(() -> m_indexer.setEffort(-1), m_indexer)));
 

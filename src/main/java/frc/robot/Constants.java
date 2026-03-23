@@ -248,7 +248,7 @@ public final class Constants {
     public static final AngularVelocity kMotorFreeSpeed = RPM.of(4600);
 
     public static final class Control {
-      public static final AngularVelocity kIntakeSpeed   = RPM.of(2500);
+      public static final AngularVelocity kIntakeSpeed   = RPM.of(3500);
       public static final AngularVelocity kDispenseSpeed = RPM.of(-2000);
 
       public static final Angle kDeployedPosition  = Radians.of(Math.PI / 2);
@@ -270,6 +270,7 @@ public final class Constants {
 
   public static final class ShooterConstants {
      public static final int kMotorCanId = 9;
+     public static final int kFollowerMotorCanId = 15;
 
      public static final AngularVelocity kFreeSpeed = RPM.of(6200);
 

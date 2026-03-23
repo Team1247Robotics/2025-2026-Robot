@@ -201,4 +201,30 @@ public final class Configs {
         .feedForward.kV(feedForward, ClosedLoopSlot.kSlot1);
     }
   }
+
+  public static final class ShooterFollowerMotor {
+    public static final SparkMaxConfig config = new SparkMaxConfig();
+
+    static {
+      double nominalVoltage = 12;
+      double feedForward = nominalVoltage / ShooterConstants.kFreeSpeed.in(RPM);
+
+      config
+        .idleMode(IdleMode.kCoast)
+        .smartCurrentLimit(50)
+        .inverted(false)
+        .follow(9,true);
+  
+      config.encoder
+        .positionConversionFactor(1)
+        .velocityConversionFactor(1);
+
+      config.closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .pid(0.12, 0.0, 0, ClosedLoopSlot.kSlot0) // Position
+        .pid(0.0, 0.0, 0.0, ClosedLoopSlot.kSlot1) // Velocity
+        .outputRange(-1, 1)
+        .feedForward.kV(feedForward, ClosedLoopSlot.kSlot1);
+    }
+  }
 }
