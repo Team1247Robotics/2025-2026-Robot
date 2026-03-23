@@ -276,7 +276,7 @@ private double getTurn() {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-      boolean singleDriver = false;
+      boolean singleDriver = true;
 
     /* Driver Controller bindings */
     m_driverJoystick.button(20).whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
@@ -339,6 +339,7 @@ private double getTurn() {
         m_copilotController.button(5).whileTrue(ShooterCommands.Run.Indefinitely(m_shooter));
       }
 
+      //TODO Set follower in rev client
       /* Command runs both shooter with stepped indexer to allow shooter to catch up */
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter, Feature.Indexer)) {
         m_copilotController.button(6).whileTrue(ShooterCommands.ShooterDependant.Parallel(
