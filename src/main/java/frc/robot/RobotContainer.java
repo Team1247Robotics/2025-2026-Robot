@@ -309,16 +309,16 @@ private double getTurn() {
 
       /* Emergency driver overrides */
       if (singleDriver) {
-        m_driverJoystick.button(1).onTrue(Commands.parallel(Commands.run(() -> m_shooter.setEffort(1), m_shooter),Commands.run(() -> m_shooterFollower.setEffort(1), m_shooterFollower)));
+        m_driverJoystick.button(1).onTrue(Commands.run(() -> m_shooter.setEffort(1), m_shooter));
         m_driverJoystick.button(2).onTrue(Commands.run(() -> m_shooter.setEffort(-1), m_shooter));
         /* Ingest Mode - Indexer + Intake at 50-75% */
-                  m_driverJoystick.button(14).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.5), m_Intake),Commands.run(() -> m_indexer.setEffort(.75), m_indexer)));
+        m_driverJoystick.button(14).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.50), m_Intake),Commands.run(() -> m_indexer.setEffort(.75), m_indexer)));
 
         /* Spew Mode - Indexer + Intake at -50-75%*/
-          m_driverJoystick.button(16).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-.50), m_Intake), Commands.run(() -> m_indexer.setEffort(-.75), m_indexer)));
+        m_driverJoystick.button(16).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-.50), m_Intake), Commands.run(() -> m_indexer.setEffort(-.75), m_indexer)));
 
         /* Shoot Mode - run indexer at full, intake at -25*/
-          m_driverJoystick.button(15).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.50), m_Intake), Commands.run(() -> m_indexer.setEffort(-.75), m_indexer)));
+        m_driverJoystick.button(15).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.50), m_Intake), Commands.run(() -> m_indexer.setEffort(-.75), m_indexer)));
 
         
         if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
@@ -339,7 +339,6 @@ private double getTurn() {
         m_copilotController.button(5).whileTrue(ShooterCommands.Run.Indefinitely(m_shooter));
       }
 
-      //TODO Set follower in rev client
       /* Command runs both shooter with stepped indexer to allow shooter to catch up */
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter, Feature.Indexer)) {
         m_copilotController.button(6).whileTrue(ShooterCommands.ShooterDependant.Parallel(
@@ -360,9 +359,9 @@ private double getTurn() {
       
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) {
         /* Ingest Balls */
-        m_copilotController.button(1).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.5), m_Intake),Commands.run(() -> m_indexer.setEffort(1), m_indexer)));
+        m_copilotController.button(1).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.5), m_Intake),Commands.run(() -> m_indexer.setEffort(.75), m_indexer)));
         /* Eject Balls */
-        m_copilotController.button(2).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-1), m_Intake), Commands.run(() -> m_indexer.setEffort(-1), m_indexer)));
+        m_copilotController.button(2).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-.5), m_Intake), Commands.run(() -> m_indexer.setEffort(-.75), m_indexer)));
 
       }
 
