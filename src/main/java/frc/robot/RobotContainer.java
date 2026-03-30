@@ -73,7 +73,6 @@ public class RobotContainer {
     Feature.Feeder,
     //Feature.Climber,
     Feature.Intake,
-    Feature.IntakeDeployment
   };
 
   private final SwerveDrivetrain m_robotDrive = new SwerveDrivetrain();
@@ -100,7 +99,7 @@ public class RobotContainer {
 
 
   public static final SimulatedBattery GLOBAL_SIMULATED_BATTERY = new SimulatedBattery();
-  // private final Intake m_intake = new Intake();
+  private final Intake m_intake = new Intake();
 
   // CommandJoystick m_driverJoystick = new CommandJoystick(OIConstants.kDriverControllerPort);
   CommandXboxController m_driverJoystick = new CommandXboxController(OIConstants.kDriverControllerPort);
