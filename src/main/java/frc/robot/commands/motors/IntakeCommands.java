@@ -51,6 +51,7 @@ public interface IntakeCommands {
         public Indefinitely(Intake intake) {
           this(intake, IntakeConstants.Control.kIntakeSpeed.in(RPM));
         }
+
       }
 
       public static Command Indefinitely(Intake intake, double speed) {

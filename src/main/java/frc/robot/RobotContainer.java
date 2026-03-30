@@ -93,7 +93,6 @@ public class RobotContainer {
   private final BeltFeeder m_Feeder  = Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)   ? new BeltFeeder()  : null;
   private final Intake  m_Intake  = Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)   ? new Intake()  : null;
   private final IntakeDeployment m_IntakeDeployment = Constants.isFeatureEnabled(enabledFeatures, Feature.IntakeDeployment) ? new IntakeDeployment() : null;
-  private final IDeployFollow m_IDeplyFolower = Constants.isFeatureEnabled(enabledFeatures, Feature.IntakeDeployment) ? new IDeployFollow() : null;
   
   private final Climber m_Climber = Constants.isFeatureEnabled(enabledFeatures, Feature.Climber)  ? new Climber() : null;
 
@@ -281,28 +280,26 @@ public class RobotContainer {
 
     if (enableCopilotController) {
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
-        m_copilotController.y().whileTrue(ShooterCommands.Run.Indefinitely(m_shooter));
+        m_copilotController.button(5).whileTrue(ShooterCommands.Run.Indefinitely(m_shooter));
       }
 
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter, Feature.Indexer)) {
-        m_copilotController.a().whileTrue(ShooterCommands.ShooterDependant.Parallel(
+        m_copilotController.button(6).whileTrue(ShooterCommands.ShooterDependant.Parallel(
           m_shooter,
           Commands.repeatingSequence(new ParallelCommandGroup(LowerIndexerCommands.Abstracts.StepAndPause(m_LowerIndexer), UpperIndexerCommands.Abstracts.StepAndPause(m_UpperIndexer)))
         ));
       }
 
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) {
-        m_copilotController.b().whileTrue(IntakeCommands.Driver.Run.Indefinitely(m_Intake));
+        m_copilotController.a().whileTrue(new IntakeCommands.Driver.Run.Indefinitely(m_intake, 2000));
       }
 
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) {
-        m_copilotController.x().whileTrue(FeederCommands.Run(m_Feeder));
+        m_copilotController.a().whileTrue(FeederCommands.Run(m_Feeder));
+        m_copilotController.button(6).whileTrue(FeederCommands.Run(m_Feeder));
       }
 
-      if (Constants.isFeatureEnabled(enabledFeatures, Feature.IntakeDeployment)) {
-        m_copilotController.povUp().onTrue(IntakeCommands.Deployment.Await.Deploy.Actively(m_IntakeDeployment));
-        m_copilotController.povDown().onTrue(IntakeCommands.Deployment.Await.Retract.Actively(m_IntakeDeployment));
-      }
+      
     }
   }
 
