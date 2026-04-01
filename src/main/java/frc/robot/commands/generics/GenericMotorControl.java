@@ -37,7 +37,7 @@ public interface GenericMotorControl {
       public class Passively extends GenericAwaitBaseTargetWithinError {
         protected final GenericSparkMaxMotor m_motor;
         public Passively(GenericSparkMaxMotor motor, DoubleSupplier targetSupplier) {
-          super(motor::getVelocity, targetSupplier, GenericConstants.kMotorPositionControlAllowableError.in(Radians));
+          super(motor::getPosition, targetSupplier, GenericConstants.kMotorPositionControlAllowableError.in(Radians));
           m_motor = motor;
         }
   

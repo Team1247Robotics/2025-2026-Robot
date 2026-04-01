@@ -37,7 +37,7 @@ public interface GenericFlexMotorControl {
       public class Passively extends GenericAwaitBaseTargetWithinError {
         protected final GenericSparkFlexMotor m_motor;
         public Passively(GenericSparkFlexMotor motor, DoubleSupplier targetSupplier) {
-          super(motor::getVelocity, targetSupplier, GenericConstants.kMotorPositionControlAllowableError.in(Radians));
+          super(motor::getPosition, targetSupplier, GenericConstants.kMotorPositionControlAllowableError.in(Radians));
           m_motor = motor;
         }
   

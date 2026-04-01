@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.LedConfigs;
 import frc.robot.Constants.Feature;
 import frc.robot.Constants.OIConstants;
@@ -29,13 +28,13 @@ import frc.robot.commands.motors.IntakeCommands;
 import frc.robot.commands.motors.ShooterCommands;
 import frc.robot.commands.motors.drivetrain.HubCommands;
 import frc.robot.commands.motors.drivetrain.ResetHeading;
+import frc.robot.commands.targeting.targetingCommand;
 import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.AutoBuilder2;
 import frc.robot.subsystems.SwerveDrivetrain;
 import frc.robot.subsystems.LedStrip;
 import frc.robot.subsystems.motors.BeltFeeder;
 import frc.robot.subsystems.motors.Climber;
-import frc.robot.subsystems.motors.IDeployFollow;
 import frc.robot.subsystems.motors.Intake;
 import frc.robot.subsystems.motors.IntakeDeployment;
 import frc.robot.subsystems.motors.LonelyTalonFx;
@@ -54,7 +53,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -98,20 +96,17 @@ public class RobotContainer {
 
 
   public static final SimulatedBattery GLOBAL_SIMULATED_BATTERY = new SimulatedBattery();
-  private final Intake m_intake = new Intake();
 
-  // CommandJoystick m_driverJoystick = new CommandJoystick(OIConstants.kDriverControllerPort);
-  CommandXboxController m_driverJoystick = new CommandXboxController(OIConstants.kDriverControllerPort);
+  CommandJoystick m_driverJoystick = new CommandJoystick(OIConstants.kDriverControllerPort);
 
   boolean enableCopilotController = true;
   CommandXboxController m_copilotController = enableCopilotController ? new CommandXboxController(OIConstants.kCopilotControllerPort) : null;
-  
-  CommandJoystick m_Joystick = new CommandJoystick(OIConstants.kSimulationJoystickPort);
 
   public ArrayList<String> runningCommands = new ArrayList<String>();
 
   boolean isTargeting = false;
   boolean targetIsHub = true;
+  private final targetingCommand m_targetingCommand = new targetingCommand();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -143,7 +138,10 @@ public class RobotContainer {
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) m_Intake.setDefaultCommand(IntakeCommands.Driver.Stop(m_Intake));
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) m_shooter.setDefaultCommand(ShooterCommands.Stop(m_shooter));
-    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) m_UpperIndexer.setDefaultCommand(UpperIndexerCommands.Stop(m_UpperIndexer)); m_LowerIndexer.setDefaultCommand(LowerIndexerCommands.Stop(m_LowerIndexer));
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
+      m_UpperIndexer.setDefaultCommand(UpperIndexerCommands.Stop(m_UpperIndexer));
+      m_LowerIndexer.setDefaultCommand(LowerIndexerCommands.Stop(m_LowerIndexer));
+    }
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) m_Feeder.setDefaultCommand(FeederCommands.Stop(m_Feeder));
  
   }
@@ -151,6 +149,8 @@ public class RobotContainer {
   private ToggleCommand autonShooter = new ToggleCommand();
   private ToggleCommand autonFeeder = new ToggleCommand();
   private ToggleCommand autonIntake = new ToggleCommand();
+  private static final int kAutoShootStepCount = 10;
+  private static final double kTriggerActivationThreshold = 0.5;
 
   /**
    * Register all named commands in Pathplanner
@@ -171,7 +171,7 @@ public class RobotContainer {
       NamedCommands.registerCommand("AwaitShooter", ShooterCommands.Run.Await.Passively(m_shooter));
       NamedCommands.registerCommand("AwaitShooterWarmup", ShooterCommands.Run.Await.Actively(m_shooter));
       NamedCommands.registerCommand("RunShooterIndefinitely", ShooterCommands.Run.Indefinitely(m_shooter));
-      NamedCommands.registerCommand("Shoot", ShooterCommands.Run.Indefinitely(m_shooter));
+      NamedCommands.registerCommand("Shoot", createAutonomousShootCommand());
     } else {
       NamedCommands.registerCommand("AwaitShooter", Commands.waitSeconds(5));
       NamedCommands.registerCommand("AwaitShooterWarmup", Commands.waitSeconds(5));
@@ -181,7 +181,7 @@ public class RobotContainer {
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
       NamedCommands.registerCommand("ActivateIndex", new ParallelCommandGroup(LowerIndexerCommands.Abstracts.Step(m_LowerIndexer),UpperIndexerCommands.Abstracts.Step(m_UpperIndexer)));
-      NamedCommands.registerCommand("RunIndexerNTimes", new ParallelCommandGroup(LowerIndexerCommands.Abstracts.StepNTimes(m_LowerIndexer, 10), UpperIndexerCommands.Abstracts.StepNTimes(m_UpperIndexer, 0)));
+      NamedCommands.registerCommand("RunIndexerNTimes", new ParallelCommandGroup(LowerIndexerCommands.Abstracts.StepNTimes(m_LowerIndexer, kAutoShootStepCount), UpperIndexerCommands.Abstracts.StepNTimes(m_UpperIndexer, kAutoShootStepCount)));
     } else {
       NamedCommands.registerCommand("ActivateIndex", Commands.waitSeconds(2));
       NamedCommands.registerCommand("RunIndexerNTimes", Commands.waitSeconds(5));
@@ -191,7 +191,7 @@ public class RobotContainer {
       autonFeeder.getTrigger().whileTrue(FeederCommands.Run(m_Feeder));
 
       NamedCommands.registerCommand("AwaitFeeder", FeederCommands.Await.Passively(m_Feeder));
-      NamedCommands.registerCommand("RunFeederIndefinitely", FeederCommands.Run(m_Feeder));
+      NamedCommands.registerCommand("RunFeederIndefinitely", createShooterFeederCommand());
     } else {
       NamedCommands.registerCommand("AwaitFeeder", Commands.waitSeconds(3));
       NamedCommands.registerCommand("RunFeederIndefinitely", Commands.run(() -> {}, new Subsystem[0]));
@@ -210,11 +210,11 @@ public class RobotContainer {
     NamedCommands.registerCommand("AwaitAimAtHub", HubCommands.AimAt.Await.Passively(m_robotDrive));
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) {
-      autonIntake.getTrigger().whileTrue(IntakeCommands.Driver.Run.Indefinitely(m_Intake));
+      autonIntake.getTrigger().whileTrue(createIntakeSequenceCommand());
 
       NamedCommands.registerCommand("AwaitIntake", IntakeCommands.Driver.Run.Await.Passively(m_Intake));
       NamedCommands.registerCommand("AwaitIntakeInit", IntakeCommands.Driver.Run.Await.Actively(m_Intake));
-      NamedCommands.registerCommand("RunIntakeIndefinitely", IntakeCommands.Driver.Run.Indefinitely(m_Intake));
+      NamedCommands.registerCommand("RunIntakeIndefinitely", createIntakeSequenceCommand());
       NamedCommands.registerCommand("DeactivateIntake", Commands.none());
     } else {
       NamedCommands.registerCommand("AwaitIntake", Commands.waitSeconds(4));
@@ -252,22 +252,19 @@ public class RobotContainer {
       Commands.parallel(
         new HubCommands.AimAt.Indefinitely(
           m_robotDrive,
-          m_driverJoystick::getLeftY,
-          m_driverJoystick::getLeftX,
+          m_driverJoystick::getY,
+          m_driverJoystick::getX,
           true).applyControllerFilters(true),
         new LedStripSetGreen(m_ledStrip)
       )
     );
 
-    m_Joystick.button(4)
-        .whileTrue(new LedStripScrollYellow(m_ledStrip));
-
     m_driverJoystick.button(5).onTrue(Commands.runOnce(m_badAppleMachine::playBadApple, m_badAppleMachine));
     m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
-      m_copilotController.leftBumper().whileTrue(new ParallelCommandGroup(Commands.run(() -> m_UpperIndexer.setEffort(1), m_UpperIndexer), Commands.run(() -> m_LowerIndexer.setEffort(1), m_LowerIndexer)));
-      m_copilotController.rightBumper().whileTrue(new ParallelCommandGroup(Commands.run(() -> m_UpperIndexer.setEffort(-1), m_UpperIndexer), Commands.run(() -> m_LowerIndexer.setEffort(-1), m_LowerIndexer)));
+      m_copilotController.x().whileTrue(new ParallelCommandGroup(Commands.run(() -> m_UpperIndexer.setEffort(1), m_UpperIndexer), Commands.run(() -> m_LowerIndexer.setEffort(1), m_LowerIndexer)));
+      m_copilotController.y().whileTrue(new ParallelCommandGroup(Commands.run(() -> m_UpperIndexer.setEffort(-1), m_UpperIndexer), Commands.run(() -> m_LowerIndexer.setEffort(-1), m_LowerIndexer)));
     }
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
@@ -280,27 +277,160 @@ public class RobotContainer {
 
     if (enableCopilotController) {
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
-        m_copilotController.button(5).whileTrue(ShooterCommands.Run.Indefinitely(m_shooter));
+        m_copilotController.leftTrigger(kTriggerActivationThreshold).whileTrue(createShooterSpoolCommand());
       }
 
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter, Feature.Indexer)) {
-        m_copilotController.button(6).whileTrue(ShooterCommands.ShooterDependant.Parallel(
-          m_shooter,
-          Commands.repeatingSequence(new ParallelCommandGroup(LowerIndexerCommands.Abstracts.StepAndPause(m_LowerIndexer), UpperIndexerCommands.Abstracts.StepAndPause(m_UpperIndexer)))
-        ));
+        m_copilotController.rightTrigger(kTriggerActivationThreshold).whileTrue(createShootSequenceCommand());
       }
 
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) {
-        m_copilotController.a().whileTrue(new IntakeCommands.Driver.Run.Indefinitely(m_intake, 2000));
-      }
-
-      if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) {
-        m_copilotController.a().whileTrue(FeederCommands.Run(m_Feeder));
-        m_copilotController.button(6).whileTrue(FeederCommands.Run(m_Feeder));
+        m_copilotController.a().whileTrue(createIntakeSequenceCommand());
+        m_copilotController.b().whileTrue(createReverseIntakeSequenceCommand());
       }
 
       
     }
+  }
+
+  private Command createIntakeSequenceCommand() {
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) {
+      return Commands.parallel(
+        Commands.run(() -> m_Intake.setEffort(0.33), m_Intake),
+        Commands.run(() -> m_Feeder.setEffort(0.25), m_Feeder)
+      );
+    }
+
+    return Commands.run(() -> m_Intake.setEffort(0.33), m_Intake);
+  }
+
+  private Command createReverseIntakeSequenceCommand() {
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) {
+      return Commands.parallel(
+        Commands.run(() -> m_Intake.setEffort(-1.0), m_Intake),
+        Commands.run(() -> m_Feeder.setEffort(-1.0), m_Feeder)
+      );
+    }
+
+    return Commands.run(() -> m_Intake.setEffort(-1.0), m_Intake);
+  }
+
+  private Command createShooterSpoolCommand() {
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Targeter)) {
+      return Commands.parallel(
+        Commands.run(() -> m_targetingCommand.BroadcastDist(m_robotDrive.getPose(), targetIsHub)),
+        ShooterCommands.Run.Indefinitely(m_shooter, m_targetingCommand::ConsumeShooterCompute)
+      );
+    }
+
+    return ShooterCommands.Run.Indefinitely(m_shooter);
+  }
+
+  private Command createShooterFeederCommand() {
+    return Commands.run(() -> m_Feeder.setEffort(1.0), m_Feeder);
+  }
+
+  private Command createShootSequenceCommand() {
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer, Feature.Feeder)) {
+      return ShooterCommands.ShooterDependant.Parallel(
+        m_shooter,
+        m_targetingCommand::ConsumeShooterCompute,
+        Commands.parallel(
+          Commands.run(() -> m_targetingCommand.BroadcastDist(m_robotDrive.getPose(), targetIsHub)),
+          createShooterFeederCommand(),
+          createContinuousIndexerFeedCommand(),
+          new LedStripScrollYellow(m_ledStrip)
+        )
+      );
+    }
+
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
+      return ShooterCommands.ShooterDependant.Parallel(
+        m_shooter,
+        m_targetingCommand::ConsumeShooterCompute,
+        Commands.parallel(
+          Commands.run(() -> m_targetingCommand.BroadcastDist(m_robotDrive.getPose(), targetIsHub)),
+          createContinuousIndexerFeedCommand(),
+          new LedStripScrollYellow(m_ledStrip)
+        )
+      );
+    }
+
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) {
+      return ShooterCommands.ShooterDependant.Parallel(
+        m_shooter,
+        m_targetingCommand::ConsumeShooterCompute,
+        Commands.parallel(
+          Commands.run(() -> m_targetingCommand.BroadcastDist(m_robotDrive.getPose(), targetIsHub)),
+          createShooterFeederCommand(),
+          new LedStripScrollYellow(m_ledStrip)
+        )
+      );
+    }
+
+    return Commands.parallel(
+      createShooterSpoolCommand(),
+      new LedStripScrollYellow(m_ledStrip)
+    );
+  }
+
+  private Command createAutonomousShootCommand() {
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer, Feature.Feeder)) {
+      return ShooterCommands.ShooterDependant.Sequence(
+        m_shooter,
+        m_targetingCommand::ConsumeShooterCompute,
+        Commands.deadline(
+          Commands.run(() -> m_targetingCommand.BroadcastDist(m_robotDrive.getPose(), targetIsHub)),
+          createIndexedShotBurstCommand(kAutoShootStepCount),
+          createShooterFeederCommand()
+        )
+      );
+    }
+
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
+      return ShooterCommands.ShooterDependant.Sequence(
+        m_shooter,
+        m_targetingCommand::ConsumeShooterCompute,
+        Commands.deadline(
+          Commands.run(() -> m_targetingCommand.BroadcastDist(m_robotDrive.getPose(), targetIsHub)),
+          createIndexedShotBurstCommand(kAutoShootStepCount)
+        )
+      );
+    }
+
+    if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) {
+      return ShooterCommands.ShooterDependant.Sequence(
+        m_shooter,
+        m_targetingCommand::ConsumeShooterCompute,
+        Commands.deadline(
+          Commands.run(() -> m_targetingCommand.BroadcastDist(m_robotDrive.getPose(), targetIsHub)),
+          createShooterFeederCommand().withTimeout(1.5)
+        )
+      );
+    }
+
+    return Commands.sequence(
+      ShooterCommands.Run.Await.Actively(m_shooter),
+      Commands.waitSeconds(1.5)
+    );
+  }
+
+  private Command createContinuousIndexerFeedCommand() {
+    return Commands.repeatingSequence(createSingleIndexStepCommand());
+  }
+
+  private Command createIndexedShotBurstCommand(int steps) {
+    return new ParallelCommandGroup(
+      LowerIndexerCommands.Abstracts.StepNTimes(m_LowerIndexer, steps),
+      UpperIndexerCommands.Abstracts.StepNTimes(m_UpperIndexer, steps)
+    );
+  }
+
+  private Command createSingleIndexStepCommand() {
+    return new ParallelCommandGroup(
+      LowerIndexerCommands.Abstracts.StepAndPause(m_LowerIndexer),
+      UpperIndexerCommands.Abstracts.StepAndPause(m_UpperIndexer)
+    );
   }
 
   /**
