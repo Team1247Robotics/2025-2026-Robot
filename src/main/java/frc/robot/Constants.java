@@ -268,6 +268,8 @@ public final class Constants {
       public static final Angle kStepSize = Radians.of(Math.PI / 2);
 
       public static final Time kStepWaitTime = Seconds.of(0.25);
+
+      public static final double kManualJogEffort = 0.35;
     }
   }
 

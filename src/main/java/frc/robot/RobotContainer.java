@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.LedConfigs;
 import frc.robot.Constants.Feature;
 import frc.robot.Constants.OIConstants;
@@ -53,6 +54,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -263,10 +265,15 @@ public class RobotContainer {
     m_driverJoystick.button(6).onTrue(Commands.runOnce(m_badAppleMachine::stop, m_badAppleMachine));
 
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
-      m_copilotController.x().whileTrue(new ParallelCommandGroup(Commands.run(() -> m_UpperIndexer.setEffort(1), m_UpperIndexer), Commands.run(() -> m_LowerIndexer.setEffort(1), m_LowerIndexer)));
-      m_copilotController.y().whileTrue(new ParallelCommandGroup(Commands.run(() -> m_UpperIndexer.setEffort(-1), m_UpperIndexer), Commands.run(() -> m_LowerIndexer.setEffort(-1), m_LowerIndexer)));
+      m_copilotController.x().whileTrue(new ParallelCommandGroup(
+        Commands.run(() -> m_UpperIndexer.setEffort(Constants.IndexerConstants.Control.kManualJogEffort), m_UpperIndexer),
+        Commands.run(() -> m_LowerIndexer.setEffort(Constants.IndexerConstants.Control.kManualJogEffort), m_LowerIndexer)
+      ));
+      m_copilotController.y().whileTrue(new ParallelCommandGroup(
+        Commands.run(() -> m_UpperIndexer.setEffort(-Constants.IndexerConstants.Control.kManualJogEffort), m_UpperIndexer),
+        Commands.run(() -> m_LowerIndexer.setEffort(-Constants.IndexerConstants.Control.kManualJogEffort), m_LowerIndexer)
+      ));
     }
-
     if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
       m_driverJoystick.button(7).whileTrue(new ShooterCommands.Run.Indefinitely(m_shooter, () -> ShooterConstants.kTargetSpeed.abs(RPM)));
     }

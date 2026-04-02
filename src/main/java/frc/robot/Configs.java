@@ -138,6 +138,7 @@ public static final class LowerIndexerConfig {
       double feedForward = nominalVoltage / NeoMotorContants.kNeoFreeSpeed.in(RPM);
 
       config
+        .inverted(true)
         .idleMode(IdleMode.kBrake)
         .smartCurrentLimit(50);
 
@@ -263,8 +264,7 @@ public static final class LowerIndexerConfig {
 
       config
         .idleMode(IdleMode.kCoast)
-        .smartCurrentLimit(50)
-        .inverted(true);
+        .smartCurrentLimit(50);
 
       config.encoder
         .positionConversionFactor(1)
