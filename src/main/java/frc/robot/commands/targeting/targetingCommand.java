@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.PhotonVisionConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TargetingConstants;
@@ -29,6 +30,7 @@ public class targetingCommand {
 
   public void BroadcastShotSolution(Pose2d robotPose, int targetId) {
     double distanceMeters = calculateRangeMeters(robotPose, targetId);
+    SmartDashboard.putNumber("Distance to Target", distanceMeters);
     if (distanceMeters <= 0) {
       return;
     }
