@@ -184,6 +184,11 @@ public class SDSSwerveModule {
         ),
         -DriveConstants.kMaxSpeed.in(MetersPerSecond)
       ), ControlType.kVelocity);
+
+    /*m_driveClosedLoopController.setSetpoint(
+      correctedDesiredState.speedMetersPerSecond,
+      ControlType.kVelocity);*/
+
     m_turnClosedLoopController.setSetpoint(correctedDesiredState.angle.getRadians(), ControlType.kPosition);
 
     m_desiredState = desiredState;

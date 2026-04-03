@@ -273,8 +273,8 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   public Command defaultControllerCommand(CommandJoystick controller) {
     return new RunCommand(() -> this.drive(
-      Controller.applyDriveYFilters(controller::getY),
-      Controller.applyDriveXFilters(controller::getX),
+      -Controller.applyDriveYFilters(controller::getY),
+      -Controller.applyDriveXFilters(controller::getX),
       Controller.applyDriveRotationFilters(controller::getTwist),
       true
     ), this);
