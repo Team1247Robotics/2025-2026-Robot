@@ -349,6 +349,9 @@ private double getTurn() {
       } 
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
         m_copilotController.leftTrigger(0.5).whileTrue(createShooterSpoolCommand());
+        m_copilotController.leftBumper().whileTrue(
+          Commands.run(() -> m_shooter.setEffort(-1.0), m_shooter)
+        );
       }
 
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter, Feature.Indexer)) {
@@ -403,12 +406,8 @@ private double getTurn() {
 
   private Command createShootSequenceCommand() {
     return Commands.parallel(
-      Commands.run(this::updateShotSolution),
-      Commands.either(
-        Commands.repeatingSequence(IndexerCommands.Abstracts.StepAndPause(m_indexer)),
-        Commands.none(),
-        this::isShooterReadyToFeed
-      ),
+      Commands.run(() -> m_Intake.setEffort(1.0), m_Intake),
+      Commands.run(() -> m_indexer.setEffort(-1.0), m_indexer),
       new LedStripScrollYellow(m_ledStrip)
     );
   }
@@ -426,12 +425,6 @@ private double getTurn() {
 
   private void updateShotSolution() {
     m_targetingCommand.BroadcastShotSolution(m_robotDrive.getPose(), pvision.getLatestTargetId());
-  }
-
-  private boolean isShooterReadyToFeed() {
-    double targetRpm = m_targetingCommand.ConsumeShooterCompute();
-    double velocityError = Math.abs(m_shooter.getVelocity() - targetRpm);
-    return velocityError <= ShooterConstants.Control.kAllowableError.abs(RPM);
   }
 
   public void periodic() {
