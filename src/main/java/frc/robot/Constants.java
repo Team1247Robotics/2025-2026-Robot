@@ -265,6 +265,8 @@ public final class Constants {
       public static final Angle kStepSize = Radians.of(10 * Math.PI / 2);
 
       public static final Time kStepWaitTime = Seconds.of(0.25);
+
+      public static final double kManualJogEffort = 0.35;
     }
   }
 
@@ -397,6 +399,18 @@ public final class Constants {
 
   public static final class LedConfigs {
     public static final LedStripConfig strip1 = new LedStripConfig(0, 30, 60);
+  }
+
+  public static final class TargetingConstants {
+    public static final double kDistancePublishThresholdMeters = 0.01;
+    public static final double[][] kRangeToRpmLookup = {
+      {1.0, 2800.0},
+      {2.0, 3000.0},
+      {3.0, 3300.0},
+      {4.0, 3650.0},
+      {5.0, 4000.0},
+      {6.0, 4350.0}
+    };
   }
 
   // public static interface BallPhysicsSimConstants {

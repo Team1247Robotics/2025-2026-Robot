@@ -25,6 +25,7 @@ import frc.robot.commands.motors.IndexerCommands;
 import frc.robot.commands.motors.IntakeCommands;
 import frc.robot.commands.motors.ShooterCommands;
 import frc.robot.commands.motors.drivetrain.*;
+import frc.robot.commands.targeting.targetingCommand;
 import frc.robot.sensors.PhotonVision;
 import frc.robot.subsystems.AutoBuilder2;
 import frc.robot.subsystems.SwerveDrivetrain;
@@ -138,6 +139,7 @@ private double getTurn() {
   //CommandJoystick m_Joystick = new CommandJoystick(OIConstants.kSimulationJoystickPort);
 
   private PhotonVision.PhotonVisionEstimationSubsystem pvision = null;
+  private final targetingCommand m_targetingCommand = new targetingCommand();
 
   public ArrayList<String> runningCommands = new ArrayList<String>();
 
@@ -199,7 +201,7 @@ private double getTurn() {
       NamedCommands.registerCommand("AwaitShooter", ShooterCommands.Run.Await.Passively(m_shooter));
       NamedCommands.registerCommand("AwaitShooterWarmup", ShooterCommands.Run.Await.Actively(m_shooter));
       NamedCommands.registerCommand("RunShooterIndefinitely", ShooterCommands.Run.Indefinitely(m_shooter));
-      NamedCommands.registerCommand("Shoot", ShooterCommands.Run.Indefinitely(m_shooter));
+      NamedCommands.registerCommand("Shoot", createAutonomousShootCommand());
     } else {
       NamedCommands.registerCommand("AwaitShooter", Commands.waitSeconds(5));
       NamedCommands.registerCommand("AwaitShooterWarmup", Commands.waitSeconds(5));
@@ -332,37 +334,30 @@ private double getTurn() {
 
     if (enableCopilotController) {
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Indexer)) {
-        m_copilotController.button(3).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.50), m_Intake), Commands.run(() -> m_indexer.setEffort(-.75), m_indexer)));
-        //m_copilotController.button(4).whileTrue(Commands.run(() -> m_indexer.setEffort(-1), m_indexer));
+        m_copilotController.x().whileTrue(
+          Commands.run(
+            () -> m_indexer.setEffort(Constants.IndexerConstants.Control.kManualJogEffort),
+            m_indexer
+          )
+        );
+        m_copilotController.y().whileTrue(
+          Commands.run(
+            () -> m_indexer.setEffort(-Constants.IndexerConstants.Control.kManualJogEffort),
+            m_indexer
+          )
+        );
       } 
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter)) {
-        m_copilotController.button(5).whileTrue(ShooterCommands.Run.Indefinitely(m_shooter));
+        m_copilotController.leftTrigger(0.5).whileTrue(createShooterSpoolCommand());
       }
 
-      /* Command runs both shooter with stepped indexer to allow shooter to catch up */
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Shooter, Feature.Indexer)) {
-        m_copilotController.button(6).whileTrue(ShooterCommands.ShooterDependant.Parallel(
-          m_shooter,
-          Commands.repeatingSequence(IndexerCommands.Abstracts.StepAndPause(m_indexer))
-        ));
+        m_copilotController.rightTrigger(0.5).whileTrue(createShootSequenceCommand());
       }
-      /* Manual controls of indexer and intake */
-      m_copilotController.povLeft().whileTrue(Commands.run(() -> m_indexer.setEffort(1), m_indexer));
-      m_copilotController.povDown().whileTrue(Commands.run(() -> m_Intake.setEffort(.5), m_Intake));
-      m_copilotController.povRight().whileTrue(Commands.run(() -> m_indexer.setEffort(-1), m_indexer));
-      m_copilotController.povUp().whileTrue(Commands.run(() -> m_Intake.setEffort(-.5), m_Intake));
-      m_copilotController.povDownLeft().whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.5), m_Intake),Commands.run(() -> m_indexer.setEffort(1), m_indexer)));
-      m_copilotController.povDownRight().whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.5), m_Intake),Commands.run(() -> m_indexer.setEffort(-1), m_indexer)));
-      m_copilotController.povUpLeft().whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-.5), m_Intake),Commands.run(() -> m_indexer.setEffort(1), m_indexer)));
-      m_copilotController.povUpRight().whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-.5), m_Intake),Commands.run(() -> m_indexer.setEffort(-1), m_indexer)));
 
-      
       if (Constants.isFeatureEnabled(enabledFeatures, Feature.Intake)) {
-        /* Ingest Balls */
-        m_copilotController.button(1).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(.5), m_Intake),Commands.run(() -> m_indexer.setEffort(.75), m_indexer)));
-        /* Eject Balls */
-        m_copilotController.button(2).whileTrue(Commands.parallel(Commands.run(() -> m_Intake.setEffort(-.5), m_Intake), Commands.run(() -> m_indexer.setEffort(-.75), m_indexer)));
-
+        m_copilotController.a().whileTrue(createIntakeSequenceCommand());
+        m_copilotController.b().whileTrue(createReverseIntakeSequenceCommand());
       }
 
      /* if (Constants.isFeatureEnabled(enabledFeatures, Feature.Feeder)) {
@@ -385,8 +380,63 @@ private double getTurn() {
     return m_autoBuilder.getAutonomousCommand();
   }
 
+  private Command createIntakeSequenceCommand() {
+    return Commands.parallel(
+      Commands.run(() -> m_Intake.setEffort(0.50), m_Intake),
+      Commands.run(() -> m_indexer.setEffort(0.75), m_indexer)
+    );
+  }
+
+  private Command createReverseIntakeSequenceCommand() {
+    return Commands.parallel(
+      Commands.run(() -> m_Intake.setEffort(-0.50), m_Intake),
+      Commands.run(() -> m_indexer.setEffort(-0.75), m_indexer)
+    );
+  }
+
+  private Command createShooterSpoolCommand() {
+    return Commands.parallel(
+      Commands.run(this::updateShotSolution),
+      ShooterCommands.Run.Indefinitely(m_shooter, m_targetingCommand::ConsumeShooterCompute)
+    );
+  }
+
+  private Command createShootSequenceCommand() {
+    return Commands.parallel(
+      Commands.run(this::updateShotSolution),
+      Commands.either(
+        Commands.repeatingSequence(IndexerCommands.Abstracts.StepAndPause(m_indexer)),
+        Commands.none(),
+        this::isShooterReadyToFeed
+      ),
+      new LedStripScrollYellow(m_ledStrip)
+    );
+  }
+
+  private Command createAutonomousShootCommand() {
+    return ShooterCommands.ShooterDependant.Sequence(
+      m_shooter,
+      m_targetingCommand::ConsumeShooterCompute,
+      Commands.deadline(
+        Commands.run(this::updateShotSolution),
+        new IndexerCommands.Abstracts.StepNTimes(m_indexer, 10)
+      )
+    );
+  }
+
+  private void updateShotSolution() {
+    m_targetingCommand.BroadcastShotSolution(m_robotDrive.getPose(), pvision.getLatestTargetId());
+  }
+
+  private boolean isShooterReadyToFeed() {
+    double targetRpm = m_targetingCommand.ConsumeShooterCompute();
+    double velocityError = Math.abs(m_shooter.getVelocity() - targetRpm);
+    return velocityError <= ShooterConstants.Control.kAllowableError.abs(RPM);
+  }
+
   public void periodic() {
     m_indexerSensor.periodic();
+    updateShotSolution();
 
     double angle = pvision.getLatestAngleToTarget();
     double area = pvision.getLatestAreaOfTarget();

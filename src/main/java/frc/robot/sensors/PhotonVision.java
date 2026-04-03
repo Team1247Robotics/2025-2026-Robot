@@ -152,6 +152,18 @@ public class PhotonVision {
             return 0;
         }
 
+        public int getLatestTargetId() {
+            var result = cachedLatestResult;
+
+            if (result != null && result.hasTargets()) {
+                PhotonTrackedTarget highValueTarget = getHighValueTarget(result);
+                if (highValueTarget != null) {
+                    return highValueTarget.getFiducialId();
+                }
+            }
+            return -1;
+        }
+
         /**
          * Returns the highest value target from the given result, with the order of importance being:
          * 1. Hubs, directly in front of the alliance stations
@@ -273,6 +285,13 @@ public class PhotonVision {
                 return m_cameraEstimationsSubs.get(0).getLatestAreaOfTarget();
             }
             return 0;
+        }
+
+        public int getLatestTargetId() {
+            if (!m_cameraEstimationsSubs.isEmpty()) {
+                return m_cameraEstimationsSubs.get(0).getLatestTargetId();
+            }
+            return -1;
         }
     }
 
