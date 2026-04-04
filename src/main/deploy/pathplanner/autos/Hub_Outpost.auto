@@ -84,7 +84,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "RunIndexerNTimes"
+                        "name": "Shoot"
                       }
                     }
                   ]
@@ -172,7 +172,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "RunIndexerNTimes"
+                        "name": "Shoot"
                       }
                     }
                   ]

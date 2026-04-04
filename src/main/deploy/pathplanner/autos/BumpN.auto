@@ -27,12 +27,6 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "AwaitIntakeDeploy"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
                         "name": "AwaitShooter"
                       }
                     }
@@ -71,7 +65,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "RunIndexerNTimes"
+                        "name": "Shoot"
                       }
                     }
                   ]
