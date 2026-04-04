@@ -74,7 +74,7 @@ public class targetingCommand {
     if (computedRpm > 0) {
       m_lastComputedRpm = computedRpm;
     }
-    return m_lastComputedRpm;
+    return m_lastComputedRpm*0.9;
   }
 
   private boolean shouldPublishDistance(double distanceMeters) {
