@@ -181,7 +181,7 @@ private double getTurn() {
   private ToggleCommand autonShooter = new ToggleCommand();
   private ToggleCommand autonFeeder = new ToggleCommand();
   private ToggleCommand autonIntake = new ToggleCommand();
-  private static final double kAutonomousShootFeedSeconds = 1.5;
+  private static final double kAutonomousShootFeedSeconds = 3;
 
   /**
    * Register all named commands in Pathplanner
