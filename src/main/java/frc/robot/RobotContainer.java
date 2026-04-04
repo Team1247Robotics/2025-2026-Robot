@@ -181,6 +181,7 @@ private double getTurn() {
   private ToggleCommand autonShooter = new ToggleCommand();
   private ToggleCommand autonFeeder = new ToggleCommand();
   private ToggleCommand autonIntake = new ToggleCommand();
+  private static final double kAutonomousShootFeedSeconds = 1.5;
 
   /**
    * Register all named commands in Pathplanner
@@ -416,9 +417,9 @@ private double getTurn() {
     return ShooterCommands.ShooterDependant.Sequence(
       m_shooter,
       m_targetingCommand::ConsumeShooterCompute,
-      Commands.deadline(
+      Commands.parallel(
         Commands.run(this::updateShotSolution),
-        new IndexerCommands.Abstracts.StepNTimes(m_indexer, 10)
+        createShootSequenceCommand().withTimeout(kAutonomousShootFeedSeconds)
       )
     );
   }
